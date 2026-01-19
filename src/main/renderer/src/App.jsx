@@ -1,12 +1,15 @@
 import React from "react";
 import ActionButtons from "./components/ui/ActionButtons";
+import CurrentSettings from "./components/ui/CurrentSettings";
+import DesiredSettings from "./components/ui/DesiredSettings";
+import StatusBar from "./components/ui/StatusBar";
 
 const App = () => {
   return (
-    <div>
-      <h2 className="bg-background-light mb-3 text-text">
-        Desktop App loading...
-      </h2>
+    <div className="flex justify-center bg-background-light text-text">
+      <StatusBar />
+      <CurrentSettings />
+      <DesiredSettings />
       <ActionButtons />
     </div>
   );

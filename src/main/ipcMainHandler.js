@@ -2,6 +2,9 @@ import { ipcMain } from 'electron';
 import { execSync } from 'child_process';
 import os from 'os'
 
+//Initializing settings with required formats by tontrac app
+const settings = require('./globals.js');
+
 //Get Operating system info
 ipcMain.handle('get-os-info', () => {
   try {
@@ -19,13 +22,14 @@ ipcMain.handle('get-os-info', () => {
       operatingSystemType,
       operatingSystemVersion: getWindowsVersion(),
     }
-  } catch {
-    return false;
+  } catch(error) {
+      consol.error("failed to get OS info",error)
   }
 });
 
 //Get current settings from the registry
 ipcMain.handle('get-current-settings', () => {
+  try {
     const getRegistryValue = (valueName) => {
       const output = execSync(
         `reg query "HKCU\\Control Panel\\International" /v ${valueName}`
@@ -42,4 +46,27 @@ ipcMain.handle('get-current-settings', () => {
         longTime: getRegistryValue('sTimeFormat'),
         decimal: getRegistryValue('sDecimal'),
     };
+  } catch(error) {
+    console.error("failed to get current settings",error);
+  }
 });
+
+//Helper function - writing to registry
+const applySettings = (valueName, value) => {
+  execSync(
+    `reg add "HKCU\\Control Panel\\International" /v ${valueName} /t REG_SZ /d ${value} /f`
+  );
+}
+
+//Write to registry desired settings
+ipcMain.handle('apply-settings', () => {
+  try {
+    applySettings('sShortDate', settings.formats.shortDate);
+    applySettings('sLongDate', settings.formats.longDate);
+    applySettings('sShortTime', settings.formats.shortTime);
+    applySettings('sTimeFormat', settings.formats.longTime);
+    applySettings('sDecimal', settings.formats.decimal);
+  } catch(error) {
+    console.error('Failed to apply settings');
+  }
+})

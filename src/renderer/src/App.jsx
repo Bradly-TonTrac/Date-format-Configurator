@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TopBar from "./components/ui/TopBar";
 import StatusBar from "./components/ui/StatusBar";
 import CurrentSettings from "./components/ui/CurrentSettings";

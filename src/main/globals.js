@@ -7,3 +7,5 @@ const tontracSettings = {
         decimal: ",",
     },
 };
+
+export default tontracSettings;

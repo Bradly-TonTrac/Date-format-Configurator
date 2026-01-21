@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useStatus } from "../../hooks/useSettings";
 
 const CurrentSettings = () => {
+  const { shortDate, longDate, lastRead, loadCurrentDateSettings } =
+    useStatus();
+
+  useEffect(() => {
+    loadCurrentDateSettings();
+  }, []);
+
   return (
     <div className=" border border-border bg-background shadow-lg m-4 rounded p-3 ">
-      <h3>Current Settings</h3>
-      <h3>Short date: 2026/01/13</h3>
-      <h3>Long date: 13 January 2026</h3>
-      <h3>Last Read: 13 Jan 2026 at 10:30:00</h3>
+      <h3 className="bg-primary">Current Settings</h3>
+      <h3>Short date:{shortDate}</h3>
+      <h3>Long date: {longDate}</h3>
+      <h3>Last Read: {lastRead}</h3>
     </div>
   );
 };

@@ -1,4 +1,284 @@
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@layer base {
+	:root {
+		/* Colors various uses */
+		/* --tontrac-primary-color: #f58433;
+		--tontrac-secondary-color: #282c34;
+		--tontrac-background-color: #181a20;
+		--tontrac-active-color: #f58433;
+		--tontrac-inactive-color: #9fa0a2;
+		--tontrac-border-color: #353740;
+		--tontrac-list-item-line-color: #282b30;
+
+		--tontrac-card-color: #262a34;
+		--tontrac-primary-color-hover: rgba(245, 132, 51, 0.85);
+		--tontrac-primary-accent-color: #ec7520; */
+		/* Text Colors */
+		/* --tontrac-primary-text-color: #f0f8fb;
+		--tontrac-secondary-text-color: #a4a4a4;
+		--tontrac-active-text-color: #f58433;
+		--tontrac-inactive-text-color: #9fa0a2;
+		--tontrac-dispatch-color: #4c56c0;
+		--tontrac-receipt-color: #6cbd7e;
+
+		--tontrac-input-color: #20232b;
+		--tontrac-input-color-disabled: #22242b;
+		--tontrac-input-color-light: #f9f9fc; */
+
+		/* Colors various uses */
+		--tontrac-primary-color: #f58433;
+		--tontrac-secondary-color: #252628;
+		/* --tontrac-secondary-color: #202124; */
+		--tontrac-background-color: #202124;
+		/* --tontrac-background-color: #181a20; */
+		--tontrac-active-color: #f58433;
+		--tontrac-inactive-color: #9fa0a2;
+		--tontrac-border-color: #353740;
+		--tontrac-list-item-line-color: #282b30;
+		--tontrac-list-item-color: #2f3033;
+
+		--tontrac-card-color: #262a34;
+		--tontrac-primary-color-hover: rgba(245, 132, 51, 0.85);
+		--tontrac-primary-accent-color: #ec7520;
+		/* Text Colors */
+		--tontrac-primary-text-color: #f0f8fb;
+		--tontrac-secondary-text-color: #a4a4a4;
+		--tontrac-active-text-color: #f58433;
+		--tontrac-inactive-text-color: #9fa0a2;
+
+		--tontrac-input-color: #35363a;
+		--tontrac-input-color-disabled: #22242b;
+		--tontrac-input-color-light: #f9f9fc;
+
+		/* Custom Colors */
+		--tontrac-dispatch-color: #4c56c0;
+		--tontrac-receipt-color: #6cbd7e;
+		--tontrac-success-color: #62cf6b;
+		--tontrac-error-color: #e93f43;
+
+		--background: #f3f3f8;
+		--foreground: #282c34;
+		--card: #ffffff;
+		--card-foreground: #282c34;
+		--popover: #f3f3f8;
+		--popover-foreground: #282c34;
+		--primary: #f58433;
+		--primary-accent: #ec7520;
+		--primary-foreground: #282c34;
+		--secondary: #252628;
+		--secondary-foreground: #9fa0a2;
+		--muted: #9fa0a2;
+		--muted-foreground: #9fa0a2;
+		--accent: #1e90ff;
+		--accent-foreground: #282c34;
+		--destructive: #d61d1d;
+		--destructive-foreground: #282c34;
+		--border: #e0e0e2;
+		--input: #f9f9fc;
+		--input-disabled: #cdcdcf;
+		--list-item: #f2f3f8;
+		--list-item-line: #e0e0e2;
+		--ring: #f58433;
+		--radius: 0.3rem;
+	}
+
+	.dark {
+		--background: #202124;
+		--foreground: #f0f8fb;
+		--card: #262a34;
+		--card-foreground: #f0f8fb;
+		--popover: #202124;
+		--popover-foreground: #f0f8fb;
+		--primary: #f58433;
+		--primary-accent: #ec7520;
+		--primary-foreground: #f0f8fb;
+		--secondary: #252628;
+		--secondary-foreground: #a4a4a4;
+		--muted: #9fa0a2;
+		--muted-foreground: #9fa0a2;
+		--accent: #1e90ff;
+		--accent-foreground: #f0f8fb;
+		--destructive: #d61d1d;
+		--destructive-foreground: #f0f8fb;
+		--border: #353740;
+		--input: #35363a;
+		--input-disabled: #22242b;
+		--list-item: #2f3033;
+		--list-item-line: #282b30;
+		--ring: #f58433;
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+}
+
+/* If the user prefers dark mode, 
+we of course apply color-scheme: dark, as usual */
+@media (prefers-color-scheme: dark) {
+	html {
+		color-scheme: dark;
+	}
+}
+
+/* If the user prefers light mode, 
+we still enforce color-scheme: dark, despite the user preference */
+@media (prefers-color-scheme: light) {
+	html {
+		color-scheme: dark;
+	}
+}
+
+#root {
+	height: 100%;
+}
+
+body {
+	background-color: var(--tontrac-background-color);
+	height: 100vh;
+	user-select: none;
+	/* color: white; */
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar {
+	height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #4e4e4e;
+	border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+@keyframes shake {
+	0% {
+		transform: translate(0.5px, 0.5px) rotate(0deg);
+	}
+	10% {
+		transform: translate(-0.5px, -1px) rotate(-0.5deg);
+	}
+	20% {
+		transform: translate(-1.5px, 0px) rotate(0.5deg);
+	}
+	30% {
+		transform: translate(1.5px, 1px) rotate(0deg);
+	}
+	40% {
+		transform: translate(0.5px, -0.5px) rotate(0.5deg);
+	}
+	50% {
+		transform: translate(-0.5px, 1px) rotate(-0.5deg);
+	}
+	60% {
+		transform: translate(-1.5px, 0.5px) rotate(0deg);
+	}
+	70% {
+		transform: translate(1.5px, 0.5px) rotate(-0.5deg);
+	}
+	80% {
+		transform: translate(-0.5px, -0.5px) rotate(0.5deg);
+	}
+	90% {
+		transform: translate(0.5px, 1px) rotate(0deg);
+	}
+	100% {
+		transform: translate(0.5px, -1px) rotate(-0.5deg);
+	}
+}
+
+.shake {
+	animation: shake 0.5s;
+	animation-iteration-count: 1;
+}
+
+/* In your global CSS file */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.fadeInUp {
+	animation-name: fadeInUp;
+	animation-duration: 1s; /* Customize duration as needed */
+	animation-fill-mode: both;
+}
+
+.device-monitoring-grid {
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(350px, 1fr)
+	); /* Adjust the 200px to your preferred minimum column width */
+	gap: 1rem;
+	height: calc(100vh - 290px);
+	overflow-y: auto;
+}
+
+.full-width-center {
+	grid-column: 1 / -1; /* This will make sure the div spans all columns */
+	display: flex;
+	justify-content: center; /* Centers horizontally in the flex container */
+	align-items: center; /* Centers vertically in the flex container */
+	width: 100%; /* Ensures the flex container takes up all horizontal space */
+	height: 100%; /* Optional: Match the grid height if you want the message vertically centered in the entire grid space */
+}
+
+@keyframes skeleton-loading {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+.animate-skeleton {
+	background: linear-gradient(90deg, #35363a 25%, #4a4b50 50%, #35363a 75%);
+	background-size: 200% 100%;
+	animation: skeleton-loading 2.5s infinite;
+}
+
+/* Remove blue outline on radio button */
+input[type='radio']:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+input[type='time']::-webkit-calendar-picker-indicator {
+	filter: invert(35%) sepia(5%) saturate(150%) hue-rotate(180deg) brightness(110%) contrast(60%);
+	cursor: pointer;
+}
+
+input[type='time']:focus {
+	outline: none; /* Removes the default outline */
+	border: none; /* Removes any border if present */
+}

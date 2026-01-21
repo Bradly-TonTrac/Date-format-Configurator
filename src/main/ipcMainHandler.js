@@ -105,3 +105,7 @@ ipcMain.handle('apply-settings', () => {
   }
 });
 
+ipcMain.handle('get-desired-settings', () => {
+  return tontracSettings;
+})
+

@@ -36,7 +36,8 @@ export const hasBackup = () => {
 export const deleteBackup = () => {
     const appDataPath = app.getPath('appData');
     const backupDir = path.join(appDataPath, 'DateFormatConfigurator');
+    const backupFilePath = path.join(backupDir, 'backup.json');
 
-    fs.rmSync(backupDir, { recursive: true, force: true});
+    fs.rmSync(backupFilePath, { recursive: true, force: true});
     console.log(`Removed directory and its contents: ${backupDir}`);
 };

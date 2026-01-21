@@ -5,6 +5,10 @@ import tontracSettings from './globals.js';
 import fs from 'fs';
 import { app } from 'electron';
 import path from 'path';
+import broadcastIntlChange from './lib/Broadcast/index.js';
+import { hasBackup } from './lib/Backup/index.js';
+import { readBackup } from './lib/Backup/index.js';
+import { deleteBackup } from './lib/Backup/index.js';
 
 //Get Operating system info
 ipcMain.handle('get-os-info', () => {
@@ -98,6 +102,9 @@ ipcMain.handle('apply-settings', () => {
     applySettings('sTimeFormat', tontracSettings.formats.longTime);
     applySettings('sDecimal', tontracSettings.formats.decimal);
 
+    //Notifying windows of settings change
+    broadcastIntlChange();
+
     return { success: true, message: 'Settings applied successfully' };
   } catch(error) {
     console.error('Failed to apply settings');
@@ -105,7 +112,42 @@ ipcMain.handle('apply-settings', () => {
   }
 });
 
+//Getting desired settings 
 ipcMain.handle('get-desired-settings', () => {
   return tontracSettings;
-})
+});
+
+//Restoring previous settings
+ipcMain.handle('restore-settings', () => {
+  const backupStatus = hasBackup();
+
+  if(!backupStatus) {
+    console.log("No backup exists");
+    return { success: false, message: 'No backup exists' };;
+  }
+
+  try {
+    const prevSettings = readBackup();
+
+    if (!prevSettings) {
+      return { success: false, message: 'Failed to read backup' };
+    }
+
+    applySettings('sShortDate', prevSettings.settings.shortDate);
+    applySettings('sLongDate', prevSettings.settings.longDate);
+    applySettings('sShortTime', prevSettings.settings.shortTime);
+    applySettings('sTimeFormat', prevSettings.settings.longTime);
+    applySettings('sDecimal', prevSettings.settings.decimal);
+
+    //Notifying windows of settings change
+    broadcastIntlChange();
+
+    deleteBackup();
+
+    return { success: true, message: 'Settings restored successfully' };
+  } catch(error) {
+    console.error("failed restoring previous settings");
+    return { success: false, message: error.message };
+  }
+});
 

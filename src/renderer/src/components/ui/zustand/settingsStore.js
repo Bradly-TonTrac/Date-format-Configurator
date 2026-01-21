@@ -59,8 +59,6 @@ applySettings: async () => { await window.api.applySettings() },
 
         },
 */
-
-     
      loadAdminStatus: async () =>{
         set({loading:true, error:null})
         try{
@@ -72,7 +70,6 @@ applySettings: async () => { await window.api.applySettings() },
             set({loading:false})
         }
      },
-
      loadosInfomation: async () =>{
                 set({loading:true, error:null})
 
@@ -83,7 +80,6 @@ applySettings: async () => { await window.api.applySettings() },
                     set({loading:false})
                 }
      },
-
      loadCurrentDateSettings: async () =>{
                         set({loading:true, error:null})
                         try{
@@ -94,9 +90,7 @@ applySettings: async () => { await window.api.applySettings() },
                         }catch{
                             set({loading:false})
                         }
-
      },
-
      loadDesiredSettings: async () =>{
          set({loading:true, error:null})
            try{

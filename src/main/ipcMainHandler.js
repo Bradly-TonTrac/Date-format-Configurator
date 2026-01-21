@@ -114,5 +114,39 @@ ipcMain.handle("apply-settings", () => {
 
 ipcMain.handle('get-desired-settings', () => {
   return tontracSettings;
-})
+});
+
+//Restoring previous settings
+ipcMain.handle("restore-settings", () => {
+  const backupStatus = hasBackup();
+
+  if (!backupStatus) {
+    console.log("No backup exists");
+    return { success: false, message: "No backup exists" };
+  }
+
+  try {
+    const prevSettings = readBackup();
+
+    if (!prevSettings) {
+      return { success: false, message: "Failed to read backup" };
+    }
+
+    applySettings("sShortDate", prevSettings.settings.shortDate);
+    applySettings("sLongDate", prevSettings.settings.longDate);
+    applySettings("sShortTime", prevSettings.settings.shortTime);
+    applySettings("sTimeFormat", prevSettings.settings.longTime);
+    applySettings("sDecimal", prevSettings.settings.decimal);
+
+    //Notifying windows of settings change
+    broadcastIntlChange();
+
+    deleteBackup();
+
+    return { success: true, message: "Settings restored successfully" };
+  } catch (error) {
+    console.error("failed restoring previous settings");
+    return { success: false, message: error.message };
+  }
+});
 

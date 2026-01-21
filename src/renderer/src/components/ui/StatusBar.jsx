@@ -16,7 +16,7 @@ const StatusBar = () => {
   return (
     <div className=" border border-border bg-background shadow-lg m-4 rounded p-3 ">
       <div className="">
-        <h5 className="bg-primary flex items-center gap-1 font-bold">
+        <h5 className=" flex items-center gap-1 font-bold">
           Status
           <GrStatusDisabledSmall
             className={

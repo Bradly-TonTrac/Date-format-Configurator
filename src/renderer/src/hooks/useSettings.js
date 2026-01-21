@@ -3,7 +3,7 @@ import { useStatusStore } from "../components/ui/zustand/settingsStore";
 
 export function useStatus() { 
 
-//USe status
+   //USe status
    const isAdmin = useStatusStore((state) => state.isAdmin)
    const isLoading = useStatusStore((state) => state.isLoading)
    const loadAdminStatus = useStatusStore((state) => state.loadAdminStatus)
@@ -28,10 +28,6 @@ export function useStatus() {
 
    //Apply Button state
    const applySettings = useStatusStore ((state) => state.applySettings)
-   //const loadApplyBtn = useStatusStore((state)=> state.loadApplyBtn)
-   //const  applyBtn = useStatusStore((state) => state. applyBtn)
-
-
 
    //Restore settings button
    const restoreSettings = useStatusStore ((state) => state.restoreSettings)
@@ -41,7 +37,7 @@ export function useStatus() {
     desiredLongDate,
     shortPrev,longPrev,
      applySettings, 
-     restoreSettings
+      restoreSettings
 
  
  }

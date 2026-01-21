@@ -15,6 +15,8 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 600,
     height: 500,
+    frame:false,
+
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -32,7 +34,7 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
- mainWindow.webContents.openDevTools();
+ //mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -74,3 +76,4 @@ ipcMain.handle('get-admin-status', async () => {
   const status = await checkAdminStatus();
   return status;
 });
+

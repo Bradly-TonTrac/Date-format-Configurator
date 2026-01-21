@@ -282,3 +282,10 @@ input[type='time']:focus {
 	outline: none; /* Removes the default outline */
 	border: none; /* Removes any border if present */
 }
+.cut-corners {
+  /* Cut 12px from each corner */
+  clip-path: polygon(
+    12px 0%, calc(100% - 12px) 0%, 100% 12px, 100% calc(100% - 12px),
+    calc(100% - 12px) 100%, 12px 100%, 0% calc(100% - 12px), 0% 12px
+  );
+}

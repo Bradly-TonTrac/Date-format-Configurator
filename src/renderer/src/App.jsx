@@ -6,7 +6,7 @@ import DesiredSettings from "./components/ui/DesiredSettings";
 import ActionButtons from "./components/ui/ActionButtons";
 const App = () => {
   return (
-    <div className="min-h-screen text-text bg-background-light">
+    <div className="min-h-screen text-text p-2 bg-background-light">
       <TopBar />
       <StatusBar />
       <CurrentSettings />

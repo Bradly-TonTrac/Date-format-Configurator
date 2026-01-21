@@ -26,9 +26,23 @@ export function useStatus() {
    const shortPrev = useStatusStore((state) => state.shortPrev )
    const longPrev = useStatusStore((state)=> state.longPrev)
 
+   //Apply Button state
+   const applySettings = useStatusStore ((state) => state.applySettings)
+   //const loadApplyBtn = useStatusStore((state)=> state.loadApplyBtn)
+   //const  applyBtn = useStatusStore((state) => state. applyBtn)
+
+
+
+   //Restore settings button
+   const restoreSettings = useStatusStore ((state) => state.restoreSettings)
+
    return{isAdmin, isLoading, loadAdminStatus, osInfo, loadosInfomation, shortDate, longDate, lastRead, loadCurrentDateSettings,loadDesiredSettings,
     desiredShortDate,
     desiredLongDate,
-    shortPrev,longPrev
+    shortPrev,longPrev,
+     applySettings, 
+     restoreSettings
+
+ 
  }
 }

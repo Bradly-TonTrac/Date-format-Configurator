@@ -32,6 +32,34 @@ export const useStatusStore = create ((set) => ({
       desiredLongDate:null,
        shortPrev:null,
         longPrev:null,
+
+        //Apply button
+      //  applyBtn:null,
+
+applySettings: async () => { await window.api.applySettings() },
+  restoreSettings: async () => {   await window.api.restoreSettings();
+  const currentSettings = await window.api.getCurrentSettings();
+
+  set({
+    shortDate: currentSettings.shortDate,
+    longDate: currentSettings.longDate,
+    lastRead: currentSettings.lastRead,
+  });},
+        /*
+        loadApplyBtn: async () =>{
+              set({loading:true, error:null})
+              try{
+                await window.api.applySettings()
+               set({loading:true, error:null})
+              }catch(error){
+                  set({loading:false})
+
+              }
+
+
+        },
+*/
+
      
      loadAdminStatus: async () =>{
         set({loading:true, error:null})

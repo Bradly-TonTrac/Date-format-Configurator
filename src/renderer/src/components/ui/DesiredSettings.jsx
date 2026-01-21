@@ -15,8 +15,8 @@ const DesiredSettings = () => {
   }, []);
 
   return (
-    <div className=" border border-border bg-background shadow-lg m-4 rounded p-3 ">
-      <h3 className="bg-primary">Desired Settings</h3>
+    <div className="  border-border bg-background shadow-lg m-4 bg-clip-padding p-3 cut-corners ">
+      <h3  className="text-center font-extrabold">Desired Settings</h3>
       <h3> Short date:{desiredShortDate} </h3>
       <h3>Long date:{desiredLongDate}</h3>
       <h3>Preview (short): {shortPrev} </h3>

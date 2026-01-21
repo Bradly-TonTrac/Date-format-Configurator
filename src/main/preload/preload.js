@@ -9,6 +9,8 @@ const WINDOW_API ={
     hasBackup: () => ipcRenderer.invoke('has-backup'),
     getDiagnostics: () => ipcRenderer.invoke('get-diagnostics'),
     getAppVersion: () => ipcRenderer.invoke('get-app-version'),
+    getDesiredSettings: () => ipcRenderer.invoke('get-desired-settings'),
+
 };
 
 contextBridge.exposeInMainWorld('api', WINDOW_API);

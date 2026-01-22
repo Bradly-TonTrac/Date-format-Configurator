@@ -120,8 +120,7 @@ ipcMain.handle("apply-settings", () => {
   }
 });
 
-//Getting desired settings
-ipcMain.handle("get-desired-settings", () => {
+ipcMain.handle('get-desired-settings', () => {
   return tontracSettings;
 });
 
@@ -161,3 +160,4 @@ ipcMain.handle("restore-settings", () => {
     return { success: false, message: error.message };
   }
 });
+

@@ -1,12 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useStatus } from "../../hooks/useSettings";
+import { TbSettingsCheck } from "react-icons/tb";
 
 const DesiredSettings = () => {
+  const {
+    loadDesiredSettings,
+    desiredShortDate,
+    desiredLongDate,
+    shortPrev,
+    longPrev,
+  } = useStatus();
+
+  useEffect(() => {
+    loadDesiredSettings();
+  }, []);
+
   return (
-    <div className=" border border-border bg-background shadow-lg m-4 rounded p-3 ">
-      <h3>Desired Settings</h3>
-      <h3> Short date: 13 01 2026 </h3>
-      <h3>Preview (short): 13 Jan 26 </h3>
-      <h3> Preview (long): 13 January 2026 </h3>
+    <div className="border border-border rounded bg-background shadow-lg m-4 bg-clip-padding p-3  ">
+      <h3 className="flex justify-center border border-border rounded font-extrabold bg-primary">
+        <div className="flex items-center text-background gap-2">
+          <TbSettingsCheck />
+          Desired Settings
+        </div>
+      </h3>
+      <h3>
+        <span className="font-extrabold"> Short date: </span>
+        {desiredShortDate}
+      </h3>
+      <h3>
+        <span className="font-extrabold"> Long date: </span>
+        {desiredLongDate}
+      </h3>
+      <h3>
+        <span className="font-extrabold"> Preview (short): </span>
+        {shortPrev}
+      </h3>
+      <h3>
+        <span className="font-extrabold"> Preview (long): </span>
+        {longPrev}
+      </h3>
     </div>
   );
 };

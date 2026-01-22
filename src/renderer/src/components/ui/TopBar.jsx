@@ -19,7 +19,7 @@ const TopBar = () => {
       <div className="flex justify-between gap-3 ">
         <img src="/" alt="loggo" />
         <h4>Date Format Configurator</h4>
-        <h6 className="text-text-secondary">v1.0.0</h6>
+        <h6 className="text-text-secondary ">v1.0.0</h6>
       </div>
 
       {/*Top Bar Icons */}

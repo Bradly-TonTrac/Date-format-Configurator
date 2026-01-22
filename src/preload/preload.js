@@ -10,6 +10,8 @@ const WINDOW_API ={
     getDiagnostics: () => ipcRenderer.invoke('get-diagnostics'),
     getAppVersion: () => ipcRenderer.invoke('get-app-version'),
     getDesiredSettings: () => ipcRenderer.invoke('get-desired-settings'),
+    getWindowExit: () => ipcRenderer.invoke('exit-app'),
+    getWindowMin: () => ipcRenderer.invoke('min-app'),
 };
 
 contextBridge.exposeInMainWorld('api', WINDOW_API);

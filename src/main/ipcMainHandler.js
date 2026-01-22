@@ -1,4 +1,4 @@
-import { ipcMain } from "electron";
+import { ipcMain, BrowserWindow } from "electron";
 import { execSync } from "child_process";
 import os from "os";
 import tontracSettings from "./globals.js";
@@ -26,7 +26,6 @@ ipcMain.handle("get-os-info", () => {
     };
 
     logEvent("INFO", "Fetched OS info");
-
     return {
       operatingSystemType,
       operatingSystemVersion: getWindowsVersion(),
@@ -86,7 +85,13 @@ const createBackUp = (currentSettings) => {
 
   const backupFilePath = path.join(backupDir, "backup.json");
 
+  if(fs.existsSync(backupFilePath)) {
+    logEvent("INFO", "attempted to create backup. Backup exists.");
+    return null; 
+  }
+
   fs.writeFileSync(backupFilePath, JSON.stringify(currentSettings, null, 2));
+  return true;
 };
 
 //Write to registry desired settings
@@ -99,7 +104,11 @@ ipcMain.handle("apply-settings", () => {
       settings: currentSettings,
     };
 
-    createBackUp(backup);
+    const backupStatus = createBackUp(backup);
+
+    if(!backupStatus) {
+      return;
+    }
     logEvent("INFO", "Backup created");
 
     applySettings("sShortDate", tontracSettings.formats.shortDate);
@@ -130,7 +139,7 @@ ipcMain.handle("restore-settings", () => {
 
   if (!backupStatus) {
     console.log("No backup exists");
-    logEvent("INFO", "Checking backup exists")
+    logEvent("INFO", "Checking backup exists");
     return { success: false, message: "No backup exists" };
   }
 
@@ -162,8 +171,6 @@ ipcMain.handle("restore-settings", () => {
   }
 });
 
-<<<<<<< Updated upstream
-=======
 //Returning log path + current values to json file
 ipcMain.handle('get-diagnostics', () => {
   const appDataPath = app.getPath("appData");
@@ -179,4 +186,12 @@ ipcMain.handle('get-diagnostics', () => {
   };
 });
 
->>>>>>> Stashed changes
+ipcMain.handle('exit-app', () => {
+  return app.exit();
+});
+
+ipcMain.handle('min-app', () => {
+  const win = BrowserWindow.getFocusedWindow();
+  if (win) win.minimize();
+});
+

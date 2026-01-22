@@ -3,8 +3,11 @@ import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import { execSync } from 'child_process';
 import './ipcMainHandler';
-import './lib/Backup/ipcMainBackup'; 
-import { logEvent } from './lib/Logger';
+import './lib/Backup/ipcMainBackup';
+import './lib/Registry/ipcMainRegistry';
+import './lib/Broadcast/ipcMainBroadcast';
+import { logEvent } from './lib/Logger/index.js';
+import { IPC_CHANNELS, LOG_LEVELS } from './constants.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -16,7 +19,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 600,
     height: 500,
-    frame:false,
+    frame: false,
 
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -25,7 +28,7 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.setMenu(null)
+  mainWindow.setMenu(null);
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
@@ -35,14 +38,14 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
- //mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  logEvent('INFO', 'Application started');
+  logEvent(LOG_LEVELS.INFO, 'Application started');
   createWindow();
 
   // On OS X it's common to re-create a window in the app when the
@@ -59,25 +62,33 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    logEvent('INFO', 'Application closed');
+    logEvent(LOG_LEVELS.INFO, 'Application closed');
     app.quit();
   }
 });
 
-//Check if app is opened with administrative rights
+// Check if app is opened with administrative rights
 const checkAdminStatus = () => {
   try {
-    logEvent('INFO', 'Admin status read');
-    execSync('net session', { stdio: 'ignore '});
+    execSync('net session', { stdio: 'ignore' });
+    logEvent(LOG_LEVELS.INFO, 'Admin status verified: Running with administrator privileges');
     return true;
   } catch {
+    logEvent(LOG_LEVELS.INFO, 'Admin status verified: Running without administrator privileges');
     return false;
   }
 };
 
-//Handling the checking of admin status
-ipcMain.handle('get-admin-status', async () => {
-  const status = await checkAdminStatus();
+// Handling the checking of admin status
+ipcMain.handle(IPC_CHANNELS.GET_ADMIN_STATUS, async () => {
+  const status = checkAdminStatus();
   return status;
+});
+
+// Get application version
+ipcMain.handle(IPC_CHANNELS.GET_APP_VERSION, () => {
+  const version = app.getVersion();
+  logEvent(LOG_LEVELS.INFO, `Fetched app version: ${version}`);
+  return version;
 });
 

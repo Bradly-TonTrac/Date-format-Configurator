@@ -4,6 +4,7 @@ import started from 'electron-squirrel-startup';
 import { execSync } from 'child_process';
 import './ipcMainHandler';
 import './lib/Backup/ipcMainBackup'; 
+import { logEvent } from './lib/Logger';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -39,6 +40,7 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  logEvent('INFO', 'Application started');
   createWindow();
 
   // On OS X it's common to re-create a window in the app when the
@@ -55,6 +57,7 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    logEvent('INFO', 'Application closed');
     app.quit();
   }
 });
@@ -62,6 +65,7 @@ app.on('window-all-closed', () => {
 //Check if app is opened with administrative rights
 const checkAdminStatus = () => {
   try {
+    logEvent('INFO', 'Admin status read');
     execSync('net session', { stdio: 'ignore '});
     return true;
   } catch {

@@ -9,6 +9,7 @@ import broadcastIntlChange from "./lib/Broadcast/index.js";
 import { hasBackup } from "./lib/Backup/index.js";
 import { readBackup } from "./lib/Backup/index.js";
 import { deleteBackup } from "./lib/Backup/index.js";
+import { logEvent } from "./lib/Logger/index.js";
 
 //Get Operating system info
 ipcMain.handle("get-os-info", () => {
@@ -23,12 +24,15 @@ ipcMain.handle("get-os-info", () => {
       if (major === 10 && build < 22000) return "Windows 10";
       if (major === 10 && build >= 22000) return "Windows 11";
     };
+
+    logEvent("INFO", "Fetched OS info");
+
     return {
       operatingSystemType,
       operatingSystemVersion: getWindowsVersion(),
     };
   } catch (error) {
-    consol.error("failed to get OS info", error);
+    consol.error("Failed to get OS info", error);
   }
 });
 
@@ -56,6 +60,7 @@ const getCurrentRegistrySettings = () => {
 //Get current settings from the registry
 ipcMain.handle("get-current-settings", () => {
   try {
+    logEvent("INFO", "fetched current OS info");
     return getCurrentRegistrySettings();
   } catch (error) {
     console.error("failed to get get current settings", error);
@@ -95,15 +100,18 @@ ipcMain.handle("apply-settings", () => {
     };
 
     createBackUp(backup);
+    logEvent("INFO", "Backup created");
 
     applySettings("sShortDate", tontracSettings.formats.shortDate);
     applySettings("sLongDate", tontracSettings.formats.longDate);
     applySettings("sShortTime", tontracSettings.formats.shortTime);
     applySettings("sTimeFormat", tontracSettings.formats.longTime);
     applySettings("sDecimal", tontracSettings.formats.decimal);
+    logEvent("INFO", "Applied new settings");
 
     //Notifying windows of settings change
     broadcastIntlChange();
+    logEvent("INFO", "Broadcasted to windows");
 
     return { success: true, message: "Settings applied successfully" };
   } catch (error) {
@@ -128,6 +136,7 @@ ipcMain.handle("restore-settings", () => {
 
   try {
     const prevSettings = readBackup();
+    logEvent("INFO", "Read backup");
 
     if (!prevSettings) {
       return { success: false, message: "Failed to read backup" };
@@ -139,9 +148,11 @@ ipcMain.handle("restore-settings", () => {
     applySettings("sTimeFormat", prevSettings.settings.longTime);
     applySettings("sDecimal", prevSettings.settings.decimal);
 
+    logEvent("INFO", "previous settings applied");
+
     //Notifying windows of settings change
     broadcastIntlChange();
-
+    logEvent("INFO", "Broadcasted to windows");
     deleteBackup();
 
     return { success: true, message: "Settings restored successfully" };

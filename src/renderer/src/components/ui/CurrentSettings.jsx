@@ -11,16 +11,24 @@ const CurrentSettings = () => {
   }, []);
 
   return (
-    <div className=" bg-background shadow-lg m-4 rounded p-2">
-      <h3 className="font-extrabold flex justify-center ">
+    <div className="border border-border bg-background shadow-lg m-4 rounded p-2">
+      <h3 className="font-extrabold text-background border border-border rounded flex justify-center bg-primary ">
         <div className="flex items-center gap-2">
           <IoSettingsOutline />
           Current Settings
         </div>
       </h3>
-      <h3>Short date:{shortDate}</h3>
-      <h3>Long date: {longDate}</h3>
-      <h3>Last Read: {lastRead}</h3>
+      <h3>
+        <span className="font-extrabold">Short date: </span>
+        {shortDate}
+      </h3>
+      <h3>
+        <span className="font-extrabold">Long date:</span>
+        {longDate}
+      </h3>
+      <h3 >
+        <span className="font-extrabold"> Last Read:</span>
+        {lastRead}</h3>
     </div>
   );
 };

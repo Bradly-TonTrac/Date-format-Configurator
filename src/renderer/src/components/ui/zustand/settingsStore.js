@@ -86,7 +86,7 @@ applySettings: async () => { await window.api.applySettings() },
                             const currentSettings = await window.api.getCurrentSettings()
                              set({shortDate:currentSettings.shortDate,
                                 longDate:currentSettings.longDate,
-                                lastRead: currentSettings.lastRead})
+                                lastRead: currentSettings.readTime})
                         }catch{
                             set({loading:false})
                         }

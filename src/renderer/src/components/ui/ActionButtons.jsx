@@ -3,14 +3,14 @@ import WindowButton from "./WindowButton";
 import { useStatus } from "../../hooks/useSettings";
 
 const Style = {
-  buttons: "border hover:translate-x-1 p-2 rounded",
+  buttons: "border hover:translate-x-1 p-2 pl-12 pr-12 rounded bg-primary",
 };
 
 const ActionButtons = () => {
   const { applySettings, restoreSettings } = useStatus();
 
   return (
-    <div className="flex justify-center gap-3">
+    <div className="flex justify-center gap-3 text-background">
       <WindowButton
         label="Apply Settings"
         onClick={applySettings}

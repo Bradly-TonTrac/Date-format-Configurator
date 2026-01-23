@@ -150,8 +150,6 @@ ipcMain.handle("restore-settings", () => {
   }
 });
 
-<<<<<<< Updated upstream
-=======
 //Returning log path + current values to json file
 ipcMain.handle('get-diagnostics', () => {
   const appDataPath = app.getPath("appData");
@@ -175,4 +173,4 @@ ipcMain.handle('min-app', () => {
   const win = BrowserWindow.getFocusedWindow();
   if (win) win.minimize();
 });
->>>>>>> Stashed changes
+

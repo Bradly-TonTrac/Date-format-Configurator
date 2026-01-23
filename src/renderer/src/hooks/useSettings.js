@@ -38,7 +38,5 @@ export function useStatus() {
     shortPrev,longPrev,
      applySettings, 
       restoreSettings
-
- 
  }
 }

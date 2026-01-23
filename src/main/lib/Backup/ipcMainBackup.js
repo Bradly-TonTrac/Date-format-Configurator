@@ -1,27 +1,18 @@
-import { ipcMain } from 'electron'
-import { readBackup} from "./index.js";
-import { hasBackup } from './index.js';
-import { deleteBackup } from './index.js';
+import { ipcMain } from 'electron';
+import { readBackup, hasBackup, deleteBackup } from "./index.js";
+import { IPC_CHANNELS, LOG_LEVELS } from "../../constants.js";
+import { logEvent } from "../Logger/index.js";
 
-//Remove later not needed
-ipcMain.handle('get-backup', () => {
-    const dataStatus = hasBackup();
-
-    if(!dataStatus) {
-        return { success: false, message: "No backup exists" };
-    }
-    const data = readBackup();
-    return data;
-});
-
-//Check if backup exists
-ipcMain.handle('has-backup', () => {
-    return hasBackup();
-});
-
-//Remove later not needed
-ipcMain.handle('delete-backup', () => {
-    return deleteBackup();
+// Check if backup exists
+ipcMain.handle(IPC_CHANNELS.HAS_BACKUP, () => {
+  try {
+    const backupExists = hasBackup();
+    logEvent(LOG_LEVELS.INFO, `Checked backup existence: ${backupExists}`);
+    return backupExists;
+  } catch (error) {
+    logEvent(LOG_LEVELS.ERROR, `Failed to check backup: ${error.message}`);
+    return false;
+  }
 });
 
 

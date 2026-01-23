@@ -1,17 +1,16 @@
-import { ipcMain } from "electron";
-import { execSync } from "child_process";
+import { ipcMain, BrowserWindow } from "electron";
 import os from "os";
 import tontracSettings from "./globals.js";
-import fs from "fs";
 import { app } from "electron";
-import path from "path";
-import broadcastIntlChange from "./lib/Broadcast/index.js";
-import { hasBackup } from "./lib/Backup/index.js";
-import { readBackup } from "./lib/Backup/index.js";
-import { deleteBackup } from "./lib/Backup/index.js";
+import { logEvent } from "./lib/Logger/index.js";
+import { getCurrentRegistrySettings, applyRegistrySettings } from "./lib/Registry/index.js";
+import "./lib/Registry/ipcMainRegistry.js";
+import "./lib/Broadcast/ipcMainBroadcast.js";
+import { hasBackup, readBackup, deleteBackup, createBackUp } from "./lib/Backup/index.js";
+import { IPC_CHANNELS, LOG_LEVELS } from "./constants.js";
 
-//Get Operating system info
-ipcMain.handle("get-os-info", () => {
+// Get Operating system info
+ipcMain.handle(IPC_CHANNELS.GET_OS_INFO, () => {
   try {
     const operatingSystemType = os.platform() === "win32";
     const getWindowsVersion = () => {
@@ -23,69 +22,20 @@ ipcMain.handle("get-os-info", () => {
       if (major === 10 && build < 22000) return "Windows 10";
       if (major === 10 && build >= 22000) return "Windows 11";
     };
+
+    logEvent(LOG_LEVELS.INFO, "Fetched OS info");
     return {
       operatingSystemType,
       operatingSystemVersion: getWindowsVersion(),
     };
   } catch (error) {
-    consol.error("failed to get OS info", error);
+    logEvent(LOG_LEVELS.ERROR, `Failed to get OS info: ${error.message}`);
+    return { success: false, message: error.message };
   }
 });
 
-//Helper Function - getting current system settings
-const getCurrentRegistrySettings = () => {
-  const getRegistryValue = (valueName) => {
-    const output = execSync(
-      `reg query "HKCU\\Control Panel\\International" /v ${valueName}`,
-    ).toString();
-
-    const match = output.match(/REG_SZ\s+(.+)/);
-    return match ? match[1].trim() : "";
-  };
-
-  return {
-    readTime: new Date().toISOString(),
-    shortDate: getRegistryValue("sShortDate"),
-    longDate: getRegistryValue("sLongDate"),
-    shortTime: getRegistryValue("sShortTime"),
-    longTime: getRegistryValue("sTimeFormat"),
-    decimal: getRegistryValue("sDecimal"),
-  };
-};
-
-//Get current settings from the registry
-ipcMain.handle("get-current-settings", () => {
-  try {
-    return getCurrentRegistrySettings();
-  } catch (error) {
-    console.error("failed to get get current settings", error);
-  }
-});
-
-//Helper function - writing to registry
-const applySettings = (valueName, value) => {
-  execSync(
-    `reg add "HKCU\\Control Panel\\International" /v ${valueName} /t REG_SZ /d "${value}" /f`,
-  );
-};
-
-//Helper Function - create backup
-const createBackUp = (currentSettings) => {
-  const appDataPath = app.getPath("appData");
-
-  const backupDir = path.join(appDataPath, "DateFormatConfigurator");
-
-  if (!fs.existsSync(backupDir)) {
-    fs.mkdirSync(backupDir, { recursive: true });
-  }
-
-  const backupFilePath = path.join(backupDir, "backup.json");
-
-  fs.writeFileSync(backupFilePath, JSON.stringify(currentSettings, null, 2));
-};
-
-//Write to registry desired settings
-ipcMain.handle("apply-settings", () => {
+// Write to registry desired settings
+ipcMain.handle(IPC_CHANNELS.APPLY_SETTINGS, () => {
   try {
     const currentSettings = getCurrentRegistrySettings();
 
@@ -94,58 +44,69 @@ ipcMain.handle("apply-settings", () => {
       settings: currentSettings,
     };
 
-    createBackUp(backup);
+    const backupStatus = createBackUp(backup);
 
-    applySettings("sShortDate", tontracSettings.formats.shortDate);
-    applySettings("sLongDate", tontracSettings.formats.longDate);
-    applySettings("sShortTime", tontracSettings.formats.shortTime);
-    applySettings("sTimeFormat", tontracSettings.formats.longTime);
-    applySettings("sDecimal", tontracSettings.formats.decimal);
+    if (!backupStatus) {
+      logEvent(LOG_LEVELS.ERROR, "Backup already exists, cannot apply new settings");
+      return { success: false, message: "Backup already exists" };
+    }
+    logEvent(LOG_LEVELS.INFO, "Backup created successfully");
 
-    //Notifying windows of settings change
-    broadcastIntlChange();
+    applyRegistrySettings(
+      tontracSettings.formats.shortDate,
+      tontracSettings.formats.longDate,
+      tontracSettings.formats.shortTime,
+      tontracSettings.formats.longTime,
+      tontracSettings.formats.decimal
+    );
+    logEvent(LOG_LEVELS.INFO, "Applied new registry settings");
 
+    logEvent(LOG_LEVELS.INFO, "Settings applied successfully");
     return { success: true, message: "Settings applied successfully" };
   } catch (error) {
-    console.error("Failed to apply settings");
+    logEvent(LOG_LEVELS.ERROR, `Failed to apply settings: ${error.message}`);
     return { success: false, message: error.message };
   }
 });
 
-ipcMain.handle('get-desired-settings', () => {
+ipcMain.handle(IPC_CHANNELS.GET_DESIRED_SETTINGS, () => {
   return tontracSettings;
 });
 
-//Restoring previous settings
-ipcMain.handle("restore-settings", () => {
+// Restoring previous settings
+ipcMain.handle(IPC_CHANNELS.RESTORE_SETTINGS, () => {
   const backupStatus = hasBackup();
 
   if (!backupStatus) {
-    console.log("No backup exists");
+    logEvent(LOG_LEVELS.INFO, "Restore attempted but no backup exists");
     return { success: false, message: "No backup exists" };
   }
 
   try {
     const prevSettings = readBackup();
+    logEvent(LOG_LEVELS.INFO, "Read backup file successfully");
 
     if (!prevSettings) {
+      logEvent(LOG_LEVELS.ERROR, "Backup file is invalid or corrupted");
       return { success: false, message: "Failed to read backup" };
     }
 
-    applySettings("sShortDate", prevSettings.settings.shortDate);
-    applySettings("sLongDate", prevSettings.settings.longDate);
-    applySettings("sShortTime", prevSettings.settings.shortTime);
-    applySettings("sTimeFormat", prevSettings.settings.longTime);
-    applySettings("sDecimal", prevSettings.settings.decimal);
+    applyRegistrySettings(
+      prevSettings.settings.shortDate,
+      prevSettings.settings.longDate,
+      prevSettings.settings.shortTime,
+      prevSettings.settings.longTime,
+      prevSettings.settings.decimal
+    );
 
-    //Notifying windows of settings change
-    broadcastIntlChange();
+    logEvent(LOG_LEVELS.INFO, "Previous settings applied successfully");
 
     deleteBackup();
+    logEvent(LOG_LEVELS.INFO, "Backup file deleted after successful restore");
 
     return { success: true, message: "Settings restored successfully" };
   } catch (error) {
-    console.error("failed restoring previous settings");
+    logEvent(LOG_LEVELS.ERROR, `Failed to restore settings: ${error.message}`);
     return { success: false, message: error.message };
   }
 });

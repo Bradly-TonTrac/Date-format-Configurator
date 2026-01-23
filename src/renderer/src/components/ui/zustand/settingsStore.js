@@ -17,6 +17,20 @@ export const useStatusStore = create((set) => ({
   isLoading: false,
   loadingAction: null,
   hasApplied: false,
+  
+
+  //Toast notifications
+  toastMessage:null,
+  toastType:null,
+  isToastVisible:null,
+  hideToast:null,
+
+  //Minimize button
+
+
+
+
+  hideToast: () => set({isToastVisible: false}),
 
   // Operating system info
   osInfo: null,
@@ -33,11 +47,12 @@ export const useStatusStore = create((set) => ({
   shortPrev: null,
   longPrev: null,
 
-  // Window Operation Buttons
+  //Close window/App Button
   getWindowExit: async () => {
     set({ isLoading: true, loadingAction: "exit" });
     try {
       await window.api.getWindowExit();
+
     } catch (error) {
       console.error(error);
     } finally {
@@ -45,29 +60,72 @@ export const useStatusStore = create((set) => ({
     }
   },
 
+  //Minimize button
+    getWindowMin: async () => {
+    set({ isLoading: true, loadingAction: "exit" });
+    try {
+      await window.api.getWindowMin();
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      set({ isLoading: false, loadingAction: null });
+    }
+  },
+
+  //Copy DX button
   getDiagnostics: async () => {
     set({ isLoading: true, loadingAction: "diagnostics" });
     try {
       await window.api.getDiagnostics();
+      set({
+      hasApplied: true,
+      toastMessage: "Dir Coppied  successfully",
+      toastType: "success",
+      isToastVisible: true,
+    });
     } catch (error) {
-      console.error(error);
+      set({
+      toastMessage: "Failed to copy Dir",
+      toastType: "success",
+      isToastVisible: true,
+      })
+
     } finally {
       set({ isLoading: false, loadingAction: null });
     }
   },
 
+
+  //Apply Button 
   applySettings: async () => {
     set({ isLoading: true, loadingAction: "apply" });
     try {
       await window.api.applySettings();
       set({ hasApplied: true });
+
+      set({
+      hasApplied: true,
+      toastMessage: "Setting's apllied successfully",
+      toastType: "success",
+      isToastVisible: true,
+    });
+
+
     } catch (error) {
-      console.error(error);
+      set({
+      toastMessage: "Failed to Apply Settings",
+      toastType: "success",
+      isToastVisible: true,
+      })
+      
     } finally {
       set({ isLoading: false, loadingAction: null });
     }
   },
 
+
+  //Restore settings button
   restoreSettings: async () => {
     set({ isLoading: true, loadingAction: "restore" });
     try {
@@ -79,8 +137,21 @@ export const useStatusStore = create((set) => ({
         longDate: currentSettings.longDate,
         lastRead: currentSettings.lastRead,
       });
+
+      set({
+      hasApplied: true,
+      toastMessage: "Setting's restored successfully",
+      toastType: "success",
+      isToastVisible: true,
+    });
+      
     } catch (error) {
-      console.error(error);
+      set({
+      toastMessage: "Failed to restore Settings",
+      toastType: "success",
+      isToastVisible: true,
+      })
+
     } finally {
       set({ isLoading: false, loadingAction: null });
     }

@@ -12,7 +12,7 @@ const Style = {
 };
 
 const TopBar = () => {
-  const { getWindowExit } = useStatus();
+  const { getWindowExit, getWindowMin } = useStatus();
 
   return (
     <header
@@ -30,21 +30,11 @@ const TopBar = () => {
         <WindowButton
           label="Minimize"
           className={Style.buttons}
-          onClick={() => console.log("Minimized")}
+          onClick={getWindowMin}
         >
           <VscChromeMinimize />
         </WindowButton>
 
-        {/*
-              <WindowButton
-          className={Style.buttons}
-          label="Resize"
-          onClick={() => console.log("Window Resized")}
-        >
-          <VscChromeMaximize />
-        </WindowButton>
-        
-        */}
 
         <WindowButton
           className=" hover:bg-red-600 rounded  pl-2 pr-2"

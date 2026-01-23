@@ -4,25 +4,40 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
+    name: 'Date Format Configurator',  // Add user-friendly name
+    icon: './src/resources/icon.ico', // Add your app icon (without .ico extension)
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        // Optional but recommended: Add metadata
+        authors: 'Bradly Chauke',
+        description: 'Date Format Configurator Application',
+        
+        // Optional: Custom icons and loading animation
+        // setupIcon: './assets/icon.ico',
+        // loadingGif: './assets/installing.gif',
+        
+        // Optional: Code signing (if you have a certificate)
+        // certificateFile: './cert.pfx',
+        // certificatePassword: process.env.CERTIFICATE_PASSWORD,
+      },
     },
-    {
-      name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
-    },
-    {
-      name: '@electron-forge/maker-deb',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
-    },
+    // Remove or comment out non-Windows makers if building only for Windows
+    // {
+    //   name: '@electron-forge/maker-zip',
+    //   platforms: ['darwin'],
+    // },
+    // {
+    //   name: '@electron-forge/maker-deb',
+    //   config: {},
+    // },
+    // {
+    //   name: '@electron-forge/maker-rpm',
+    //   config: {},
+    // },
   ],
   plugins: [
     {
@@ -30,7 +45,6 @@ module.exports = {
       config: {
         build: [
           {
-            // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
             entry: 'src/main/main.js',
             config: 'vite.main.config.mjs',
             target: 'main',

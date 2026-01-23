@@ -33,8 +33,11 @@ export const useStatusStore = create ((set) => ({
        shortPrev:null,
         longPrev:null,
 
-        //Apply button
-      //  applyBtn:null,
+       //Window Operation Buttons
+
+       closeWindow: async () => {
+        await window.api.getWindowExit()
+       },
 
 applySettings: async () => { await window.api.applySettings() },
   restoreSettings: async () => {   await window.api.restoreSettings();

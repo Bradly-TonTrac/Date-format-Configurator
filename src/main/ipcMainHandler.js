@@ -111,36 +111,27 @@ ipcMain.handle(IPC_CHANNELS.RESTORE_SETTINGS, () => {
   }
 });
 
-// Returning log path + current values to json file
-ipcMain.handle(IPC_CHANNELS.GET_DIAGNOSTICS, () => {
-  try {
-    const path = require("path");
-    const appDataPath = app.getPath("appData");
-    const appDir = path.join(appDataPath, "DateFormatConfigurator");
-    const appFolderPath = path.join(appDir, "logs");
+//Returning log path + current values to json file
+ipcMain.handle('get-diagnostics', () => {
+  const appDataPath = app.getPath("appData");
+  const appDir = path.join(appDataPath, "DateFormatConfigurator");
+  const appFolderPath = path.join(appDir, "logs");
 
-    const currentSettings = getCurrentRegistrySettings();
+  const currentSettings = getCurrentRegistrySettings();
 
-    logEvent(LOG_LEVELS.INFO, "Fetched diagnostics");
-    return {
-      logPath: appFolderPath,
-      currentSettings
-    };
-  } catch (error) {
-    logEvent(LOG_LEVELS.ERROR, `Failed to get diagnostics: ${error.message}`);
-    return { success: false, message: error.message };
-  }
+  logEvent("INFO", "Fetched diagnostics");
+  return {
+    logPath: appFolderPath,
+    currentSettings
+  };
 });
 
-ipcMain.handle(IPC_CHANNELS.EXIT_APP, () => {
-  logEvent(LOG_LEVELS.INFO, "Application exit requested");
+ipcMain.handle('exit-app', () => {
   return app.exit();
 });
 
-ipcMain.handle(IPC_CHANNELS.MIN_APP, () => {
+ipcMain.handle('min-app', () => {
   const win = BrowserWindow.getFocusedWindow();
-  if (win) {
-    logEvent(LOG_LEVELS.INFO, "Application minimized");
-    win.minimize();
-  }
+  if (win) win.minimize();
 });
+

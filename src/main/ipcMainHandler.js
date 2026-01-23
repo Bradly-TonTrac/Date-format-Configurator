@@ -2,6 +2,7 @@ import { ipcMain, BrowserWindow } from "electron";
 import os from "os";
 import tontracSettings from "./globals.js";
 import { app } from "electron";
+import { path } from 'path'
 import { logEvent } from "./lib/Logger/index.js";
 import { getCurrentRegistrySettings, applyRegistrySettings } from "./lib/Registry/index.js";
 import "./lib/Registry/ipcMainRegistry.js";
@@ -111,27 +112,37 @@ ipcMain.handle(IPC_CHANNELS.RESTORE_SETTINGS, () => {
   }
 });
 
-//Returning log path + current values to json file
-ipcMain.handle('get-diagnostics', () => {
-  const appDataPath = app.getPath("appData");
-  const appDir = path.join(appDataPath, "DateFormatConfigurator");
-  const appFolderPath = path.join(appDir, "logs");
+// Returning log path + current values to json file
+ipcMain.handle(IPC_CHANNELS.GET_DIAGNOSTICS, () => {
+  try {
+    const path = require("path");
+    const appDataPath = app.getPath("appData");
+    const appDir = path.join(appDataPath, "DateFormatConfigurator");
+    const appFolderPath = path.join(appDir, "logs");
 
-  const currentSettings = getCurrentRegistrySettings();
+    const currentSettings = getCurrentRegistrySettings();
 
-  logEvent("INFO", "Fetched diagnostics");
-  return {
-    logPath: appFolderPath,
-    currentSettings
-  };
+    logEvent(LOG_LEVELS.INFO, "Fetched diagnostics");
+    return {
+      logPath: appFolderPath,
+      currentSettings
+    };
+  } catch (error) {
+    logEvent(LOG_LEVELS.ERROR, `Failed to get diagnostics: ${error.message}`);
+    return { success: false, message: error.message };
+  }
 });
 
-ipcMain.handle('exit-app', () => {
+ipcMain.handle(IPC_CHANNELS.EXIT_APP, () => {
+  logEvent(LOG_LEVELS.INFO, "Application exit requested");
   return app.exit();
 });
 
-ipcMain.handle('min-app', () => {
+ipcMain.handle(IPC_CHANNELS.MIN_APP, () => {
   const win = BrowserWindow.getFocusedWindow();
-  if (win) win.minimize();
+  if (win) {
+    logEvent(LOG_LEVELS.INFO, "Application minimized");
+    win.minimize();
+  }
 });
 

@@ -5,12 +5,15 @@ import {
   VscClose,
 } from "react-icons/vsc";
 import WindowButton from "./WindowButton";
+import { useStatus } from "../../hooks/useSettings";
 
 const Style = {
   buttons: "hover:bg-zinc-700 rounded  pl-2 pr-2",
 };
 
 const TopBar = () => {
+  const { getWindowExit } = useStatus();
+
   return (
     <header
       className="flex justify-between p-2 border-b border-border cursor-pointer"
@@ -32,18 +35,21 @@ const TopBar = () => {
           <VscChromeMinimize />
         </WindowButton>
 
-        <WindowButton
+        {/*
+              <WindowButton
           className={Style.buttons}
           label="Resize"
           onClick={() => console.log("Window Resized")}
         >
           <VscChromeMaximize />
         </WindowButton>
+        
+        */}
 
         <WindowButton
           className=" hover:bg-red-600 rounded  pl-2 pr-2"
           label="Close"
-          onClick={() => console.log("Window closed Successfully")}
+          onClick={getWindowExit}
         >
           <VscClose className="text-xl" />
         </WindowButton>

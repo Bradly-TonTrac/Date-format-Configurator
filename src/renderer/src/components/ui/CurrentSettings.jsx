@@ -11,8 +11,8 @@ const CurrentSettings = () => {
   }, []);
 
   return (
-    <div className="border border-border bg-background shadow-lg m-4 rounded p-2">
-      <h3 className="font-extrabold text-background border border-border rounded flex justify-center bg-primary ">
+    <div className=" bg-background shadow-lg mb-3 rounded p-2">
+      <h3 className="font-extrabold text-text border   rounded flex justify-center  ">
         <div className="flex items-center gap-2">
           <IoSettingsOutline />
           Current Settings

@@ -6,6 +6,8 @@ export function useStatus() {
    //USe status
    const isAdmin = useStatusStore((state) => state.isAdmin)
    const isLoading = useStatusStore((state) => state.isLoading)
+   const loadingAction = useStatusStore((state) => state.loadingAction)
+   const  hasApplied = useStatusStore((state)=> state.hasApplied)
    const loadAdminStatus = useStatusStore((state) => state.loadAdminStatus)
 
    //Os information hoocks still under useStatus
@@ -32,11 +34,30 @@ export function useStatus() {
    //Restore settings button
    const restoreSettings = useStatusStore ((state) => state.restoreSettings)
 
-   return{isAdmin, isLoading, loadAdminStatus, osInfo, loadosInfomation, shortDate, longDate, lastRead, loadCurrentDateSettings,loadDesiredSettings,
+   //CopyDX button
+   const  getDiagnostics = useStatusStore ((state) => state. getDiagnostics)
+
+    //Close App Btn
+    const getWindowExit = useStatusStore ((state) =>state.getWindowExit)
+
+   return{isAdmin,
+       isLoading,
+       loadAdminStatus,
+       osInfo, 
+      loadosInfomation, 
+      shortDate, 
+      longDate, 
+      lastRead, 
+      loadCurrentDateSettings,
+      loadDesiredSettings,
     desiredShortDate,
     desiredLongDate,
     shortPrev,longPrev,
      applySettings, 
-      restoreSettings
+     restoreSettings,
+    getDiagnostics,
+     getWindowExit,
+     loadingAction,
+     hasApplied
  }
 }

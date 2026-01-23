@@ -150,3 +150,29 @@ ipcMain.handle("restore-settings", () => {
   }
 });
 
+<<<<<<< Updated upstream
+=======
+//Returning log path + current values to json file
+ipcMain.handle('get-diagnostics', () => {
+  const appDataPath = app.getPath("appData");
+  const appDir = path.join(appDataPath, "DateFormatConfigurator");
+  const appFolderPath = path.join(appDir, "logs");
+
+  const currentSettings = getCurrentRegistrySettings();
+
+  logEvent("INFO", "Fetched diagnostics");
+  return {
+    logPath: appFolderPath,
+    currentSettings
+  };
+});
+
+ipcMain.handle('exit-app', () => {
+  return app.exit();
+});
+
+ipcMain.handle('min-app', () => {
+  const win = BrowserWindow.getFocusedWindow();
+  if (win) win.minimize();
+});
+>>>>>>> Stashed changes

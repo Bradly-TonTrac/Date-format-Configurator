@@ -4,8 +4,8 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
-    name: 'Date Format Configurator',  // Add user-friendly name
-    icon: './src/resources/icon.ico', // Add your app icon (without .ico extension)
+    name: 'Date Format Configurator',
+    icon: './src/resources/icon.ico',
   },
   rebuildConfig: {},
   makers: [
@@ -13,31 +13,14 @@ module.exports = {
       name: '@electron-forge/maker-squirrel',
       config: {
         // Optional but recommended: Add metadata
-        authors: 'Bradly Chauke',
+        authors: 'Bradly Chauke & Chrisnerg Mqobo',
         description: 'Date Format Configurator Application',
         
         // Optional: Custom icons and loading animation
         // setupIcon: './assets/icon.ico',
         // loadingGif: './assets/installing.gif',
-        
-        // Optional: Code signing (if you have a certificate)
-        // certificateFile: './cert.pfx',
-        // certificatePassword: process.env.CERTIFICATE_PASSWORD,
       },
     },
-    // Remove or comment out non-Windows makers if building only for Windows
-    // {
-    //   name: '@electron-forge/maker-zip',
-    //   platforms: ['darwin'],
-    // },
-    // {
-    //   name: '@electron-forge/maker-deb',
-    //   config: {},
-    // },
-    // {
-    //   name: '@electron-forge/maker-rpm',
-    //   config: {},
-    // },
   ],
   plugins: [
     {

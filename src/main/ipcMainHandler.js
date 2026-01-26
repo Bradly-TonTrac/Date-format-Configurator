@@ -1,4 +1,4 @@
-import { ipcMain, BrowserWindow } from "electron";
+import { ipcMain, BrowserWindow, clipboard } from "electron";
 import os from "os";
 import tontracSettings from "./globals.js";
 import { app } from "electron";
@@ -132,15 +132,30 @@ ipcMain.handle(IPC_CHANNELS.GET_DIAGNOSTICS, () => {
   }
 });
 
+// Exiting electron app function
 ipcMain.handle(IPC_CHANNELS.EXIT_APP, () => {
   logEvent(LOG_LEVELS.INFO, "Application exit requested");
   return app.exit();
 });
 
+//Minimizing app function
 ipcMain.handle(IPC_CHANNELS.MIN_APP, () => {
   const win = BrowserWindow.getFocusedWindow();
   if (win) {
     logEvent(LOG_LEVELS.INFO, "Application minimized");
     win.minimize();
+  }
+});
+
+//Copying to clipboard function
+ipcMain.handle(IPC_CHANNELS.COPY_TO_CLIPBOARD, (event,data) => {
+  try{
+    const textCopy = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+    clipboard.writeText(textCopy);
+    logEvent(LOG_LEVELS.INFO, "Copied to clipboard successfully");
+    return {success: true};
+  } catch(error) {
+    logEvent(LOG_LEVELS.ERROR, `Failed to copy to clipboard: ${error.message}`);
+    return { success: false, message: error.message };
   }
 });

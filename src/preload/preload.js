@@ -12,6 +12,7 @@ const WINDOW_API ={
     getDesiredSettings: () => ipcRenderer.invoke('get-desired-settings'),
     getWindowExit: () => ipcRenderer.invoke('exit-app'),
     getWindowMin: () => ipcRenderer.invoke('min-app'),
+    copyToClipboard: (data) => ipcRenderer.invoke('copy-to-clipboard', data),
 };
 
 contextBridge.exposeInMainWorld('api', WINDOW_API);

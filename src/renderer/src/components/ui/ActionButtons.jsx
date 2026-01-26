@@ -17,6 +17,7 @@ const ActionButtons = () => {
     loadingAction,
     hasApplied,
     isCopied,
+    // copyToClipboard,
   } = useStatus();
 
   const handleApply = async () => {
@@ -40,6 +41,7 @@ const ActionButtons = () => {
   const handleGetDiagnostics = async () => {
     try {
       await getDiagnostics();
+      //await copyToClipboard(getDesiredSettings);
       console.log("GetDiagnostics Test Passed"); // temporarily for the building processes
     } catch (error) {
       console.log("Failed to apply getDiagnostics button"); // temporarily for the building processes

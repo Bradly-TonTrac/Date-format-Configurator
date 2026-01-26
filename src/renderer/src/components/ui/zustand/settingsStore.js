@@ -79,24 +79,22 @@ export const useStatusStore = create((set) => ({
     }
   },
 
-
-  /*
-  //copy Diagnotics Information
-  copyDiagnotics: async () =>{
-    set({ isLoading: true, loadingAction: "diagnostics" });
+/*
+  //Copy DX Functionality
+  copyToClipboard: async () =>{
+          set({ isLoading: true, loadingAction: "exit" });
     try {
-     const data = await window.api.getDiagnostics();
-      await window.api.copyToClipboard(data)
+        await window.api. copyToClipboard()    
 
-  
     } catch (error) {
-      set({
-      toastMessage: "Failed to copy",
-      })
-
-    }   
-  },
+      console.error(error);
+    } finally {
+      set({ isLoading: false, loadingAction: null });
+    }
+          
+  }, 
 */
+
 
 // Copy DX button
 getDiagnostics: async () => {
@@ -104,8 +102,8 @@ getDiagnostics: async () => {
   const addToast = useToastStore.getState().addToast;
 
   try {
-    await window.api.getDiagnostics();
-    //await window.api.copyToClipboard(data);
+   const data = await window.api.getDiagnostics();
+    await window.api.copyToClipboard(data);
     addToast("Dir copied successfully", "success");
 
     set({ isCopied: true });

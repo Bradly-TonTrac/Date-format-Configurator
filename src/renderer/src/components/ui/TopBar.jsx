@@ -16,7 +16,7 @@ const TopBar = () => {
 
   return (
     <header
-      className="flex justify-between p-2 border-b border-border cursor-pointer"
+      className="flex justify-between p-2 border-b border-primary cursor-pointer"
       style={{ WebkitAppRegion: "drag" }} // Enables the bar to be dragable
     >
       <div className="flex justify-between gap-3 ">

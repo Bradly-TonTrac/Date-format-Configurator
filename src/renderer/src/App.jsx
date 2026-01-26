@@ -7,6 +7,7 @@ import ActionButtons from "./components/ui/ActionButtons";
 import { useStatus } from "./hooks/useSettings";
 import InfoFooter from "./components/ui/InfoFooter";
 //import * as Toast from "@radix-ui/react-toast";
+//import ToastProvider from "./components/ui/ToastProvider";
 import ToastProvider from "./components/ui/ToastProvider";
 
 const App = () => {
@@ -25,12 +26,11 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen text-text border  bg-background-light">
-
+    <div className="min-h-screen text-text border y  bg-background-light">
       <TopBar />
-     
-      <ToastProvider/>
-      <div className="border border-border ml-1 mt-1 mr-1 p-1 rounded">
+      <ToastProvider />
+
+      <div className=" border border-border ml-1 mt-1 mr-1 p-1 rounded">
         <StatusBar />
         <CurrentSettings />
         <DesiredSettings />

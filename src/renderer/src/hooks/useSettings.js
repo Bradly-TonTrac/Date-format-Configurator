@@ -1,5 +1,6 @@
 import { useActionState } from "react";
 import { useStatusStore } from "../components/ui/zustand/settingsStore";
+//import { stat } from "original-fs";
 
 export function useStatus() { 
 
@@ -40,9 +41,11 @@ export function useStatus() {
 
    //Restore settings button
    const restoreSettings = useStatusStore ((state) => state.restoreSettings)
+   const canApply = useStatusStore ((state)=> state.canApply)
 
    //CopyDX button
    const  getDiagnostics = useStatusStore ((state) => state. getDiagnostics)
+   const isCopied = useStatusStore ((state) => state.isCopied)
 
    //Close App Btn
    const getWindowExit = useStatusStore ((state) =>state.getWindowExit)
@@ -70,6 +73,9 @@ export function useStatus() {
      getWindowExit,
      loadingAction,
      hasApplied,
+     canApply,
+     isCopied,
+   
 
 
      //Toasts 

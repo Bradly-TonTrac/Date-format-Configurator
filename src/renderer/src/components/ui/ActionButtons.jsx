@@ -1,9 +1,11 @@
 import React from "react";
 import WindowButton from "./WindowButton";
 import { useStatus } from "../../hooks/useSettings";
+import { BsFolderCheck } from "react-icons/bs";
 
 const Style = {
-  buttons: " font-extrabold  pt-1 pb-1 p-2 pl-12 pr-12 rounded text-text border",
+  buttons:
+    " font-extrabold  pt-1 pb-1 p-2 pl-12 pr-12 rounded text-text border border-primary",
 };
 
 const ActionButtons = () => {
@@ -14,6 +16,7 @@ const ActionButtons = () => {
     isLoading,
     loadingAction,
     hasApplied,
+    isCopied,
   } = useStatus();
 
   const handleApply = async () => {
@@ -48,17 +51,17 @@ const ActionButtons = () => {
       <WindowButton
         label="Apply Settings"
         onClick={handleApply}
-        disabled={isLoading || hasApplied}
+        disabled={isLoading || hasApplied} //  only disabled after clicked
         className={`${Style.buttons} ${isLoading || hasApplied ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        {loadingAction === "apply" ? "Applying" : "Apply"}
+        {loadingAction === "apply" ? "Applying..." : "Apply"}
       </WindowButton>
 
       <WindowButton
         label="Restore"
         onClick={handleRestoreSettings}
-        disabled={isLoading}
-        className={`${Style.buttons} ${isLoading && loadingAction === "restore" ? "opacity-50 cursor-not-allowed" : ""}`}
+        disabled={isLoading} // always enabled except while loading
+        className={`${Style.buttons} ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
       >
         {loadingAction === "restore" ? "Restoring..." : "Restore Previous"}
       </WindowButton>
@@ -69,7 +72,13 @@ const ActionButtons = () => {
         disabled={isLoading}
         className={`${Style.buttons} ${isLoading && loadingAction === "diagnostics" ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        {loadingAction === "diagnostics" ? "Copying..." : "Copy DX"}
+        {loadingAction === "diagnostics" ? (
+          "Copying..."
+        ) : isCopied ? (
+          <BsFolderCheck />
+        ) : (
+          "Copy DX"
+        )}
       </WindowButton>
     </div>
   );

@@ -2,6 +2,7 @@ import { ipcMain, BrowserWindow, clipboard } from "electron";
 import os from "os";
 import tontracSettings from "./globals.js";
 import { app } from "electron";
+import { path } from 'path'
 import { logEvent } from "./lib/Logger/index.js";
 import { getCurrentRegistrySettings, applyRegistrySettings } from "./lib/Registry/index.js";
 import "./lib/Registry/ipcMainRegistry.js";

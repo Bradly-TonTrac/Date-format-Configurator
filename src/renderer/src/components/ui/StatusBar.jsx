@@ -19,8 +19,8 @@ const StatusBar = () => {
   }, []);
 
   return (
-    <div className=" bg-background border border-border rounded shadow-lg m-4  p-2 ">
-      <div className=" flex justify-center bg-primary border border-border rounded text-background-light">
+    <div className=" bg-background  rounded shadow-lg mb-2  p-2 ">
+      <div className=" flex justify-center border border-border  rounded text bg-primary text-background-light">
         <h5 className=" flex items-center gap-1 font-bold ">
           <SiStatuspal />
           Status

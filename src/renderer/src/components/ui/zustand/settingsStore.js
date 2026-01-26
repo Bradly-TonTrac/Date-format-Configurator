@@ -2,6 +2,19 @@ import { create } from "zustand";
 
 
 
+
+export const useToastStore = create((set) => ({
+  toastList: [], // ← THIS is where it comes from
+  addToast: (message, type = "info") =>
+    set((state) => ({
+      toastList: [...state.toastList, { id: Date.now(), message, type }],
+    })),
+  removeToast: (id) =>
+    set((state) => ({
+      toastList: state.toastList.filter((t) => t.id !== id),
+    })),
+}));
+
 function getPreview(format) {
   const now = new Date();
   switch (format) {
@@ -14,99 +27,196 @@ function getPreview(format) {
   }
 }
 
-export const useStatusStore = create ((set) => ({
+export const useStatusStore = create((set) => ({
+  isAdmin: false,
+  isLoading: false,
+  loadingAction: null,
+  hasApplied: false,
+  canApply: false, //newly constructed
 
-     isAdmin:false,
-     isLoading:false,
+  //Minimize button
+  hideToast: () => set({isToastVisible: false}),
 
-     //Operating system info states
-     osInfo:null,
-     error:null,
-     //Current settings states
-      shortDate:null,
-      longDate:null,
-      lastRead:null,
+  // Operating system info
+  osInfo: null,
+  error: null,
 
-      //Desired settings states
-      desiredShortDate:null,
-      desiredLongDate:null,
-       shortPrev:null,
-        longPrev:null,
+  // Current settings
+  shortDate: null,
+  longDate: null,
+  lastRead: null,
 
-        //Apply button
-      //  applyBtn:null,
+  // Desired settings
+  desiredShortDate: null,
+  desiredLongDate: null,
+  shortPrev: null,
+  longPrev: null,
 
-applySettings: async () => { await window.api.applySettings() },
-  restoreSettings: async () => {   await window.api.restoreSettings();
-  const currentSettings = await window.api.getCurrentSettings();
+  //Close window/App Button
+  getWindowExit: async () => {
+    set({ isLoading: true, loadingAction: "exit" });
+    try {
+      await window.api.getWindowExit();
 
-  set({
-    shortDate: currentSettings.shortDate,
-    longDate: currentSettings.longDate,
-    lastRead: currentSettings.lastRead,
-  });},
-        /*
-        loadApplyBtn: async () =>{
-              set({loading:true, error:null})
-              try{
-                await window.api.applySettings()
-               set({loading:true, error:null})
-              }catch(error){
-                  set({loading:false})
+    } catch (error) {
+      console.error(error);
+    } finally {
+      set({ isLoading: false, loadingAction: null });
+    }
+  },
 
-              }
+  //Minimize button
+    getWindowMin: async () => {
+    set({ isLoading: true, loadingAction: "exit" });
+    try {
+      await window.api.getWindowMin();
+    
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      set({ isLoading: false, loadingAction: null });
+    }
+  },
 
 
-        },
+  /*
+  //copy Diagnotics Information
+  copyDiagnotics: async () =>{
+    set({ isLoading: true, loadingAction: "diagnostics" });
+    try {
+     const data = await window.api.getDiagnostics();
+      await window.api.copyToClipboard(data)
+
+  
+    } catch (error) {
+      set({
+      toastMessage: "Failed to copy",
+      })
+
+    }   
+  },
 */
-     loadAdminStatus: async () =>{
-        set({loading:true, error:null})
-        try{
-            const status = await window.api.getAdminStatus()
-              set({isAdmin: status, loading:false})
-           
-        } catch(error){
-            console.log("Error")
-            set({loading:false})
-        }
-     },
-     loadosInfomation: async () =>{
-                set({loading:true, error:null})
 
-                try{
-                      const osStatus =  await window.api.getOSInfo()
-                      set({osInfo:osStatus, loading:false})
-                }catch(error){
-                    set({loading:false})
-                }
-     },
-     loadCurrentDateSettings: async () =>{
-                        set({loading:true, error:null})
-                        try{
-                            const currentSettings = await window.api.getCurrentSettings()
-                             set({shortDate:currentSettings.shortDate,
-                                longDate:currentSettings.longDate,
-                                lastRead: currentSettings.readTime})
-                        }catch{
-                            set({loading:false})
-                        }
-     },
-     loadDesiredSettings: async () =>{
-         set({loading:true, error:null})
-           try{
-                 const desiredSettings = await window.api.getDesiredSettings()
-                 console.log(desiredSettings)
-                    set({
-                        desiredShortDate:desiredSettings.formats.shortDate,
-                        desiredLongDate:desiredSettings.formats.longDate,
-                           shortPrev: getPreview(desiredSettings.formats.shortDate),
-                          longPrev: getPreview(desiredSettings.formats.longDate),
-                       
-                    })
-           }catch(error){
-                   set({loading:false})
-     }
-             
-     }
+// Copy DX button
+getDiagnostics: async () => {
+  set({ isLoading: true, loadingAction: "diagnostics" });
+  const addToast = useToastStore.getState().addToast;
 
-}))
+  try {
+    await window.api.getDiagnostics();
+    //await window.api.copyToClipboard(data);
+    addToast("Dir copied successfully", "success");
+
+    set({ isCopied: true });
+    setTimeout(() => set({ isCopied: false }), 3000);
+
+  } catch (error) {
+    addToast("Failed to copy Directory", "error");
+
+  } finally {
+    set({ isLoading: false, loadingAction: null });
+  }
+},
+
+
+// Apply Button
+applySettings: async () => {
+  set({ isLoading: true, loadingAction: "apply" });
+  const addToast = useToastStore.getState().addToast;
+
+  try {
+    await window.api.applySettings();
+    addToast("Settings applied successfully", "success");
+
+    set({
+      hasApplied: true, // disables Apply button
+    });
+
+  } catch (error) {
+    addToast("Failed to apply settings", "error");
+
+  } finally {
+    set({ isLoading: false, loadingAction: null });
+  }
+},
+
+// Restore settings button
+restoreSettings: async () => {
+  set({ isLoading: true, loadingAction: "restore" });
+  const addToast = useToastStore.getState().addToast;
+
+  try {
+    await window.api.restoreSettings();
+    const currentSettings = await window.api.getCurrentSettings();
+    
+    set({
+      shortDate: currentSettings.shortDate,
+      longDate: currentSettings.longDate,
+      lastRead: currentSettings.lastRead,
+      hasApplied: false, // re-enables Apply button
+    });
+
+    addToast("Settings restored successfully", "success");
+
+  } catch (error) {
+    addToast("Failed to restore settings", "error");
+
+  } finally {
+    set({ isLoading: false, loadingAction: null });
+  }
+},
+
+
+
+  loadAdminStatus: async () => {
+    set({ loading: true, error: null });
+    try {
+      const status = await window.api.getAdminStatus();
+      set({ isAdmin: status, loading: false });
+    } catch (error) {
+      console.log("Error");
+      set({ loading: false });
+    }
+  },
+
+  loadosInfomation: async () => {
+    set({ loading: true, error: null });
+    try {
+      const osStatus = await window.api.getOSInfo();
+      set({ osInfo: osStatus, loading: false });
+    } catch (error) {
+      set({ loading: false });
+    }
+  },
+
+  loadCurrentDateSettings: async () => {
+    set({ loading: true, error: null });
+    try {
+      const currentSettings = await window.api.getCurrentSettings();
+      set({
+        shortDate: currentSettings.shortDate,
+        longDate: currentSettings.longDate,
+        lastRead: currentSettings.readTime,
+      });
+    } catch {
+      set({ loading: false });
+    }
+  },
+
+  loadDesiredSettings: async () => {
+    set({ loading: true, error: null });
+    try {
+      const desiredSettings = await window.api.getDesiredSettings();
+      console.log(desiredSettings);
+      set({
+        desiredShortDate: desiredSettings.formats.shortDate,
+        desiredLongDate: desiredSettings.formats.longDate,
+        shortPrev: getPreview(desiredSettings.formats.shortDate),
+        longPrev: getPreview(desiredSettings.formats.longDate),
+      });
+    } catch (error) {
+      set({ loading: false });
+    }
+  },
+}));

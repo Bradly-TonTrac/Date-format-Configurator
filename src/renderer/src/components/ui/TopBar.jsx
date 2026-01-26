@@ -5,15 +5,18 @@ import {
   VscClose,
 } from "react-icons/vsc";
 import WindowButton from "./WindowButton";
+import { useStatus } from "../../hooks/useSettings";
 
 const Style = {
   buttons: "hover:bg-zinc-700 rounded  pl-2 pr-2",
 };
 
 const TopBar = () => {
+  const { getWindowExit, getWindowMin } = useStatus();
+
   return (
     <header
-      className="flex justify-between p-2 border-b border-border cursor-pointer"
+      className="flex justify-between p-2 border-b border-primary cursor-pointer"
       style={{ WebkitAppRegion: "drag" }} // Enables the bar to be dragable
     >
       <div className="flex justify-between gap-3 ">
@@ -27,23 +30,16 @@ const TopBar = () => {
         <WindowButton
           label="Minimize"
           className={Style.buttons}
-          onClick={() => console.log("Minimized")}
+          onClick={getWindowMin}
         >
           <VscChromeMinimize />
         </WindowButton>
 
-        <WindowButton
-          className={Style.buttons}
-          label="Resize"
-          onClick={() => console.log("Window Resized")}
-        >
-          <VscChromeMaximize />
-        </WindowButton>
 
         <WindowButton
           className=" hover:bg-red-600 rounded  pl-2 pr-2"
           label="Close"
-          onClick={() => console.log("Window closed Successfully")}
+          onClick={getWindowExit}
         >
           <VscClose className="text-xl" />
         </WindowButton>

@@ -46,7 +46,6 @@ export function useStatus() {
    //CopyDX button
    const  getDiagnostics = useStatusStore ((state) => state.getDiagnostics)
    const isCopied = useStatusStore ((state) => state.isCopied)
-  // const  copyToClipboard = useStatusStore ((state) => state.copyToClipboard)
 
    //Close App Btn
    const getWindowExit = useStatusStore ((state) =>state.getWindowExit)
@@ -76,9 +75,6 @@ export function useStatus() {
      hasApplied,
      canApply,
      isCopied,
-      //copyToClipboard,
-   
-
 
      //Toasts 
   toastMessage,

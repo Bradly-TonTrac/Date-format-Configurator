@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  VscChromeMinimize,
-  VscChromeMaximize,
-  VscClose,
-} from "react-icons/vsc";
+import { VscChromeMinimize, VscClose } from "react-icons/vsc";
 import WindowButton from "./WindowButton";
 import { useStatus } from "../../hooks/useSettings";
 
@@ -12,17 +8,17 @@ const Style = {
 };
 
 const TopBar = () => {
-  const { getWindowExit, getWindowMin } = useStatus();
+  const { getWindowExit, isAdmin, getWindowMin } = useStatus();
 
   return (
     <header
-      className="flex justify-between p-2 border-b border-primary cursor-pointer"
+      className="flex  justify-between p-2 pb-0 border-b border-primary items-center cursor-pointer"
       style={{ WebkitAppRegion: "drag" }} // Enables the bar to be dragable
     >
-      <div className="flex justify-between gap-3 ">
-        <img src="/" alt="loggo" />
-        <h4>Date Format Configurator</h4>
-        <h6 className="text-text-secondary ">v1.0.0</h6>
+      <div className="flex justify-between gap-1 items-center ">
+        <img src="/" alt="" />
+        <h4 className="text-tt-base">Date Format Configurator</h4>
+        <h6 className="text-text-secondary text-tt-xs ">v1.0.0</h6>
       </div>
 
       {/*Top Bar Icons */}
@@ -34,7 +30,6 @@ const TopBar = () => {
         >
           <VscChromeMinimize />
         </WindowButton>
-
 
         <WindowButton
           className=" hover:bg-red-600 rounded  pl-2 pr-2"

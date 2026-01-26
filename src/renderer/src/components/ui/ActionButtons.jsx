@@ -5,11 +5,12 @@ import { BsFolderCheck } from "react-icons/bs";
 
 const Style = {
   buttons:
-    " font-extrabold  pt-1 pb-1 p-2 pl-12 pr-12 rounded text-text border border-primary",
+    " font-extrabold hover:bg-background pt-1 pb-1 p-2 pl-12 pr-12 rounded text-text border border-primary",
 };
 
 const ActionButtons = () => {
   const {
+    isAdmin,
     applySettings,
     restoreSettings,
     getDiagnostics,
@@ -51,17 +52,23 @@ const ActionButtons = () => {
       <WindowButton
         label="Apply Settings"
         onClick={handleApply}
-        disabled={isLoading || hasApplied} //  only disabled after clicked
-        className={`${Style.buttons} ${isLoading || hasApplied ? "opacity-50 cursor-not-allowed" : ""}`}
+        disabled={isLoading || hasApplied || !isAdmin} // disabled if not admin
+        className={`${Style.buttons} ${
+          isLoading || hasApplied || !isAdmin
+            ? "opacity-50 cursor-not-allowed"
+            : ""
+        }`}
       >
-        {loadingAction === "apply" ? "Applying..." : "Apply"}
+        {loadingAction === "apply" ? "Applying.." : "Apply"}
       </WindowButton>
 
       <WindowButton
         label="Restore"
         onClick={handleRestoreSettings}
-        disabled={isLoading} // always enabled except while loading
-        className={`${Style.buttons} ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+        disabled={isLoading || !isAdmin} // disabled if not admin
+        className={`${Style.buttons} ${
+          isLoading || !isAdmin ? "opacity-50 cursor-not-allowed" : ""
+        }`}
       >
         {loadingAction === "restore" ? "Restoring..." : "Restore Previous"}
       </WindowButton>
@@ -69,8 +76,12 @@ const ActionButtons = () => {
       <WindowButton
         label="Copy"
         onClick={handleGetDiagnostics}
-        disabled={isLoading}
-        className={`${Style.buttons} ${isLoading && loadingAction === "diagnostics" ? "opacity-50 cursor-not-allowed" : ""}`}
+        disabled={isLoading} // stays enabled even for non-admin
+        className={`${Style.buttons} ${
+          isLoading && loadingAction === "diagnostics"
+            ? "opacity-50 cursor-not-allowed"
+            : ""
+        }`}
       >
         {loadingAction === "diagnostics" ? (
           "Copying..."

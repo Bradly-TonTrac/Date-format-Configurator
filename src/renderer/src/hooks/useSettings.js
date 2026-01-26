@@ -44,7 +44,7 @@ export function useStatus() {
    const canApply = useStatusStore ((state)=> state.canApply)
 
    //CopyDX button
-   const  getDiagnostics = useStatusStore ((state) => state. getDiagnostics)
+   const  getDiagnostics = useStatusStore ((state) => state.getDiagnostics)
    const isCopied = useStatusStore ((state) => state.isCopied)
 
    //Close App Btn
@@ -75,8 +75,6 @@ export function useStatus() {
      hasApplied,
      canApply,
      isCopied,
-   
-
 
      //Toasts 
   toastMessage,

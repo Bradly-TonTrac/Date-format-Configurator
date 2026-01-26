@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useToastStore } from "./zustand/settingsStore";
+//import { RiCloseLargeFill } from "react-icons/ri";
 
 const ToastProvider = () => {
   const toastList = useToastStore((state) => state.toastList);
@@ -25,23 +26,22 @@ const ToastItem = ({ toast, removeToast }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShow(false); // trigger fade out
-      setTimeout(() => removeToast(toast.id), 300); // remove from store after fade
-    }, 4000); // 4 seconds
+      setShow(false);
+      setTimeout(() => removeToast(toast.id), 1000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [toast, removeToast]);
 
   return (
     <div
-      className={`pointer-events-auto px-4 py-2 rounded shadow-lg text-primary transition-all duration-300 ease-in-out transform ${
-        toast.type === "success" ? "bg-background" : "bg-background-light"
+      className={`pointer-events-auto px-4 py-2 font-bold flex border border-border items-center gap-2 rounded shadow-lg  transition-all duration-300 ease-in-out transform ${
+        toast.type === "success"
+          ? "bg-background-light text-green-500"
+          : "bg-background-light text-red-600"
       } ${show ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}`}
     >
       {toast.message}
-      <button onClick={() => removeToast(toast.id)} className="ml-2 font-bold">
-        ✖
-      </button>
     </div>
   );
 };

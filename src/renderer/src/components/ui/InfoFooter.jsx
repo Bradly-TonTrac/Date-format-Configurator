@@ -1,4 +1,5 @@
 import React from "react";
+
 import { IoInformationCircleSharp } from "react-icons/io5";
 
 const InfoFooter = () => {

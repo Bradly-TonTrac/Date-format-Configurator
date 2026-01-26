@@ -6,12 +6,12 @@ import DesiredSettings from "./components/ui/DesiredSettings";
 import ActionButtons from "./components/ui/ActionButtons";
 import { useStatus } from "./hooks/useSettings";
 import InfoFooter from "./components/ui/InfoFooter";
-//import * as Toast from "@radix-ui/react-toast";
-//import ToastProvider from "./components/ui/ToastProvider";
 import ToastProvider from "./components/ui/ToastProvider";
+import ModeBanner from "./components/ui/ModeBanner";
 
 const App = () => {
   const {
+    isAdmin,
     loadAdminStatus,
     loadosInfomation,
     loadCurrentDateSettings,
@@ -29,8 +29,9 @@ const App = () => {
     <div className="min-h-screen text-text border y  bg-background-light">
       <TopBar />
       <ToastProvider />
+      {!isAdmin && <ModeBanner />}
 
-      <div className=" border border-border ml-1 mt-1 mr-1 p-1 rounded">
+      <div className=" border border-border ml-1 mt-0 mr-1 p-1 rounded">
         <StatusBar />
         <CurrentSettings />
         <DesiredSettings />

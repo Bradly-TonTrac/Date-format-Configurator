@@ -2,9 +2,9 @@ import { create } from "zustand";
 
 
 
-
+//Toast notifications
 export const useToastStore = create((set) => ({
-  toastList: [], // ← THIS is where it comes from
+  toastList: [], 
   addToast: (message, type = "info") =>
     set((state) => ({
       toastList: [...state.toastList, { id: Date.now(), message, type }],
@@ -14,6 +14,8 @@ export const useToastStore = create((set) => ({
       toastList: state.toastList.filter((t) => t.id !== id),
     })),
 }));
+
+
 
 function getPreview(format) {
   const now = new Date();
@@ -80,23 +82,6 @@ export const useStatusStore = create((set) => ({
   },
 
 
-  /*
-  //copy Diagnotics Information
-  copyDiagnotics: async () =>{
-    set({ isLoading: true, loadingAction: "diagnostics" });
-    try {
-     const data = await window.api.getDiagnostics();
-      await window.api.copyToClipboard(data)
-
-  
-    } catch (error) {
-      set({
-      toastMessage: "Failed to copy",
-      })
-
-    }   
-  },
-*/
 
 // Copy DX button
 getDiagnostics: async () => {
@@ -104,9 +89,9 @@ getDiagnostics: async () => {
   const addToast = useToastStore.getState().addToast;
 
   try {
-    await window.api.getDiagnostics();
-    //await window.api.copyToClipboard(data);
-    addToast("Dir copied successfully", "success");
+   const data = await window.api.getDiagnostics();
+    await window.api.copyToClipboard(data);
+    addToast("Directory copied successfully", "success");
 
     set({ isCopied: true });
     setTimeout(() => set({ isCopied: false }), 3000);
@@ -157,7 +142,7 @@ restoreSettings: async () => {
       hasApplied: false, // re-enables Apply button
     });
 
-    addToast("Settings restored successfully", "success");
+    addToast("Prev Settings restored successfully", "success");
 
   } catch (error) {
     addToast("Failed to restore settings", "error");

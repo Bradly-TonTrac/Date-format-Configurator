@@ -4,24 +4,22 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
+    name: 'Date Format Configurator',
+    icon: './src/resources/icon.ico',
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
-    },
-    {
-      name: '@electron-forge/maker-deb',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
+      config: {
+        // Optional but recommended: Add metadata
+        authors: 'Bradly Chauke & Chrisnerg Mqobo',
+        description: 'Date Format Configurator Application',
+        
+        // Optional: Custom icons and loading animation
+        // setupIcon: './assets/icon.ico',
+        // loadingGif: './assets/installing.gif',
+      },
     },
   ],
   plugins: [
@@ -30,7 +28,6 @@ module.exports = {
       config: {
         build: [
           {
-            // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
             entry: 'src/main/main.js',
             config: 'vite.main.config.mjs',
             target: 'main',

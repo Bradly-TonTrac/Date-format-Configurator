@@ -34,4 +34,5 @@ export const IPC_CHANNELS = {
   EXIT_APP: "exit-app",
   MIN_APP: "min-app",
   BROADCAST_INTL_CHANGE: "broadcast-intl-change",
+  COPY_TO_CLIPBOARD: "copy-to-clipboard",
 };

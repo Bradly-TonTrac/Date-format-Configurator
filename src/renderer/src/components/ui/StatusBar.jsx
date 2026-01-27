@@ -21,7 +21,7 @@ const StatusBar = () => {
     .includes("windows");
 
   return (
-    <div className="bg-background rounded shadow-lg mb-2 p-2">
+    <div className="bg-background rounded shadow-lg  p-2">
       <div className="flex justify-center border border-border rounded bg-primary text-background">
         <h5 className="flex items-center gap-1 font-bold">
           <SiStatuspal />
@@ -32,28 +32,30 @@ const StatusBar = () => {
         </h5>
       </div>
 
-      <h5 className="flex items-center gap-2">
-        <span className="font-extrabold flex items-center gap-1">
-          <RiWindowsFill /> OS:
-        </span>
-        {osInfo?.operatingSystemVersion || ""}
-        {isWindows && <IoMdDoneAll className="text-green-500 ml-2" />}
-      </h5>
+      <div className="border rounded mt-1">
+        <h5 className="flex items-center gap-2">
+          <span className="font-extrabold flex items-center gap-1">
+            <RiWindowsFill /> OS:
+          </span>
+          {osInfo?.operatingSystemVersion || ""}
+          {isWindows && <IoMdDoneAll className="text-green-500 ml-2" />}
+        </h5>
 
-      <h3 className="flex items-center gap-2">
-        <TbLockAccess />
-        <span className="font-extrabold">Permissions:</span>
-        {isAdmin ? (
-          <>
-            Administrator
-            <MdAdminPanelSettings className="text-primary" />
-            {/* Optional extra info for admins */}
-            <span className="ml-2 text-sm text-green-500">(Full Access)</span>
-          </>
-        ) : (
-          "Standard User"
-        )}
-      </h3>
+        <h3 className="flex items-center gap-2">
+          <TbLockAccess />
+          <span className="font-extrabold">Permissions:</span>
+          {isAdmin ? (
+            <>
+              Administrator
+              <MdAdminPanelSettings className="text-primary" />
+              {/* Optional extra info for admins */}
+              <span className="ml-2 text-sm text-green-500">(Full Access)</span>
+            </>
+          ) : (
+            "Standard User"
+          )}
+        </h3>
+      </div>
     </div>
   );
 };

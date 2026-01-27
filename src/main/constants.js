@@ -28,11 +28,8 @@ export const IPC_CHANNELS = {
   RESTORE_SETTINGS: "restore-settings",
   HAS_BACKUP: "has-backup",
   GET_DESIRED_SETTINGS: "get-desired-settings",
-  GET_DIAGNOSTICS: "get-diagnostics",
   GET_ADMIN_STATUS: "get-admin-status",
   GET_APP_VERSION: "get-app-version",
-  EXIT_APP: "exit-app",
-  MIN_APP: "min-app",
   BROADCAST_INTL_CHANGE: "broadcast-intl-change",
   COPY_TO_CLIPBOARD: "copy-to-clipboard",
 };

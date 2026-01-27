@@ -6,12 +6,9 @@ const WINDOW_API ={
     getCurrentSettings: () => ipcRenderer.invoke('get-current-settings'),
     applySettings: () => ipcRenderer.invoke('apply-settings'),
     restoreSettings: () => ipcRenderer.invoke('restore-settings'),
-    hasBackup: () => ipcRenderer.invoke('has-backup'),
-    getDiagnostics: () => ipcRenderer.invoke('get-diagnostics'),
+    hasBackup: () => ipcRenderer.invoke('has-back up'),
     getAppVersion: () => ipcRenderer.invoke('get-app-version'),
     getDesiredSettings: () => ipcRenderer.invoke('get-desired-settings'),
-    getWindowExit: () => ipcRenderer.invoke('exit-app'),
-    getWindowMin: () => ipcRenderer.invoke('min-app'),
     copyToClipboard: (data) => ipcRenderer.invoke('copy-to-clipboard', data),
 };
 

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import { execSync } from 'child_process';
@@ -8,6 +8,7 @@ import './lib/Registry/ipcMainRegistry';
 import './lib/Broadcast/ipcMainBroadcast';
 import { logEvent } from './lib/Logger/index.js';
 import { IPC_CHANNELS, LOG_LEVELS } from './constants.js';
+import { useCopyDox } from './ipcMainHandler';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -28,8 +29,6 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.setMenu(null);
-
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
@@ -40,6 +39,23 @@ const createWindow = () => {
   // Open the DevTools.
  mainWindow.webContents.openDevTools();
 };
+
+//Create tool menu for copying diagnostics to clipboard
+const menu = Menu.buildFromTemplate([
+  {
+    label: 'Tools',
+    submenu: [
+      {
+        label: 'Copy Dox',
+        click: () => {
+          useCopyDox();
+        }
+      }
+    ]
+  }
+]);
+
+Menu.setApplicationMenu(menu);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

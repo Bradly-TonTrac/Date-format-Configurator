@@ -5,7 +5,7 @@ import { BsFolderCheck } from "react-icons/bs";
 
 const Style = {
   buttons:
-    " font-extrabold hover:bg-background pt-1 pb-1 p-2 pl-12 pr-12 rounded text-text border border-primary",
+    " font-extrabold hover:bg-background box-sizing:border-box pt-1 pb-1 p-2 pl-12 pr-12 rounded text-text border border-primary",
 };
 
 const ActionButtons = () => {

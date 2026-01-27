@@ -1,5 +1,6 @@
 import React from "react";
 
+//Reusable Button Component
 const WindowButton = ({ children, label, onClick, className, disabled }) => {
   return (
     <button

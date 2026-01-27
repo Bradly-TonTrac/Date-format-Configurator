@@ -55,7 +55,7 @@ export function useStatus() {
    const getWindowMin = useStatusStore ((state) =>state.getWindowMin)
 
    return{isAdmin,
-       isLoading,
+      isLoading,
        loadAdminStatus,
        osInfo, 
       loadosInfomation, 

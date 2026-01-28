@@ -22,10 +22,10 @@ const iconPath = MAIN_WINDOW_VITE_DEV_SERVER_URL
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 760,
-    title: "Date Format Configurator",
-    icon: iconPath,
+    width: 600,
+    height: 528,
+    frame: false,
+
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

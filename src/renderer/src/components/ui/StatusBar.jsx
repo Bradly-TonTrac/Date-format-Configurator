@@ -6,13 +6,15 @@ import { useStatus } from "../../hooks/useSettings";
 import { RiWindowsFill } from "react-icons/ri";
 import { TbLockAccess } from "react-icons/tb";
 import { SiStatuspal } from "react-icons/si";
+import { IoIosWarning } from "react-icons/io";
+import { GiCheckMark } from "react-icons/gi";
 
 const StatusBar = () => {
-  const { isAdmin, osInfo, loadAdminStatus, loadosInfomation } = useStatus();
+  const { isAdmin, osInfo, loadAdminStatus, getOSInfo } = useStatus();
 
   useEffect(() => {
     loadAdminStatus();
-    loadosInfomation();
+    getOSInfo();
   }, []);
 
   // Check if OS is Windows
@@ -32,16 +34,16 @@ const StatusBar = () => {
         </h5>
       </div>
 
-      <div className="border rounded mt-1">
+      <div className="border pl-1 rounded mt-1">
         <h5 className="flex items-center gap-2">
-          <span className="font-extrabold flex items-center gap-1">
+          <div className="font-extrabold flex items-center gap-1">
             <RiWindowsFill /> OS:
-          </span>
+          </div>
           {osInfo?.operatingSystemVersion || ""}
           {isWindows && <IoMdDoneAll className="text-green-500 ml-2" />}
         </h5>
 
-        <h3 className="flex items-center gap-2">
+        <h3 className="flex items-center gap-1">
           <TbLockAccess />
           <span className="font-extrabold">Permissions:</span>
           {isAdmin ? (
@@ -49,10 +51,15 @@ const StatusBar = () => {
               Administrator
               <MdAdminPanelSettings className="text-primary" />
               {/* Optional extra info for admins */}
-              <span className="ml-2 text-sm text-green-500">(Full Access)</span>
+              <span className="ml-1 text-sm text-green-500">
+                <GiCheckMark />
+              </span>
             </>
           ) : (
-            "Standard User"
+            <span className=" flex items-center">
+              Standard User
+              <IoIosWarning className="text-primary" />
+            </span>
           )}
         </h3>
       </div>

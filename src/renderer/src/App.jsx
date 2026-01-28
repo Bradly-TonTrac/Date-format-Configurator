@@ -13,14 +13,14 @@ const App = () => {
   const {
     isAdmin,
     loadAdminStatus,
-    loadosInfomation,
+    getOSInfo,
     loadCurrentDateSettings,
     loadDesiredSettings,
   } = useStatus();
 
   useEffect(() => {
     loadAdminStatus();
-    loadosInfomation();
+    getOSInfo();
     loadCurrentDateSettings();
     loadDesiredSettings();
   }, []);

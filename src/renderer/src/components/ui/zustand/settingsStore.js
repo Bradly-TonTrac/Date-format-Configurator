@@ -165,7 +165,9 @@ restoreSettings: async () => {
     }
   },
 
-  loadosInfomation: async () => {
+
+  //In replacement of LoadOS information
+  getOSInfo: async () => {
     set({ loading: true, error: null });
     try {
       const osStatus = await window.api.getOSInfo();

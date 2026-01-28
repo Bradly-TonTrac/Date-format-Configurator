@@ -10,6 +10,7 @@ const WINDOW_API ={
     getAppVersion: () => ipcRenderer.invoke('get-app-version'),
     getDesiredSettings: () => ipcRenderer.invoke('get-desired-settings'),
     copyToClipboard: (data) => ipcRenderer.invoke('copy-to-clipboard', data),
+    getSettingsStatus: () => ipcRenderer.invoke('get-settings-status'),
 };
 
 contextBridge.exposeInMainWorld('api', WINDOW_API);

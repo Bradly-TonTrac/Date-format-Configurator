@@ -27,7 +27,9 @@ const App = () => {
 
   return (
     <div className="min-h-screen text-text border y  bg-background-light">
-      <TopBar />
+
+      {/** <TopBar />*/}
+      
       <ToastProvider />
       {!isAdmin && <ModeBanner />}
 

@@ -16,7 +16,7 @@ if (started) {
 }
 
 const iconPath = MAIN_WINDOW_VITE_DEV_SERVER_URL 
-  ? path.join(__dirname, '../../src/resources/tontrac-logo.png')  // Add 'src' to the path
+  ? path.join(__dirname, '../../src/resources/tontrac-logo.png')
   : path.join(process.resourcesPath, 'tontrac-logo.png');
 
 const createWindow = () => {

@@ -6,6 +6,9 @@ module.exports = {
     asar: true,
     name: 'Date Format Configurator',
     icon: './src/resources/icon.ico',
+    extraResource: [
+      './src/resources/tontrac-logo.png'  // Copy PNG to resources folder for window icon
+    ]
   },
   rebuildConfig: {},
   makers: [

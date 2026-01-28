@@ -145,3 +145,12 @@ export const useCopyDox = () => {
   }
 };
 
+const checkSettings = () => {
+  try {
+    const currentSettings = getCurrentRegistrySettings();
+    
+    
+  } catch(error) {
+
+  }
+};

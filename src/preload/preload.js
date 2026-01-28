@@ -9,9 +9,6 @@ const WINDOW_API ={
     hasBackup: () => ipcRenderer.invoke('has-back up'),
     getAppVersion: () => ipcRenderer.invoke('get-app-version'),
     getDesiredSettings: () => ipcRenderer.invoke('get-desired-settings'),
-    // copyToClipboard: (data) => ipcRenderer.invoke('copy-to-clipboard', data),
-    getWindowExit: () => ipcRenderer.invoke('exit-app'),
-    getWindowMin: () => ipcRenderer.invoke('min-app'),
     copyToClipboard: (data) => ipcRenderer.invoke('copy-to-clipboard', data),
 };
 

@@ -112,84 +112,36 @@ ipcMain.handle(IPC_CHANNELS.RESTORE_SETTINGS, () => {
 });
 
 // Get log path + current system settings
-  // const getDiagnostics = () => {
-  //   try {
-  //     const path = require("path");
-  //     const appDataPath = app.getPath("appData");
-  //     const appDir = path.join(appDataPath, "DateFormatConfigurator");
-  //     const appFolderPath = path.join(appDir, "logs");
+  const getDiagnostics = () => {
+    try {
+      const path = require("path");
+      const appDataPath = app.getPath("appData");
+      const appDir = path.join(appDataPath, "DateFormatConfigurator");
+      const appFolderPath = path.join(appDir, "logs");
 
-  //     const currentSettings = getCurrentRegistrySettings();
+      const currentSettings = getCurrentRegistrySettings();
 
-  //     logEvent(LOG_LEVELS.INFO, "Fetched diagnostics");
-  //     return {
-  //       logPath: appFolderPath,
-  //       currentSettings,
-  //     };
-  //   } catch (error) {
-  //     logEvent(LOG_LEVELS.ERROR, `Failed to get diagnostics: ${error.message}`);
-  //     return { success: false, message: error.message };
-  //   }
-  // };
+      logEvent(LOG_LEVELS.INFO, "Fetched diagnostics");
+      return {
+        logPath: appFolderPath,
+        currentSettings,
+      };
+    } catch (error) {
+      logEvent(LOG_LEVELS.ERROR, `Failed to get diagnostics: ${error.message}`);
+      return { success: false, message: error.message };
+    }
+  };
 
   //Copy diagnostics to clipboard
-// export const useCopyDox = () => {
-//   try{
-//     const data = getDiagnostics();
-//     const textCopy = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
-//     clipboard.writeText(textCopy);
-//     logEvent(LOG_LEVELS.INFO, "Copied to clipboard successfully");
-//   } catch(error){
-//     logEvent(LOG_LEVELS.ERROR, `Failed to copy to clipboard: ${error.message}`);
-//     return { success: false, message: error.message };
-//   }
-// };
-
-// Returning log path + current values to json file
-ipcMain.handle(IPC_CHANNELS.GET_DIAGNOSTICS, () => {
-  try {
-    const path = require("path");
-    const appDataPath = app.getPath("appData");
-    const appDir = path.join(appDataPath, "DateFormatConfigurator");
-    const appFolderPath = path.join(appDir, "logs");
-
-    const currentSettings = getCurrentRegistrySettings();
-
-    logEvent(LOG_LEVELS.INFO, "Fetched diagnostics");
-    return {
-      logPath: appFolderPath,
-      currentSettings
-    };
-  } catch (error) {
-    logEvent(LOG_LEVELS.ERROR, `Failed to get diagnostics: ${error.message}`);
-    return { success: false, message: error.message };
-  }
-});
-
-// Exiting electron app function
-ipcMain.handle(IPC_CHANNELS.EXIT_APP, () => {
-  logEvent(LOG_LEVELS.INFO, "Application exit requested");
-  return app.exit();
-});
-
-//Minimizing app function
-ipcMain.handle(IPC_CHANNELS.MIN_APP, () => {
-  const win = BrowserWindow.getFocusedWindow();
-  if (win) {
-    logEvent(LOG_LEVELS.INFO, "Application minimized");
-    win.minimize();
-  }
-});
-
-//Copying to clipboard function
-ipcMain.handle(IPC_CHANNELS.COPY_TO_CLIPBOARD, (event,data) => {
+export const useCopyDox = () => {
   try{
+    const data = getDiagnostics();
     const textCopy = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
     clipboard.writeText(textCopy);
     logEvent(LOG_LEVELS.INFO, "Copied to clipboard successfully");
-    return {success: true};
-  } catch(error) {
+  } catch(error){
     logEvent(LOG_LEVELS.ERROR, `Failed to copy to clipboard: ${error.message}`);
     return { success: false, message: error.message };
   }
-});
+};
+

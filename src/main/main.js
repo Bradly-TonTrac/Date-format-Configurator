@@ -15,13 +15,17 @@ if (started) {
   app.quit();
 }
 
+const iconPath = MAIN_WINDOW_VITE_DEV_SERVER_URL 
+  ? path.join(__dirname, '../../src/resources/tontrac-logo.png')  // Add 'src' to the path
+  : path.join(process.resourcesPath, 'tontrac-logo.png');
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 600,
-    height: 500,
-    frame: true,
-
+    width: 1024,
+    height: 760,
+    title: "Date Format Configurator",
+    icon: iconPath,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -38,6 +42,15 @@ const createWindow = () => {
 
   // Open the DevTools.
  mainWindow.webContents.openDevTools();
+
+ // Inject CSS to add border below menu bar
+  // mainWindow.webContents.on('did-finish-load', () => {
+  //   mainWindow.webContents.insertCSS(`
+  //     body {
+  //       border-top: 1px solid red;
+  //     }
+  //   `);
+  // });
 };
 
 //Create tool menu for copying diagnostics to clipboard
@@ -63,14 +76,6 @@ Menu.setApplicationMenu(menu);
 app.whenReady().then(() => {
   logEvent(LOG_LEVELS.INFO, 'Application started');
   createWindow();
-
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

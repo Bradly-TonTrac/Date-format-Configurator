@@ -8,6 +8,7 @@ import "./lib/Registry/ipcMainRegistry.js";
 import "./lib/Broadcast/ipcMainBroadcast.js";
 import { hasBackup, readBackup, deleteBackup, createBackUp } from "./lib/Backup/index.js";
 import { IPC_CHANNELS, LOG_LEVELS } from "./constants.js";
+import lodash from 'lodash';
 
 // Get Operating system info
 ipcMain.handle(IPC_CHANNELS.GET_OS_INFO, () => {
@@ -69,7 +70,12 @@ ipcMain.handle(IPC_CHANNELS.APPLY_SETTINGS, () => {
   }
 });
 
+/**
+ * Get the desired TonTrac settings
+ * Returns the current tontracSettings object from globals
+ */
 ipcMain.handle(IPC_CHANNELS.GET_DESIRED_SETTINGS, () => {
+  logEvent(LOG_LEVELS.INFO, "Fetched desired settings");
   return tontracSettings;
 });
 
@@ -111,8 +117,11 @@ ipcMain.handle(IPC_CHANNELS.RESTORE_SETTINGS, () => {
   }
 });
 
-// Get log path + current system settings
-  const getDiagnostics = () => {
+/**
+ * Get diagnostic information including log file path and current registry settings
+ * @returns {Object} Object containing logPath and currentSettings, or error object
+ */
+const getDiagnostics = () => {
     try {
       const path = require("path");
       const appDataPath = app.getPath("appData");
@@ -132,7 +141,11 @@ ipcMain.handle(IPC_CHANNELS.RESTORE_SETTINGS, () => {
     }
   };
 
-  //Copy diagnostics to clipboard
+/**
+ * Copy diagnostic information to the clipboard
+ * Retrieves diagnostics data and copies it to the system clipboard as formatted JSON
+ * @returns {Object|undefined} Error object if operation fails, undefined on success
+ */
 export const useCopyDox = () => {
   try{
     const data = getDiagnostics();
@@ -145,12 +158,38 @@ export const useCopyDox = () => {
   }
 };
 
+/**
+ * Compare current registry settings with desired TonTrac settings
+ * Uses deep comparison to check if settings are identical
+ * @returns {boolean|Object} True if settings match, false if different, or error object on failure
+ */
 const checkSettings = () => {
   try {
     const currentSettings = getCurrentRegistrySettings();
+    const desiredSettings = tontracSettings.formats;
     
+    // Extract only the format fields for comparison (exclude readTime)
+    const currentFormats = {
+      shortDate: currentSettings.shortDate,
+      longDate: currentSettings.longDate,
+      shortTime: currentSettings.shortTime,
+      longTime: currentSettings.longTime,
+      decimal: currentSettings.decimal,
+    };
     
+    const isEqual = lodash.isEqual(currentFormats, desiredSettings);
+    logEvent(LOG_LEVELS.INFO, `Settings comparison result: ${isEqual ? 'matching' : 'different'}`);
+    return isEqual;
   } catch(error) {
-
+    logEvent(LOG_LEVELS.ERROR, `Failed to check settings: ${error.message}`);
+    return { success: false, message: error.message };
   }
 };
+
+/**
+ * Handle IPC request to check if current settings match desired settings
+ * Returns the result of comparing registry settings with TonTrac settings
+ */
+ipcMain.handle(IPC_CHANNELS.SETTINGS_STATUS, () => {
+  return checkSettings();
+});

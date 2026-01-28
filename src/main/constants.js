@@ -32,4 +32,5 @@ export const IPC_CHANNELS = {
   GET_APP_VERSION: "get-app-version",
   BROADCAST_INTL_CHANGE: "broadcast-intl-change",
   COPY_TO_CLIPBOARD: "copy-to-clipboard",
+  SETTINGS_STATUS: "get-settings-status",
 };

@@ -24,7 +24,7 @@ const StatusBar = () => {
 
   return (
     <div className="bg-background rounded shadow-lg  p-2">
-      <div className="flex justify-center border border-border rounded bg-primary text-background">
+      <div className="flex justify-center border border-primary rounded bg-background-light text-text">
         <h5 className="flex items-center gap-1 font-bold">
           <SiStatuspal />
           Status
@@ -45,22 +45,25 @@ const StatusBar = () => {
 
         <h3 className="flex items-center gap-1">
           <TbLockAccess />
-          <span className="font-extrabold">Permissions:</span>
-          {isAdmin ? (
-            <>
-              Administrator
-              <MdAdminPanelSettings className="text-primary" />
-              {/* Optional extra info for admins */}
-              <span className="ml-1 text-sm text-green-500">
-                <GiCheckMark />
+          <span className="text-tt-base">Permissions:</span>
+
+          <div className="text-tt ">
+            {isAdmin ? (
+              <div>
+                Administrator
+                <MdAdminPanelSettings className="text-primary" />
+                {/* Optional extra info for admins */}
+                <span className="ml-1 text-sm text-green-500">
+                  <GiCheckMark />
+                </span>
+              </div>
+            ) : (
+              <span className=" flex items-center">
+                Standard User
+                <IoIosWarning className="text-primary" />
               </span>
-            </>
-          ) : (
-            <span className=" flex items-center">
-              Standard User
-              <IoIosWarning className="text-primary" />
-            </span>
-          )}
+            )}
+          </div>
         </h3>
       </div>
     </div>

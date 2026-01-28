@@ -22,9 +22,8 @@ const iconPath = MAIN_WINDOW_VITE_DEV_SERVER_URL
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 600,
-    height: 528,
-    frame: false,
+    width: 1024,
+    height: 760,
 
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

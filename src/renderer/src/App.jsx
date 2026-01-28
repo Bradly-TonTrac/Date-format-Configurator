@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import TopBar from "./components/ui/TopBar";
 import StatusBar from "./components/ui/StatusBar";
 import CurrentSettings from "./components/ui/CurrentSettings";
@@ -26,14 +26,13 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen text-text border y  bg-background-light">
-
+    <div className="min-h-screen text-text border y  bg-background">
       {/** <TopBar />*/}
-      
+
       <ToastProvider />
       {!isAdmin && <ModeBanner />}
 
-      <div className=" border border-border ml-1 mt-0 mr-1 p-1 rounded">
+      <div className=" border-l border-r border-border ml-1 mt-0 mr-1 p-1">
         <StatusBar />
         <CurrentSettings />
         <DesiredSettings />

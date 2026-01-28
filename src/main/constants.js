@@ -31,5 +31,8 @@ export const IPC_CHANNELS = {
   GET_ADMIN_STATUS: "get-admin-status",
   GET_APP_VERSION: "get-app-version",
   BROADCAST_INTL_CHANGE: "broadcast-intl-change",
+  EXIT_APP: "exit-app",
+  MIN_APP: "min-app",
   COPY_TO_CLIPBOARD: "copy-to-clipboard",
+  // COPY_TO_CLIPBOARD: "copy-to-clipboard",
 };

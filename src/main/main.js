@@ -43,14 +43,12 @@ const createWindow = () => {
   // Open the DevTools.
  mainWindow.webContents.openDevTools();
 
- // Inject CSS to add border below menu bar
-  // mainWindow.webContents.on('did-finish-load', () => {
-  //   mainWindow.webContents.insertCSS(`
-  //     body {
-  //       border-top: 1px solid red;
-  //     }
-  //   `);
-  // });
+ ipcMain.on(IPC_CHANNELS.RELOAD_APP, () => {
+  if(mainWindow) {
+    logEvent(LOG_LEVELS.INFO, 'Application reloaded');
+    mainWindow.reload();
+  }
+ });
 };
 
 //Create tool menu for copying diagnostics to clipboard

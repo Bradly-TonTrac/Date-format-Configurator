@@ -89,22 +89,15 @@ export const useStatusStore = create((set) => ({
 //Make the app compare Reset and apply settings
 getSettingsStatus: async () => {
   const applied = await window.api.getSettingsStatus();
-   set({hasApplied: applied || false})
+   //set({hasApplied: applied || false})
+   return applied;
 
 },
 
-// Apply Button
+// Apply Button 
 applySettings: async () => {
   set({ isLoading: true, loadingAction: "apply" });
   const addToast = useToastStore.getState().addToast;
- // const { shortDate, longDate, desiredShortDate, desiredLongDate  } = get()
-
- /*
-  if( shortDate === desiredShortDate && longDate === desiredLongDate){
-  addToast("Everything is already up to date", "info");
-  set({ isLoading: false, loadingAction: null });
-  return
-  }*/
 
   try {
     await window.api.applySettings();
@@ -122,14 +115,7 @@ applySettings: async () => {
 restoreSettings: async () => {
   set({ isLoading: true, loadingAction: "restore" });
   const addToast = useToastStore.getState().addToast;
-//  const{  shortDate, longDate, shortPrev, longPrev}=get()
-/*
-  if(shortDate === shortPrev && longDate === longPrev){
-      addToast("Already at previous settings", "info");
-      set({ isLoading: false, loadingAction: null });
-      return;
-  }
-*/
+
   try {
     await window.api.restoreSettings();
     const currentSettings = await window.api.getCurrentSettings();
@@ -138,7 +124,7 @@ restoreSettings: async () => {
       shortDate: currentSettings.shortDate,
       longDate: currentSettings.longDate,
       lastRead: currentSettings.lastRead,
-      hasApplied: false, // re-enables Apply button
+      //hasApplied: false, // re-enables Apply button
     });
 
     addToast("Prev Settings restored successfully", "success");

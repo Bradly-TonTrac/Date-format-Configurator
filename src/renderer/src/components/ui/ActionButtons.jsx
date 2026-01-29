@@ -15,7 +15,7 @@ const ActionButtons = () => {
     restoreSettings,
     isLoading,
     loadingAction,
-    hasApplied,
+    //hasApplied, ***To be removed
     getSettingsStatus,
   } = useStatus();
 

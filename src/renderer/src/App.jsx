@@ -8,6 +8,7 @@ import { useStatus } from "./hooks/useSettings";
 import InfoFooter from "./components/ui/InfoFooter";
 import ToastProvider from "./components/ui/ToastProvider";
 import ModeBanner from "./components/ui/ModeBanner";
+import SettingsStatus from "./components/ui/SettingsStatus";
 
 const App = () => {
   const {
@@ -36,7 +37,7 @@ const App = () => {
       {/** <TopBar />*/}
 
       <ToastProvider />
-      {!isAdmin && <ModeBanner />}
+      {isAdmin ? <SettingsStatus /> : <ModeBanner />}
 
       <div className=" border-l border-r border-border ml-1 mt-0 mr-1 p-1">
         <StatusBar />

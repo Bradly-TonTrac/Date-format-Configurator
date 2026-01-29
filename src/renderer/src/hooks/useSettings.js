@@ -1,9 +1,7 @@
 import { useActionState } from "react";
 import { useStatusStore } from "../components/ui/zustand/settingsStore";
-//import { stat } from "original-fs";
 
 export function useStatus() { 
-
 
    //Toast notifications
    const  toastMessage = useStatusStore((state) => state.toastMessage)
@@ -11,18 +9,18 @@ export function useStatus() {
    const  isToastVisible = useStatusStore((state)=> state. isToastVisible)
    const hideToast = useStatusStore((state) => state.hideToast)
 
-   //USe status
+   // UseStatusStore state variables
    const isAdmin = useStatusStore((state) => state.isAdmin)
    const isLoading = useStatusStore((state) => state.isLoading)
    const loadingAction = useStatusStore((state) => state.loadingAction)
    const  hasApplied = useStatusStore((state)=> state.hasApplied)
    const loadAdminStatus = useStatusStore((state) => state.loadAdminStatus)
 
-   //Os information hoocks still under useStatus
+   //Os information still under useStatus
    const osInfo= useStatusStore((state) => state.osInfo)
-   const loadosInfomation = useStatusStore((state) => state.loadosInfomation)
+   const getOSInfo = useStatusStore((state) => state.getOSInfo)
 
-   //Current Settings hoocks
+   //Current Settings hocks
    const  shortDate = useStatusStore((state) => state.shortDate)
    const longDate = useStatusStore((state) => state.longDate)
    const lastRead =useStatusStore((state) => state.lastRead)
@@ -54,34 +52,54 @@ export function useStatus() {
    //Minimize Btn
    const getWindowMin = useStatusStore ((state) =>state.getWindowMin)
 
-   return{isAdmin,
+   //compare the reset and apply
+   const getSettingsStatus = useStatusStore ((state) => state.getSettingsStatus)
+
+   return{
+      
+      //
+      isAdmin,
       isLoading,
-       loadAdminStatus,
+      loadingAction,
+      loadAdminStatus,
+      hasApplied,
+
+      applySettings,
+
+
        osInfo, 
-      loadosInfomation, 
-      shortDate, 
-      longDate, 
-      lastRead, 
-      loadCurrentDateSettings,
-      loadDesiredSettings,
-    desiredShortDate,
-    desiredLongDate,
-    shortPrev,longPrev,
-     applySettings, 
-     restoreSettings,
-    getDiagnostics,
-     getWindowExit,
-     loadingAction,
-     hasApplied,
+       getOSInfo, 
+
+
+       shortDate, 
+       longDate, 
+       lastRead, 
+       loadCurrentDateSettings,
+
+
+       loadDesiredSettings,
+       desiredShortDate,
+       desiredLongDate,
+       shortPrev,longPrev,
+     
+       restoreSettings,
+       getDiagnostics,
+       getWindowExit,
+
+
+       //Just added
+       getSettingsStatus,
+
+     
      canApply,
      isCopied,
 
      //Toasts 
-  toastMessage,
-  toastType,
-  isToastVisible,
-  hideToast,
-  getWindowMin
+     toastMessage,
+     toastType,
+     isToastVisible,
+     hideToast,
+     getWindowMin
 
  }
 }

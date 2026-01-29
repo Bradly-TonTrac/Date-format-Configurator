@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import TopBar from "./components/ui/TopBar";
 import StatusBar from "./components/ui/StatusBar";
 import CurrentSettings from "./components/ui/CurrentSettings";
@@ -8,32 +8,38 @@ import { useStatus } from "./hooks/useSettings";
 import InfoFooter from "./components/ui/InfoFooter";
 import ToastProvider from "./components/ui/ToastProvider";
 import ModeBanner from "./components/ui/ModeBanner";
+import SettingsStatus from "./components/ui/SettingsStatus";
 
 const App = () => {
   const {
     isAdmin,
     loadAdminStatus,
-    loadosInfomation,
+    getOSInfo,
     loadCurrentDateSettings,
     loadDesiredSettings,
   } = useStatus();
 
   useEffect(() => {
     loadAdminStatus();
-    loadosInfomation();
+    getOSInfo();
     loadCurrentDateSettings();
     loadDesiredSettings();
+
+    /*
+    const getStatus = async () => {
+      const status = await window.api.getSettingsStatus();
+      console.log(status);
+    }*/
   }, []);
 
   return (
-    <div className="min-h-screen text-text border y  bg-background-light">
-
+    <div className="min-h-screen text-text border y  bg-background">
       {/** <TopBar />*/}
-      
-      <ToastProvider />
-      {!isAdmin && <ModeBanner />}
 
-      <div className=" border border-border ml-1 mt-0 mr-1 p-1 rounded">
+      <ToastProvider />
+      {isAdmin ? <SettingsStatus /> : <ModeBanner />}
+
+      <div className=" border-l border-r border-border ml-1 mt-0 mr-1 p-1">
         <StatusBar />
         <CurrentSettings />
         <DesiredSettings />

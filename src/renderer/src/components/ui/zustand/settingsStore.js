@@ -39,6 +39,9 @@ export const useStatusStore = create((set) => ({
   //Minimize button
   hideToast: () => set({isToastVisible: false}),
 
+
+  
+
   // Operating system info
   osInfo: null,
   error: null,
@@ -83,29 +86,15 @@ export const useStatusStore = create((set) => ({
 
 
 
-// Copy DX button
-getDiagnostics: async () => {
-  set({ isLoading: true, loadingAction: "diagnostics" });
-  const addToast = useToastStore.getState().addToast;
+//Make the app compare Reset and apply settings
+getSettingsStatus: async () => {
+  const applied = await window.api.getSettingsStatus();
+   //set({hasApplied: applied || false})
+   return applied;
 
-  try {
-   const data = await window.api.getDiagnostics();
-    await window.api.copyToClipboard(data);
-    addToast("Directory copied successfully", "success");
-
-    set({ isCopied: true });
-    setTimeout(() => set({ isCopied: false }), 3000);
-
-  } catch (error) {
-    addToast("Failed to copy Directory", "error");
-
-  } finally {
-    set({ isLoading: false, loadingAction: null });
-  }
 },
 
-
-// Apply Button
+// Apply Button 
 applySettings: async () => {
   set({ isLoading: true, loadingAction: "apply" });
   const addToast = useToastStore.getState().addToast;
@@ -113,10 +102,6 @@ applySettings: async () => {
   try {
     await window.api.applySettings();
     addToast("Settings applied successfully", "success");
-
-    set({
-      hasApplied: true, // disables Apply button
-    });
 
   } catch (error) {
     addToast("Failed to apply settings", "error");
@@ -139,7 +124,7 @@ restoreSettings: async () => {
       shortDate: currentSettings.shortDate,
       longDate: currentSettings.longDate,
       lastRead: currentSettings.lastRead,
-      hasApplied: false, // re-enables Apply button
+      //hasApplied: false, // re-enables Apply button
     });
 
     addToast("Prev Settings restored successfully", "success");
@@ -153,7 +138,7 @@ restoreSettings: async () => {
 },
 
 
-
+//Admin and non admin status checks 
   loadAdminStatus: async () => {
     set({ loading: true, error: null });
     try {
@@ -165,7 +150,8 @@ restoreSettings: async () => {
     }
   },
 
-  loadosInfomation: async () => {
+  //In replacement of LoadOS information
+  getOSInfo: async () => {
     set({ loading: true, error: null });
     try {
       const osStatus = await window.api.getOSInfo();

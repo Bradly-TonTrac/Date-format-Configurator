@@ -112,4 +112,3 @@ ipcMain.handle(IPC_CHANNELS.GET_APP_VERSION, () => {
   logEvent(LOG_LEVELS.INFO, `Fetched app version: ${version}`);
   return version;
 });
-

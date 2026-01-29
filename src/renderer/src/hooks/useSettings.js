@@ -59,6 +59,9 @@ export function useStatus() {
    //Auto app restart function
    const reloadApp = useStatusStore((state) => state.reloadApp)
 
+   //Check if settings are the same
+   const checkStatus = useStatusStore((state) => state.checkStatus)
+
    return{
       
       //
@@ -100,6 +103,8 @@ export function useStatus() {
      
      canApply,
      isCopied,
+
+     checkStatus,
 
      //Toasts 
      toastMessage,

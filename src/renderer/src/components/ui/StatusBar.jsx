@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { IoMdDoneAll } from "react-icons/io";
-import { MdAdminPanelSettings } from "react-icons/md";
+//import { MdAdminPanelSettings } from "react-icons/md";
 import { useStatus } from "../../hooks/useSettings";
 import { RiWindowsFill } from "react-icons/ri";
 //import { TbLockAccess } from "react-icons/tb";
@@ -30,14 +30,19 @@ const StatusBar = () => {
           <SiStatuspal
             className={isAdmin ? "text-success" : "text-destructive"}
           />
-          Status
+          <span className="text-tt-sm font-semibold">STATUS</span>
+
           <GrStatusGoodSmall
-            className={isAdmin ? "text-success" : "text-destructive"}
+            className={
+              isAdmin
+                ? "text-success text-tt-xs"
+                : "text-destructive text-tt-xs "
+            }
           />
         </h5>
       </div>
 
-      <div className="border rounded p-2 mt-1 ">
+      <div className="bg-background-light shadow-card rounded p-2 mt-1 ">
         <h5 className="flex items-center gap-1">
           <div className="text-tt-base flex items-center gap-1">
             <RiWindowsFill />

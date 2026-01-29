@@ -22,15 +22,15 @@ const DesiredSettings = () => {
   }, []);
 
   return (
-    <div className="rounded bg-background shadow-lg bg-clip-padding p-3">
-      <h3 className="flex justify-center border border-primary rounded text-tt-base bg-background-light text-back">
+    <div className="rounded  shadow-lg bg-clip-padding p-3">
+      <h3 className="flex justify-center border border-primary rounded text-tt-base  text-back">
         <div className="flex items-center gap-2">
           <TbSettingsCheck />
-          <span className={style.subject}>Desired Settings</span>
+          <span className={style.subject}>DESIRED SETTINGS</span>
         </div>
       </h3>
 
-      <div className="border border-border rounded mt-1">
+      <div className=" p-2 bg-background-light rounded mt-1">
         <h3 className="mt-1">
           <div className=" flex items-center">
             <TbPoint />
@@ -44,7 +44,7 @@ const DesiredSettings = () => {
           <div className=" flex items-center">
             <TbPoint />
 
-            <span className={style.subject}>Long date:</span>
+            <span className={style.subject}>LONG DATE :</span>
 
             <span className={style.output}>{desiredLongDate}</span>
           </div>
@@ -53,7 +53,7 @@ const DesiredSettings = () => {
         <h3 className="mt-1">
           <div className=" flex items-center">
             <TbPoint />
-            <span className={style.subject}>Preview (short):</span>
+            <span className={style.subject}>PREVIEW (short) :</span>
 
             <span className={style.output}>{shortPrev}</span>
           </div>
@@ -63,7 +63,7 @@ const DesiredSettings = () => {
           <div className=" flex items-center">
             <TbPoint />
 
-            <span className={style.subject}>Preview (long):</span>
+            <span className={style.subject}>PREVIEW (long) :</span>
 
             <span className={style.output}>{longPrev}</span>
           </div>

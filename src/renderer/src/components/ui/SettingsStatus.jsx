@@ -23,7 +23,7 @@ const SettingsStatus = () => {
 
   if (upToDate === null) {
     return (
-      <div className="animate-pulse border-b border-t border-border">
+      <div className="flex justify-center text-primary animate-pulse text-tt-sm border-b border-t border-border">
         Checking settings Status...
       </div>
     );

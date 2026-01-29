@@ -20,16 +20,16 @@ const CurrentSettings = () => {
     <div className="rounded bg-background shadow-lg bg-clip-padding p-3">
       <h3 className="flex justify-center border border-primary rounded text-tt-base bg-background-light text-back">
         <div className="flex items-center gap-2">
-          <IoSettingsOutline />
-          Current Settings
+          <IoSettingsOutline className={style} />
+          <span className={style.subject}>CURRENT SETTING'S</span>
         </div>
       </h3>
 
-      <div className="border border-border rounded mt-1">
+      <div className="bg-background-light p-2 shadow-card rounded mt-1">
         <h3 className="mt-1">
           <div className="flex items-center">
             <TbPoint />
-            <span className={style.subject}>Short date:</span>
+            <span className={style.subject}>SHORT DATE :</span>
             <span className={style.output}>{shortDate}</span>
           </div>
         </h3>
@@ -37,7 +37,7 @@ const CurrentSettings = () => {
         <h3 className="mt-1">
           <div className="flex items-center">
             <TbPoint />
-            <span className={style.subject}>Long date:</span>
+            <span className={style.subject}>LONG DATE :</span>
             <span className={style.output}>{longDate}</span>
           </div>
         </h3>
@@ -45,7 +45,7 @@ const CurrentSettings = () => {
         <h3 className="mt-1">
           <div className="flex items-center">
             <TbPoint />
-            <span className={style.subject}>Last Read:</span>
+            <span className={style.subject}>LAST READ :</span>
             <span className={style.output}>{lastRead}</span>
           </div>
         </h3>

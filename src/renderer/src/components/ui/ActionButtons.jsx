@@ -60,7 +60,7 @@ const ActionButtons = () => {
   };
 
   return (
-    <div className="flex justify-center gap-3 text-background">
+    <div className="flex justify-center gap-3  bg-ba text-background mt-3 mb-3">
       <WindowButton
         label="Apply Settings"
         onClick={handleApply}

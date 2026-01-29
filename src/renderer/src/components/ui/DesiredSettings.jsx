@@ -26,7 +26,7 @@ const DesiredSettings = () => {
       <h3 className="flex justify-center border border-primary rounded text-tt-base bg-background-light text-back">
         <div className="flex items-center gap-2">
           <TbSettingsCheck />
-          Desired Settings
+          <span className={style.subject}>Desired Settings</span>
         </div>
       </h3>
 

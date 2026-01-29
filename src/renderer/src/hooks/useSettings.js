@@ -55,6 +55,10 @@ export function useStatus() {
    //compare the reset and apply
    const getSettingsStatus = useStatusStore ((state) => state.getSettingsStatus)
 
+
+   //Auto app restart function
+   const reloadApp = useStatusStore((state) => state.reloadApp)
+
    return{
       
       //
@@ -86,6 +90,9 @@ export function useStatus() {
        getDiagnostics,
        getWindowExit,
 
+
+       //auto restart app
+       reloadApp,
 
        //Just added
        getSettingsStatus,

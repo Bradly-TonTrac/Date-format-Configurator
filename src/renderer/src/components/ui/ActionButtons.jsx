@@ -31,7 +31,10 @@ const ActionButtons = () => {
 
       if(!status) {
         await applySettings();
-        await reloadApp();
+
+        setTimeout(async () => {
+          await reloadApp();
+        }, 1500);
         console.log("Apply Settings Test Passed"); // temporarily for the building processes
       } else {
         return;
@@ -49,7 +52,10 @@ const ActionButtons = () => {
 
       if(status) {
         await restoreSettings();
-        await reloadApp();
+
+        setTimeout(async () => {
+          await reloadApp();
+        }, 1500);
         console.log("Restore settings test passed"); // temporarily for the building processes
       } else {
         return;

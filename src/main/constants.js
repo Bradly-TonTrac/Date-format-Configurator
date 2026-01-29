@@ -36,6 +36,7 @@ export const IPC_CHANNELS = {
   RELOAD_APP: 'reload-app',
 };
 
+// Size constants
 export const WINDOW_SIZE = {
   width: 1024,
   height: 760,

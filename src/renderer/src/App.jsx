@@ -24,22 +24,16 @@ const App = () => {
     getOSInfo();
     loadCurrentDateSettings();
     loadDesiredSettings();
-
-    /*
-    const getStatus = async () => {
-      const status = await window.api.getSettingsStatus();
-      console.log(status);
-    }*/
   }, []);
 
   return (
-    <div className="min-h-screen text-text border y  bg-background">
+    <div className="min-h-screen bg-background text-text flex justify-center py-8">
       {/** <TopBar />*/}
 
-      <ToastProvider />
-      {isAdmin ? <SettingsStatus /> : <ModeBanner />}
+      <div className="relative w-[1024px] h-[760px] bg-secondary rounded-xl border border-border p-4 overflow-y-auto">
+        <ToastProvider />
+        {isAdmin ? <SettingsStatus /> : <ModeBanner />}
 
-      <div className=" border-l border-r border-border ml-1 mt-0 mr-1 p-1">
         <StatusBar />
         <CurrentSettings />
         <DesiredSettings />

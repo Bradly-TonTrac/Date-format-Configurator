@@ -3,11 +3,9 @@ import { useStatus } from "../../hooks/useSettings";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbPoint } from "react-icons/tb";
 
-//An Object of styles
-const styles = {
-  dateSpan: "ml-2 font-extralight",
-  labelResults: "font-extrabold flex items-center",
-  textMargins: "mt-1",
+const style = {
+  subject: "text-tt-sm font-semibold",
+  output: "ml-1 font-extralight text-text-light",
 };
 
 const CurrentSettings = () => {
@@ -19,36 +17,36 @@ const CurrentSettings = () => {
   }, []);
 
   return (
-    <div className="bg-background shadow-lg mb-0 rounded p-2">
-      <h3 className="text-tt-base text-b rounded flex justify-center border  border-primary">
+    <div className="rounded bg-background shadow-lg bg-clip-padding p-3">
+      <h3 className="flex justify-center border border-primary rounded text-tt-base bg-background-light text-back">
         <div className="flex items-center gap-2">
           <IoSettingsOutline />
           Current Settings
         </div>
       </h3>
 
-      <div className="border border-border mt-1 rounded">
-        <h3 className={styles.textMargins}>
-          <div className={styles.labelResults}>
+      <div className="border border-border rounded mt-1">
+        <h3 className="mt-1">
+          <div className="flex items-center">
             <TbPoint />
-            Short date:
-            <span className={styles.dateSpan}>{shortDate}</span>
+            <span className={style.subject}>Short date:</span>
+            <span className={style.output}>{shortDate}</span>
           </div>
         </h3>
 
-        <h3 className={styles.textMargins}>
-          <div className={styles.labelResults}>
+        <h3 className="mt-1">
+          <div className="flex items-center">
             <TbPoint />
-            Long date:
-            <span className={styles.dateSpan}>{longDate}</span>
+            <span className={style.subject}>Long date:</span>
+            <span className={style.output}>{longDate}</span>
           </div>
         </h3>
 
-        <h3 className={styles.textMargins}>
-          <div className={styles.labelResults}>
+        <h3 className="mt-1">
+          <div className="flex items-center">
             <TbPoint />
-            Last Read:
-            <span className={styles.dateSpan}>{lastRead}</span>
+            <span className={style.subject}>Last Read:</span>
+            <span className={style.output}>{lastRead}</span>
           </div>
         </h3>
       </div>

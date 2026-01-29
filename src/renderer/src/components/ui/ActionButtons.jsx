@@ -15,6 +15,7 @@ const ActionButtons = () => {
     restoreSettings,
     isLoading,
     loadingAction,
+    reloadApp,
     //hasApplied, ***To be removed
     getSettingsStatus,
   } = useStatus();
@@ -26,6 +27,7 @@ const ActionButtons = () => {
   const handleApply = async () => {
     try {
       await applySettings();
+      await reloadApp();
       console.log("Apply Settings Test Passed"); // temporarily for the building processes
     } catch (error) {
       console.log("Cant Apply Settings"); // temporarily for the building processes
@@ -35,6 +37,7 @@ const ActionButtons = () => {
   const handleRestoreSettings = async () => {
     try {
       await restoreSettings();
+      await reloadApp();
       console.log("Restore settings test passed"); // temporarily for the building processes
     } catch (error) {
       console.log("Failed to restore settings"); // temporarily for the building processes

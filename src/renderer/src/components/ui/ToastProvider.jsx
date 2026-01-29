@@ -37,8 +37,8 @@ const ToastItem = ({ toast, removeToast }) => {
     <div
       className={`pointer-events-auto px-4 py-2 font-bold flex border border-border items-center gap-2 rounded shadow-lg  transition-all duration-300 ease-in-out transform ${
         toast.type === "success"
-          ? "bg-background-light text-green-500"
-          : "bg-background-light text-red-600"
+          ? "bg-background-light text-success"
+          : "bg-background-light text-destructive"
       } ${show ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}`}
     >
       {toast.message}

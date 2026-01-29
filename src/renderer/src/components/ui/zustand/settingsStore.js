@@ -57,12 +57,23 @@ export const useStatusStore = create((set) => ({
   shortPrev: null,
   longPrev: null,
 
+   //Auto reload the app
+    reloadApp: async () => {
+    set({ isLoading: true, loadingAction: "exit" });
+    try {
+      await window.api. reloadApp();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      set({ isLoading: false, loadingAction: null });
+    }
+  },
+
   //Close window/App Button
   getWindowExit: async () => {
     set({ isLoading: true, loadingAction: "exit" });
     try {
       await window.api.getWindowExit();
-
     } catch (error) {
       console.error(error);
     } finally {

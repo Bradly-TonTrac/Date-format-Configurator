@@ -7,7 +7,7 @@ import './lib/Backup/ipcMainBackup';
 import './lib/Registry/ipcMainRegistry';
 import './lib/Broadcast/ipcMainBroadcast';
 import { logEvent } from './lib/Logger/index.js';
-import { IPC_CHANNELS, LOG_LEVELS } from './constants.js';
+import { IPC_CHANNELS, LOG_LEVELS, WINDOW_SIZE } from './constants.js';
 import { useCopyDox } from './ipcMainHandler';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -22,8 +22,10 @@ const iconPath = MAIN_WINDOW_VITE_DEV_SERVER_URL
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 760,
+    width: WINDOW_SIZE.width,
+    height: WINDOW_SIZE.height,
+    minWidth: WINDOW_SIZE.width,
+    minHeight: WINDOW_SIZE.height,
     title: "Date Format Configurator",
     icon: iconPath,
     webPreferences: {
@@ -43,14 +45,12 @@ const createWindow = () => {
   // Open the DevTools.
  mainWindow.webContents.openDevTools();
 
- // Inject CSS to add border below menu bar
-  // mainWindow.webContents.on('did-finish-load', () => {
-  //   mainWindow.webContents.insertCSS(`
-  //     body {
-  //       border-top: 1px solid red;
-  //     }
-  //   `);
-  // });
+ ipcMain.on(IPC_CHANNELS.RELOAD_APP, () => {
+  if(mainWindow) {
+    logEvent(LOG_LEVELS.INFO, 'Application reloaded');
+    mainWindow.reload();
+  }
+ });
 };
 
 //Create tool menu for copying diagnostics to clipboard

@@ -33,4 +33,10 @@ export const IPC_CHANNELS = {
   BROADCAST_INTL_CHANGE: "broadcast-intl-change",
   COPY_TO_CLIPBOARD: "copy-to-clipboard",
   SETTINGS_STATUS: "get-settings-status",
+  RELOAD_APP: 'reload-app',
+};
+
+export const WINDOW_SIZE = {
+  width: 1024,
+  height: 760,
 };

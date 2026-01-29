@@ -27,18 +27,26 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-text flex justify-center py-8">
+    <div className="min-h-screen bg-background text-text">
       {/** <TopBar />*/}
 
-      <div className="relative w-[1024px] h-[760px] bg-secondary rounded-xl border border-border p-4 overflow-y-auto">
+      <div className="relative w-full max-w-none px-8 py-10">
         <ToastProvider />
         {isAdmin ? <SettingsStatus /> : <ModeBanner />}
 
-        <StatusBar />
-        <CurrentSettings />
-        <DesiredSettings />
-        <ActionButtons />
-        <InfoFooter />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="lg:col-span-2">
+            <StatusBar />
+          </div>
+          <CurrentSettings />
+          <DesiredSettings />
+          <div className="lg:col-span-2">
+            <ActionButtons />
+          </div>
+          <div className="lg:col-span-2">
+            <InfoFooter />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -38,31 +38,34 @@ const StatusBar = () => {
       </div>
 
       <div className="border rounded p-2 mt-1 ">
-        <h5 className="flex items-center gap-2">
+        <h5 className="flex items-center gap-1">
           <div className="text-tt-base flex items-center gap-1">
-            <RiWindowsFill /> OS :
+            <RiWindowsFill />
+            <span className="text-tt-sm font-semibold"> OS :</span>
           </div>
-          <span className="text-text-light">
+          <span className="font-extralight text-text-light">
             {osInfo?.operatingSystemVersion || ""}
-            {isWindows && <IoMdDoneAll className="text-success ml-2" />}
+            {isWindows && <IoMdDoneAll className="text-success ml-1" />}
           </span>
           <span className="text-success">(Supported)</span>
         </h5>
 
         <h3 className="flex items-center gap-1">
           <SiSpringsecurity />
-          <span className="font-semibold">PERMISSION :</span>
+          <span className="font-semibold">
+            <span className="text-tt-sm font-semibold"> PERMISSION'S :</span>
+          </span>
 
           <span className="text-tt flex items-center gap-1 text-text-light ">
             {isAdmin ? (
-              <span className="flex items-center gap-1 translate+y">
+              <span className="font-extralight text-text-light flex items-center gap-1 translate+y">
                 Administrator
                 <span className=" text-sm text-success">
                   <GiCheckMark />
                 </span>
               </span>
             ) : (
-              <span className=" flex items-center gap-1 ">
+              <span className="font-extralight text-text-light flex items-center gap-1 ">
                 Standard User
                 <IoIosWarning className="text-primary" />
               </span>

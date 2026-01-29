@@ -4,10 +4,11 @@ import { IoMdDoneAll } from "react-icons/io";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { useStatus } from "../../hooks/useSettings";
 import { RiWindowsFill } from "react-icons/ri";
-import { TbLockAccess } from "react-icons/tb";
+//import { TbLockAccess } from "react-icons/tb";
 import { SiStatuspal } from "react-icons/si";
 import { IoIosWarning } from "react-icons/io";
 import { GiCheckMark } from "react-icons/gi";
+import { SiSpringsecurity } from "react-icons/si";
 
 const StatusBar = () => {
   const { isAdmin, osInfo, loadAdminStatus, getOSInfo } = useStatus();
@@ -25,45 +26,48 @@ const StatusBar = () => {
   return (
     <div className="bg-background rounded shadow-lg  p-2">
       <div className="flex justify-center border border-primary rounded bg-background-light text-text">
-        <h5 className="flex items-center gap-1 font-bold">
-          <SiStatuspal />
+        <h5 className="flex items-center gap-1 text-tt-base">
+          <SiStatuspal
+            className={isAdmin ? "text-success" : "text-destructive"}
+          />
           Status
           <GrStatusGoodSmall
-            className={isAdmin ? "text-green-500" : "text-red-500"}
+            className={isAdmin ? "text-success" : "text-destructive"}
           />
         </h5>
       </div>
 
-      <div className="border pl-1 rounded mt-1">
+      <div className="border rounded p-2 mt-1 ">
         <h5 className="flex items-center gap-2">
-          <div className="font-extrabold flex items-center gap-1">
-            <RiWindowsFill /> OS:
+          <div className="text-tt-base flex items-center gap-1">
+            <RiWindowsFill /> OS :
           </div>
-          {osInfo?.operatingSystemVersion || ""}
-          {isWindows && <IoMdDoneAll className="text-green-500 ml-2" />}
+          <span className="text-text-light">
+            {osInfo?.operatingSystemVersion || ""}
+            {isWindows && <IoMdDoneAll className="text-success ml-2" />}
+          </span>
+          <span className="text-success">(Supported)</span>
         </h5>
 
         <h3 className="flex items-center gap-1">
-          <TbLockAccess />
-          <span className="text-tt-base">Permissions:</span>
+          <SiSpringsecurity />
+          <span className="font-semibold">PERMISSION :</span>
 
-          <div className="text-tt ">
+          <span className="text-tt flex items-center gap-1 text-text-light ">
             {isAdmin ? (
-              <div>
+              <span className="flex items-center gap-1 translate+y">
                 Administrator
-                <MdAdminPanelSettings className="text-primary" />
-                {/* Optional extra info for admins */}
-                <span className="ml-1 text-sm text-green-500">
+                <span className=" text-sm text-success">
                   <GiCheckMark />
                 </span>
-              </div>
+              </span>
             ) : (
-              <span className=" flex items-center">
+              <span className=" flex items-center gap-1 ">
                 Standard User
                 <IoIosWarning className="text-primary" />
               </span>
             )}
-          </div>
+          </span>
         </h3>
       </div>
     </div>

@@ -18,7 +18,7 @@ const DesiredSettings = () => {
 
   return (
     <div className="rounded bg-background shadow-lg bg-clip-padding p-3">
-      <h3 className="flex justify-center border border-primary rounded font-extrabold bg-background-light text-back">
+      <h3 className="flex justify-center border border-primary rounded text-tt-base bg-background-light text-back">
         <div className="flex items-center gap-2">
           <TbSettingsCheck />
           Desired Settings

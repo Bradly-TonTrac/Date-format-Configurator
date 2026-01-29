@@ -39,6 +39,9 @@ export const useStatusStore = create((set) => ({
   //Minimize button
   hideToast: () => set({isToastVisible: false}),
 
+
+  
+
   // Operating system info
   osInfo: null,
   error: null,
@@ -83,40 +86,29 @@ export const useStatusStore = create((set) => ({
 
 
 
-// Copy DX button
-getDiagnostics: async () => {
-  set({ isLoading: true, loadingAction: "diagnostics" });
-  const addToast = useToastStore.getState().addToast;
+//Make the app compare Reset and apply settings
+getSettingsStatus: async () => {
+  const applied = await window.api.getSettingsStatus();
+   set({hasApplied: applied || false})
 
-  try {
-   const data = await window.api.getDiagnostics();
-    await window.api.copyToClipboard(data);
-    addToast("Directory copied successfully", "success");
-
-    set({ isCopied: true });
-    setTimeout(() => set({ isCopied: false }), 3000);
-
-  } catch (error) {
-    addToast("Failed to copy Directory", "error");
-
-  } finally {
-    set({ isLoading: false, loadingAction: null });
-  }
 },
-
 
 // Apply Button
 applySettings: async () => {
   set({ isLoading: true, loadingAction: "apply" });
   const addToast = useToastStore.getState().addToast;
+ // const { shortDate, longDate, desiredShortDate, desiredLongDate  } = get()
+
+ /*
+  if( shortDate === desiredShortDate && longDate === desiredLongDate){
+  addToast("Everything is already up to date", "info");
+  set({ isLoading: false, loadingAction: null });
+  return
+  }*/
 
   try {
     await window.api.applySettings();
     addToast("Settings applied successfully", "success");
-
-    set({
-      hasApplied: true, // disables Apply button
-    });
 
   } catch (error) {
     addToast("Failed to apply settings", "error");
@@ -130,7 +122,14 @@ applySettings: async () => {
 restoreSettings: async () => {
   set({ isLoading: true, loadingAction: "restore" });
   const addToast = useToastStore.getState().addToast;
-
+//  const{  shortDate, longDate, shortPrev, longPrev}=get()
+/*
+  if(shortDate === shortPrev && longDate === longPrev){
+      addToast("Already at previous settings", "info");
+      set({ isLoading: false, loadingAction: null });
+      return;
+  }
+*/
   try {
     await window.api.restoreSettings();
     const currentSettings = await window.api.getCurrentSettings();
@@ -153,7 +152,7 @@ restoreSettings: async () => {
 },
 
 
-
+//Admin and non admin status checks 
   loadAdminStatus: async () => {
     set({ loading: true, error: null });
     try {
@@ -164,7 +163,6 @@ restoreSettings: async () => {
       set({ loading: false });
     }
   },
-
 
   //In replacement of LoadOS information
   getOSInfo: async () => {

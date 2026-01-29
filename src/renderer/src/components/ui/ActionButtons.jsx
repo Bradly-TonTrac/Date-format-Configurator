@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import WindowButton from "./WindowButton";
 import { useStatus } from "../../hooks/useSettings";
-import { BsFolderCheck } from "react-icons/bs";
+//import { BsFolderCheck } from "react-icons/bs";
 
 const Style = {
   buttons:
-    " font-extrabold text-primary hover:bg-background box-sizing:border-box pt-1 pb-1 p-2 pl-12 pr-12 rounded  border border-primary",
+    "text-tt-sm text-primary hover:bg-background-light box-border pt-1 pb-1 px-4 rounded border border-primary text-center w-[180px]",
 };
 
 const ActionButtons = () => {
@@ -13,12 +13,15 @@ const ActionButtons = () => {
     isAdmin,
     applySettings,
     restoreSettings,
-    getDiagnostics,
     isLoading,
     loadingAction,
     hasApplied,
-    isCopied,
+    getSettingsStatus,
   } = useStatus();
+
+  useEffect(() => {
+    getSettingsStatus();
+  }, []);
 
   const handleApply = async () => {
     try {
@@ -38,25 +41,14 @@ const ActionButtons = () => {
     }
   };
 
-  const handleGetDiagnostics = async () => {
-    try {
-      await getDiagnostics();
-      console.log("GetDiagnostics Test Passed"); // temporarily for the building processes
-    } catch (error) {
-      console.log("Failed to apply getDiagnostics button"); // temporarily for the building processes
-    }
-  };
-
   return (
     <div className="flex justify-center gap-3 text-background">
       <WindowButton
         label="Apply Settings"
         onClick={handleApply}
-        disabled={isLoading || hasApplied || !isAdmin} // disabled if not admin
+        disabled={isLoading || !isAdmin} // disabled if not admin
         className={`${Style.buttons} ${
-          isLoading || hasApplied || !isAdmin
-            ? "opacity-50 cursor-not-allowed"
-            : ""
+          isLoading || !isAdmin ? "opacity-50 cursor-not-allowed" : ""
         }`}
       >
         {loadingAction === "apply" ? "Applying.." : "Apply"}
@@ -71,25 +63,6 @@ const ActionButtons = () => {
         }`}
       >
         {loadingAction === "restore" ? "Restoring..." : "Restore Previous"}
-      </WindowButton>
-
-      <WindowButton
-        label="Copy"
-        onClick={handleGetDiagnostics}
-        disabled={isLoading} // stays enabled even for non-admin
-        className={`${Style.buttons} ${
-          isLoading && loadingAction === "diagnostics"
-            ? "opacity-50 cursor-not-allowed"
-            : ""
-        }`}
-      >
-        {loadingAction === "diagnostics" ? (
-          "Copying..."
-        ) : isCopied ? (
-          <BsFolderCheck />
-        ) : (
-          "Copy DX"
-        )}
       </WindowButton>
     </div>
   );

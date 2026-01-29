@@ -23,6 +23,12 @@ const App = () => {
     getOSInfo();
     loadCurrentDateSettings();
     loadDesiredSettings();
+
+    /*
+    const getStatus = async () => {
+      const status = await window.api.getSettingsStatus();
+      console.log(status);
+    }*/
   }, []);
 
   return (

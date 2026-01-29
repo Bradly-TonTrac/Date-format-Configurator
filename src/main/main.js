@@ -24,7 +24,8 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1024,
     height: 760,
-
+    title: "Date Format Configurator",
+    icon: iconPath,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -111,4 +112,3 @@ ipcMain.handle(IPC_CHANNELS.GET_APP_VERSION, () => {
   logEvent(LOG_LEVELS.INFO, `Fetched app version: ${version}`);
   return version;
 });
-

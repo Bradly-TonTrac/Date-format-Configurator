@@ -20,7 +20,7 @@ const CurrentSettings = () => {
 
   return (
     <div className="bg-background shadow-lg mb-0 rounded p-2">
-      <h3 className="font-extrabold  text-b rounded flex justify-center border  border-primary">
+      <h3 className="text-tt-base text-b rounded flex justify-center border  border-primary">
         <div className="flex items-center gap-2">
           <IoSettingsOutline />
           Current Settings

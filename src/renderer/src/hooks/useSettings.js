@@ -52,6 +52,9 @@ export function useStatus() {
    //Minimize Btn
    const getWindowMin = useStatusStore ((state) =>state.getWindowMin)
 
+   //compare the reset and apply
+   const getSettingsStatus = useStatusStore ((state) => state.getSettingsStatus)
+
    return{
       
       //
@@ -60,6 +63,8 @@ export function useStatus() {
       loadingAction,
       loadAdminStatus,
       hasApplied,
+
+      applySettings,
 
 
        osInfo, 
@@ -80,6 +85,10 @@ export function useStatus() {
        restoreSettings,
        getDiagnostics,
        getWindowExit,
+
+
+       //Just added
+       getSettingsStatus,
 
      
      canApply,

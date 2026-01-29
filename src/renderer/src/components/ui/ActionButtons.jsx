@@ -18,6 +18,7 @@ const ActionButtons = () => {
     reloadApp,
     //hasApplied, ***To be removed
     getSettingsStatus,
+    checkStatus,
   } = useStatus();
 
   useEffect(() => {
@@ -26,19 +27,33 @@ const ActionButtons = () => {
 
   const handleApply = async () => {
     try {
-      await applySettings();
-      await reloadApp();
-      console.log("Apply Settings Test Passed"); // temporarily for the building processes
+      const status = await checkStatus();
+
+      if(!status) {
+        await applySettings();
+        await reloadApp();
+        console.log("Apply Settings Test Passed"); // temporarily for the building processes
+      } else {
+        return;
+      }
+      
     } catch (error) {
       console.log("Cant Apply Settings"); // temporarily for the building processes
     }
   };
 
   const handleRestoreSettings = async () => {
+     
     try {
-      await restoreSettings();
-      await reloadApp();
-      console.log("Restore settings test passed"); // temporarily for the building processes
+      const status = await checkStatus();
+
+      if(status) {
+        await restoreSettings();
+        await reloadApp();
+        console.log("Restore settings test passed"); // temporarily for the building processes
+      } else {
+        return;
+      }
     } catch (error) {
       console.log("Failed to restore settings"); // temporarily for the building processes
     }

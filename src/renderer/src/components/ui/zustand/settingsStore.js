@@ -69,6 +69,18 @@ export const useStatusStore = create((set) => ({
     }
   },
 
+  //Settings status
+  checkStatus: async () => {
+    set({ isLoading: true, loadingAction: "exit" });
+    try {
+      return await window.api.getSettingsStatus();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      set({ isLoading: false, loadingAction: null });
+    }
+  },
+
   //Close window/App Button
   getWindowExit: async () => {
     set({ isLoading: true, loadingAction: "exit" });

@@ -11,7 +11,7 @@ const WINDOW_API ={
     getDesiredSettings: () => ipcRenderer.invoke('get-desired-settings'),
     copyToClipboard: (data) => ipcRenderer.invoke('copy-to-clipboard', data),
     getSettingsStatus: () => ipcRenderer.invoke('get-settings-status'),
-    reloadApp: () => ipcRender.invoke('reload-app'),
+    reloadApp: () => ipcRenderer.invoke('reload-app'),
 };
 
 contextBridge.exposeInMainWorld('api', WINDOW_API);

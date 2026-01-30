@@ -29,16 +29,13 @@ const ActionButtons = () => {
     try {
       const status = await checkStatus();
 
-      if(!status) {
-        await applySettings();
-
+      if (status) return;
+      await applySettings();
+      
         setTimeout(async () => {
           await reloadApp();
         }, 1500);
-        console.log("Apply Settings Test Passed"); // temporarily for the building processes
-      } else {
-        return;
-      }
+      console.log("Apply Settings Test Passed"); // temporarily for the building processes
       
     } catch (error) {
       console.log("Cant Apply Settings"); // temporarily for the building processes
@@ -50,16 +47,13 @@ const ActionButtons = () => {
     try {
       const status = await checkStatus();
 
-      if(status) {
-        await restoreSettings();
+      if (!status) return;
+      await restoreSettings();
 
         setTimeout(async () => {
           await reloadApp();
         }, 1500);
-        console.log("Restore settings test passed"); // temporarily for the building processes
-      } else {
-        return;
-      }
+      console.log("Restore settings test passed"); // temporarily for the building processes
     } catch (error) {
       console.log("Failed to restore settings"); // temporarily for the building processes
     }

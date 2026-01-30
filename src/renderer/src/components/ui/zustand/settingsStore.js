@@ -168,10 +168,15 @@ export const useStatusStore = create((set) => ({
     const addToast = useToastStore.getState().addToast;
 
     try {
-      await window.api.applySettings();
+      const response = await window.api.applySettings();
+      if (response && response.success === false) {
+        throw new Error(response.message || "Failed to apply settings");
+      }
       addToast("Settings applied successfully", "success");
+      return response;
     } catch (error) {
       addToast("Failed to apply settings", "error");
+      throw error;
     } finally {
       set({ isLoading: false, loadingAction: null });
     }
@@ -184,15 +189,21 @@ export const useStatusStore = create((set) => ({
     const addToast = useToastStore.getState().addToast;
 
     try {
+      const response = await window.api.restoreSettings();
+      if (response && response.success === false) {
+        throw new Error(response.message || "Failed to restore settings");
+      }
       const currentSettings = await window.api.getCurrentSettings();
       set({
         shortDate: currentSettings.shortDate,
         longDate: currentSettings.longDate,
-        lastRead: currentSettings.lastRead,
+        lastRead: currentSettings.readTime,
       });
       addToast("Prev Settings restored successfully", "success");
+      return response;
     } catch (error) {
       addToast("Failed to restore settings", "error");
+      throw error;
     } finally {
       set({ isLoading: false, loadingAction: null });
     }

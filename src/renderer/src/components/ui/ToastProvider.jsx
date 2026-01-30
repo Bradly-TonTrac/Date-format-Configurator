@@ -1,45 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useToastStore } from "./zustand/settingsStore";
-//import { RiCloseLargeFill } from "react-icons/ri";
 
+/*
+  ToastProvider
+  Displays all toast notifications from Zustand store.
+ */
 const ToastProvider = () => {
   const toastList = useToastStore((state) => state.toastList);
   const removeToast = useToastStore((state) => state.removeToast);
-  const [visibleToasts, setVisibleToasts] = useState([]);
-
-  // Sync with Zustand
-  useEffect(() => {
-    setVisibleToasts(toastList);
-  }, [toastList]);
 
   return (
     <div className="absolute top-[80px] left-0 w-full flex flex-col items-center gap-2 z-50 pointer-events-none">
-      {visibleToasts.map((toast) => (
+      {toastList.map((toast) => (
         <ToastItem key={toast.id} toast={toast} removeToast={removeToast} />
       ))}
     </div>
   );
 };
 
+/*
+  ToastItem
+  Individual toast notification.
+  Handles auto-dismiss and smooth enter/exit animations.
+ */
 const ToastItem = ({ toast, removeToast }) => {
-  const [show, setShow] = useState(true);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShow(false);
-      setTimeout(() => removeToast(toast.id), 1000);
-    }, 1000);
+    // Hide toast after 1 second
+    const hideTimer = setTimeout(() => setVisible(false), 1000);
 
-    return () => clearTimeout(timer);
-  }, [toast, removeToast]);
+    // Remove toast from Zustand after animation completes
+    const removeTimer = setTimeout(() => removeToast(toast.id), 1100);
+
+    // Cleanup timers to prevent memory leaks
+    return () => {
+      clearTimeout(hideTimer);
+      clearTimeout(removeTimer);
+    };
+  }, [toast.id, removeToast]);
 
   return (
     <div
-      className={`pointer-events-auto px-4 py-2 font-bold flex border border-border items-center gap-2 rounded shadow-lg  transition-all duration-300 ease-in-out transform ${
+      className={`pointer-events-auto px-4 py-2 font-bold flex border border-border items-center gap-2 rounded shadow-lg transition-all duration-300 ease-in-out transform ${
         toast.type === "success"
           ? "bg-background-light text-success"
           : "bg-background-light text-destructive"
-      } ${show ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}`}
+      } ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}`}
     >
       {toast.message}
     </div>

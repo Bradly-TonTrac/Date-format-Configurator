@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import WindowButton from "./WindowButton";
 import { useStatus } from "../../hooks/useSettings";
-//import { BsFolderCheck } from "react-icons/bs";
 
 const Style = {
   buttons:
@@ -16,61 +15,54 @@ const ActionButtons = () => {
     isLoading,
     loadingAction,
     reloadApp,
-    //hasApplied, ***To be removed
     getSettingsStatus,
     checkStatus,
   } = useStatus();
 
   useEffect(() => {
     getSettingsStatus();
-  }, []);
+  }, [getSettingsStatus]);
 
   const handleApply = async () => {
     try {
       const status = await checkStatus();
-
-      if(!status) {
+      if (!status) {
         await applySettings();
 
         setTimeout(async () => {
           await reloadApp();
         }, 1500);
-        console.log("Apply Settings Test Passed"); // temporarily for the building processes
-      } else {
-        return;
+
+        console.log("Apply Settings Test Passed"); //temporarily for the building processes
       }
-      
     } catch (error) {
-      console.log("Cant Apply Settings"); // temporarily for the building processes
+      console.log("Cant Apply Settings"); //temporarily for the building processes
     }
   };
 
   const handleRestoreSettings = async () => {
-     
     try {
       const status = await checkStatus();
-
-      if(status) {
+      if (status) {
         await restoreSettings();
 
         setTimeout(async () => {
           await reloadApp();
         }, 1500);
-        console.log("Restore settings test passed"); // temporarily for the building processes
-      } else {
-        return;
+
+        console.log("Restore settings test passed"); //temporarily for the building processes
       }
     } catch (error) {
-      console.log("Failed to restore settings"); // temporarily for the building processes
+      console.log("Failed to restore settings"); //temporarily for the building processes
     }
   };
 
   return (
-    <div className="flex justify-center gap-3  bg-ba text-background mt-3 mb-3">
+    <div className="flex justify-center gap-3 bg-ba text-background mt-3 mb-3">
       <WindowButton
         label="Apply Settings"
         onClick={handleApply}
-        disabled={isLoading || !isAdmin} // disabled if not admin
+        disabled={isLoading || !isAdmin}
         className={`${Style.buttons} ${
           isLoading || !isAdmin ? "opacity-50 cursor-not-allowed" : ""
         }`}
@@ -81,7 +73,7 @@ const ActionButtons = () => {
       <WindowButton
         label="Restore"
         onClick={handleRestoreSettings}
-        disabled={isLoading || !isAdmin} // disabled if not admin
+        disabled={isLoading || !isAdmin}
         className={`${Style.buttons} ${
           isLoading || !isAdmin ? "opacity-50 cursor-not-allowed" : ""
         }`}

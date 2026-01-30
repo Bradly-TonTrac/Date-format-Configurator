@@ -1,11 +1,18 @@
 import React from "react";
 import { IoWarning } from "react-icons/io5";
 
+/*
+ ModeBanner
+ Displays a banner warning that administrator privileges are required.
+ Includes an animated warning icon and pulsing text for visibility.
+ */
 const ModeBanner = () => {
   return (
-    <div className=" flex items-center gap-2 justify-center border-b border-primary">
-      <IoWarning className=" text-primary animate-bounce" />
+    <div className="flex items-center gap-2 justify-center border-b border-primary">
+      {/* Animated warning icon */}
+      <IoWarning className="text-primary animate-bounce" />
 
+      {/* Instructional text for admin privileges */}
       <h2 className="text text-tt-xs animate-pulse">
         Administrator privileges required │ Right-click the app → Run as
         administrator

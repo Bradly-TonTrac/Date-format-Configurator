@@ -15,3 +15,4 @@ const WINDOW_API ={
 };
 
 contextBridge.exposeInMainWorld('api', WINDOW_API);
+

@@ -81,7 +81,7 @@ const StatusBar = () => {
         </h3>
       </div>
 
-      <div className="bg-background-light shadow-card rounded p-2 mt-1 hidden 2xl:p-4 2xl:mt-2 2xl:flex 2xl:justify-center 2xl:gap-20">
+      <div className="bg-background-light shadow-card rounded p-2 mt-1 hidden 2xl:p-4 2xl:mt-2  2xl:justify-center 2xl:gap-20">
         <div className="w-full space-y-1 2xl:w-auto">
           <div className="flex items-center gap-2 text-tt-sm font-semibold 2xl:text-tt-base">
             <RiWindowsFill />
@@ -91,7 +91,9 @@ const StatusBar = () => {
             <span className="font-extralight text-text-light 2xl:text-tt-base">
               {osInfo?.operatingSystemVersion || ""}
             </span>
-            <span className="text-success text-tt-xs 2xl:text-tt-sm">Supported</span>
+            <span className="text-success text-tt-xs 2xl:text-tt-sm">
+              Supported
+            </span>
             {isWindows && <IoMdDoneAll className="text-success" />}
           </div>
         </div>

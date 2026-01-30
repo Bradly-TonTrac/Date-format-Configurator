@@ -39,5 +39,5 @@ export const IPC_CHANNELS = {
 // Size constants
 export const WINDOW_SIZE = {
   width: 1024,
-  height: 760,
+  height: 765,
 };

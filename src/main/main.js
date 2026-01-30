@@ -1,23 +1,32 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
-import path from 'node:path';
-import started from 'electron-squirrel-startup';
-import { execSync } from 'child_process';
-import './ipcMainHandler';
-import './lib/Backup/ipcMainBackup';
-import './lib/Registry/ipcMainRegistry';
-import './lib/Broadcast/ipcMainBroadcast';
-import { logEvent } from './lib/Logger/index.js';
-import { IPC_CHANNELS, LOG_LEVELS, WINDOW_SIZE } from './constants.js';
-import { useCopyDox } from './ipcMainHandler';
+import { app, BrowserWindow, ipcMain, Menu, MenuItem } from "electron";
+import path from "node:path";
+import started from "electron-squirrel-startup";
+import { execSync } from "child_process";
+import "./ipcMainHandler";
+import "./lib/Backup/ipcMainBackup";
+import "./lib/Registry/ipcMainRegistry";
+import "./lib/Broadcast/ipcMainBroadcast";
+import { logEvent } from "./lib/Logger/index.js";
+import { IPC_CHANNELS, LOG_LEVELS, WINDOW_SIZE } from "./constants.js";
+import { useCopyDox } from "./ipcMainHandler";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
   app.quit();
 }
 
-const iconPath = MAIN_WINDOW_VITE_DEV_SERVER_URL 
-  ? path.join(__dirname, '../../src/resources/tontrac-logo.png')
-  : path.join(process.resourcesPath, 'tontrac-logo.png');
+// Ensure Electron cache/userData paths are writable on Windows.
+const userDataRoot = path.join(app.getPath("appData"), "TonTrac");
+app.setPath("userData", userDataRoot);
+app.setPath("cache", path.join(userDataRoot, "Cache"));
+app.commandLine.appendSwitch(
+  "disk-cache-dir",
+  path.join(userDataRoot, "Cache"),
+);
+
+const iconPath = MAIN_WINDOW_VITE_DEV_SERVER_URL
+  ? path.join(__dirname, "../../src/resources/tontrac-logo.png")
+  : path.join(process.resourcesPath, "tontrac-logo.png");
 
 const createWindow = () => {
   // Create the browser window.
@@ -29,7 +38,7 @@ const createWindow = () => {
     title: "Date Format Configurator",
     icon: iconPath,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
     },
@@ -39,51 +48,59 @@ const createWindow = () => {
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {
-    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+    mainWindow.loadFile(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
+    );
   }
 
   // Open the DevTools.
- mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
- ipcMain.handle(IPC_CHANNELS.RELOAD_APP, () => {
-  if(mainWindow) {
-    logEvent(LOG_LEVELS.INFO, 'Application reloaded');
-    mainWindow.reload();
-  }
- });
+  ipcMain.handle(IPC_CHANNELS.RELOAD_APP, () => {
+    if (mainWindow) {
+      logEvent(LOG_LEVELS.INFO, "Application reloaded");
+      mainWindow.reload();
+    }
+  });
 };
-
-//Create tool menu for copying diagnostics to clipboard
-const menu = Menu.buildFromTemplate([
-  {
-    label: 'Tools',
-    submenu: [
-      {
-        label: 'Copy Dox',
-        click: () => {
-          useCopyDox();
-        }
-      }
-    ]
-  }
-]);
-
-Menu.setApplicationMenu(menu);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  logEvent(LOG_LEVELS.INFO, 'Application started');
+  logEvent(LOG_LEVELS.INFO, "Application started");
   createWindow();
+
+  // Get the existing menu (or create empty one if null)
+  const menu = Menu.getApplicationMenu() || new Menu();
+
+  //Create tool menu for copying diagnostics to clipboard
+  // Create your Tools menu item
+  const toolsMenuItem = new MenuItem({
+    label: "Tools",
+    submenu: [
+      {
+        label: "Copy Dox",
+        click: () => {
+          useCopyDox();
+        },
+      },
+    ],
+  });
+
+  // Append to the existing menu
+  menu.append(toolsMenuItem);
+
+  // set the updated menu
+  Menu.setApplicationMenu(menu);
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    logEvent(LOG_LEVELS.INFO, 'Application closed');
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    logEvent(LOG_LEVELS.INFO, "Application closed");
     app.quit();
   }
 });
@@ -91,11 +108,17 @@ app.on('window-all-closed', () => {
 // Check if app is opened with administrative rights
 const checkAdminStatus = () => {
   try {
-    execSync('net session', { stdio: 'ignore' });
-    logEvent(LOG_LEVELS.INFO, 'Admin status verified: Running with administrator privileges');
+    execSync("net session", { stdio: "ignore" });
+    logEvent(
+      LOG_LEVELS.INFO,
+      "Admin status verified: Running with administrator privileges",
+    );
     return true;
   } catch {
-    logEvent(LOG_LEVELS.INFO, 'Admin status verified: Running without administrator privileges');
+    logEvent(
+      LOG_LEVELS.INFO,
+      "Admin status verified: Running without administrator privileges",
+    );
     return false;
   }
 };

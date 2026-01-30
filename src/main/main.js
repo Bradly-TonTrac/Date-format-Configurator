@@ -53,9 +53,6 @@ const createWindow = () => {
     );
   }
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
-
   ipcMain.handle(IPC_CHANNELS.RELOAD_APP, () => {
     if (mainWindow) {
       logEvent(LOG_LEVELS.INFO, "Application reloaded");

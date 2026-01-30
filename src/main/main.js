@@ -15,15 +15,6 @@ if (started) {
   app.quit();
 }
 
-// Ensure Electron cache/userData paths are writable on Windows.
-const userDataRoot = path.join(app.getPath("appData"), "TonTrac");
-app.setPath("userData", userDataRoot);
-app.setPath("cache", path.join(userDataRoot, "Cache"));
-app.commandLine.appendSwitch(
-  "disk-cache-dir",
-  path.join(userDataRoot, "Cache"),
-);
-
 const iconPath = MAIN_WINDOW_VITE_DEV_SERVER_URL
   ? path.join(__dirname, "../../src/resources/tontrac-logo.png")
   : path.join(process.resourcesPath, "tontrac-logo.png");

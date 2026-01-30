@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import { readBackup, hasBackup, deleteBackup } from "./index.js";
+import { hasBackup } from "./index.js";
 import { IPC_CHANNELS, LOG_LEVELS } from "../../constants.js";
 import { logEvent } from "../Logger/index.js";
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { IoMdDoneAll } from "react-icons/io";
 //import { MdAdminPanelSettings } from "react-icons/md";
@@ -12,7 +12,6 @@ import { SiSpringsecurity } from "react-icons/si";
 
 const StatusBar = () => {
   const { isAdmin, osInfo, loadAdminStatus, getOSInfo } = useStatus();
-
   useEffect(() => {
     loadAdminStatus();
     getOSInfo();
@@ -30,7 +29,9 @@ const StatusBar = () => {
           <SiStatuspal
             className={isAdmin ? "text-success" : "text-destructive"}
           />
-          <span className="text-tt-sm font-semibold 2xl:text-tt-base">STATUS</span>
+          <span className="text-tt-sm font-semibold 2xl:text-tt-base">
+            STATUS
+          </span>
 
           <GrStatusGoodSmall
             className={
@@ -43,10 +44,13 @@ const StatusBar = () => {
       </div>
 
       <div className="bg-background-light shadow-card rounded p-2 mt-1 2xl:p-4 2xl:mt-2 ">
-        <h5 className="flex items-center gap-1">
+        <h5 className="flex items-center gap-1 lg:justify-center">
           <div className="text-tt-base flex items-center gap-1 2xl:text-tt-lg">
             <RiWindowsFill />
-            <span className="text-tt-sm font-semibold 2xl:text-tt-base"> OS :</span>
+            <span className="text-tt-sm font-semibold 2xl:text-tt-base">
+              {" "}
+              OS :
+            </span>
           </div>
           <span className="font-extralight text-text-light 2xl:text-tt-base">
             {osInfo?.operatingSystemVersion || ""}
@@ -55,10 +59,12 @@ const StatusBar = () => {
           <span className="text-success">(Supported)</span>
         </h5>
 
-        <h3 className="flex items-center gap-1 2xl:text-tt-base">
-          <SiSpringsecurity />
+        <h3 className="flex items-center gap-1 lg:justify-center 2xl:text-tt-base">
           <span className="font-semibold">
-            <span className="text-tt-sm font-semibold 2xl:text-tt-base"> PERMISSION'S :</span>
+            <span className="flex items-center text-tt-sm lg:ml-14 font-semibold 2xl:text-tt-base">
+              <SiSpringsecurity />
+              PERMISSION'S :
+            </span>
           </span>
 
           <span className="text-tt flex items-center gap-1 text-text-light ">

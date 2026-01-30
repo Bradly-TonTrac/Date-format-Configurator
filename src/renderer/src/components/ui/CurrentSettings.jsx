@@ -1,19 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStatus } from "../../hooks/useSettings";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbPoint } from "react-icons/tb";
 
 const style = {
   subject: "text-tt-sm font-semibold 2xl:text-tt-base",
-  output: "ml-1 font-extralight text-text-light 2xl:text-tt-base",
+  output: "ml-1 font-extralight  2xl:text-tt-base",
 };
 
 const CurrentSettings = () => {
-  const { shortDate, longDate, lastRead, loadCurrentDateSettings } =
-    useStatus();
+  const {
+    shortDate,
+    longDate,
+    lastRead,
+    loadCurrentDateSettings,
+    checkStatus,
+  } = useStatus();
+
+  const [textColor, setTextColor] = useState(false);
 
   useEffect(() => {
     loadCurrentDateSettings();
+  }, []);
+
+  useEffect(() => {
+    const setColors = async () => {
+      const resultsColor = await checkStatus();
+      setTextColor(resultsColor);
+    };
+    setColors();
   }, []);
 
   return (
@@ -30,7 +45,11 @@ const CurrentSettings = () => {
           <div className="flex items-center">
             <TbPoint />
             <span className={style.subject}>SHORT DATE :</span>
-            <span className={style.output}>{shortDate}</span>
+            <span
+              className={`${style.output} ${textColor ? "text-text-light" : "text-destructive"}`}
+            >
+              {shortDate}
+            </span>
           </div>
         </h3>
 
@@ -38,7 +57,11 @@ const CurrentSettings = () => {
           <div className="flex items-center">
             <TbPoint />
             <span className={style.subject}>LONG DATE :</span>
-            <span className={style.output}>{longDate}</span>
+            <span
+              className={`${style.output} ${textColor ? "text-text-light" : "text-destructive"}`}
+            >
+              {longDate}
+            </span>
           </div>
         </h3>
 
@@ -46,7 +69,11 @@ const CurrentSettings = () => {
           <div className="flex items-center">
             <TbPoint />
             <span className={style.subject}>LAST READ :</span>
-            <span className={style.output}>{lastRead}</span>
+            <span
+              className={`${style.output} ${textColor ? "text-text-light" : "text-destructive"}`}
+            >
+              {lastRead}
+            </span>
           </div>
         </h3>
       </div>

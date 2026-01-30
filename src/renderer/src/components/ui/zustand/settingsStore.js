@@ -1,10 +1,8 @@
 import { create } from "zustand";
 
-
-
-//Toast notifications
+// Toast notifications
 export const useToastStore = create((set) => ({
-  toastList: [], 
+  toastList: [],
   addToast: (message, type = "info") =>
     set((state) => ({
       toastList: [...state.toastList, { id: Date.now(), message, type }],
@@ -15,36 +13,41 @@ export const useToastStore = create((set) => ({
     })),
 }));
 
-
-
+// Preview helper
 function getPreview(format) {
   const now = new Date();
   switch (format) {
     case "dd MMM yy":
-      return now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "2-digit" });
+      return now.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "2-digit",
+      });
     case "dd MMMM yyyy":
-      return now.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
+      return now.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
     default:
       return "";
   }
 }
 
 export const useStatusStore = create((set) => ({
+  // Basic states
   isAdmin: false,
   isLoading: false,
   loadingAction: null,
   hasApplied: false,
-  canApply: false, //newly constructed
+  canApply: false, // newly constructed
 
-  //Minimize button
-  hideToast: () => set({isToastVisible: false}),
+  // Toast visibility
+  hideToast: () => set({ isToastVisible: false }),
 
-
-  
-
-  // Operating system info
+  // OS info
   osInfo: null,
-  error: null,
+  error: null, // only used for admin/OS checks
 
   // Current settings
   shortDate: null,
@@ -57,11 +60,11 @@ export const useStatusStore = create((set) => ({
   shortPrev: null,
   longPrev: null,
 
-   //Auto reload the app
-    reloadApp: async () => {
+  // Auto reload app
+  reloadApp: async () => {
     set({ isLoading: true, loadingAction: "exit" });
     try {
-      await window.api. reloadApp();
+      await window.api.reloadApp();
     } catch (error) {
       console.error(error);
     } finally {
@@ -69,7 +72,7 @@ export const useStatusStore = create((set) => ({
     }
   },
 
-  //Settings status
+  // Settings status
   checkStatus: async () => {
     set({ isLoading: true, loadingAction: "exit" });
     try {
@@ -81,7 +84,7 @@ export const useStatusStore = create((set) => ({
     }
   },
 
-  //Close window/App Button
+  // Window controls
   getWindowExit: async () => {
     set({ isLoading: true, loadingAction: "exit" });
     try {
@@ -92,14 +95,10 @@ export const useStatusStore = create((set) => ({
       set({ isLoading: false, loadingAction: null });
     }
   },
-
-  //Minimize button
-    getWindowMin: async () => {
+  getWindowMin: async () => {
     set({ isLoading: true, loadingAction: "exit" });
     try {
       await window.api.getWindowMin();
-    
-
     } catch (error) {
       console.error(error);
     } finally {
@@ -107,73 +106,56 @@ export const useStatusStore = create((set) => ({
     }
   },
 
+  // Settings comparison
+  getSettingsStatus: async () => {
+    const applied = await window.api.getSettingsStatus();
+    // set({hasApplied: applied || false}) // optional check
+    return applied;
+  },
 
+  // Apply & restore settings
+  applySettings: async () => {
+    set({ isLoading: true, loadingAction: "apply" });
+    const addToast = useToastStore.getState().addToast;
+    try {
+      await window.api.applySettings();
+      addToast("Settings applied successfully", "success");
+    } catch (error) {
+      addToast("Failed to apply settings", "error");
+    } finally {
+      set({ isLoading: false, loadingAction: null });
+    }
+  },
+  restoreSettings: async () => {
+    set({ isLoading: true, loadingAction: "restore" });
+    const addToast = useToastStore.getState().addToast;
+    try {
+      const currentSettings = await window.api.getCurrentSettings();
+      set({
+        shortDate: currentSettings.shortDate,
+        longDate: currentSettings.longDate,
+        lastRead: currentSettings.lastRead,
+        // hasApplied: false, // optional to re-enable Apply
+      });
+      addToast("Prev Settings restored successfully", "success");
+    } catch (error) {
+      addToast("Failed to restore settings", "error");
+    } finally {
+      set({ isLoading: false, loadingAction: null });
+    }
+  },
 
-//Make the app compare Reset and apply settings
-getSettingsStatus: async () => {
-  const applied = await window.api.getSettingsStatus();
-   //set({hasApplied: applied || false})
-   return applied;
-
-},
-
-// Apply Button 
-applySettings: async () => {
-  set({ isLoading: true, loadingAction: "apply" });
-  const addToast = useToastStore.getState().addToast;
-
-  try {
-    await window.api.applySettings();
-    addToast("Settings applied successfully", "success");
-
-  } catch (error) {
-    addToast("Failed to apply settings", "error");
-
-  } finally {
-    set({ isLoading: false, loadingAction: null });
-  }
-},
-
-// Restore settings button
-restoreSettings: async () => {
-  set({ isLoading: true, loadingAction: "restore" });
-  const addToast = useToastStore.getState().addToast;
-
-  try {
-    await window.api.restoreSettings();
-    const currentSettings = await window.api.getCurrentSettings();
-    
-    set({
-      shortDate: currentSettings.shortDate,
-      longDate: currentSettings.longDate,
-      lastRead: currentSettings.lastRead,
-      //hasApplied: false, // re-enables Apply button
-    });
-
-    addToast("Prev Settings restored successfully", "success");
-
-  } catch (error) {
-    addToast("Failed to restore settings", "error");
-
-  } finally {
-    set({ isLoading: false, loadingAction: null });
-  }
-},
-
-
-//Admin and non admin status checks 
+  // Admin & OS checks
   loadAdminStatus: async () => {
     set({ loading: true, error: null });
     try {
       const status = await window.api.getAdminStatus();
       set({ isAdmin: status, loading: false });
     } catch (error) {
-      console.log("Error");
+      console.log("Error"); // consider logging real error
       set({ loading: false });
     }
   },
-
-  //In replacement of LoadOS information
   getOSInfo: async () => {
     set({ loading: true, error: null });
     try {
@@ -184,6 +166,7 @@ restoreSettings: async () => {
     }
   },
 
+  // Load current & desired settings
   loadCurrentDateSettings: async () => {
     set({ loading: true, error: null });
     try {
@@ -191,18 +174,17 @@ restoreSettings: async () => {
       set({
         shortDate: currentSettings.shortDate,
         longDate: currentSettings.longDate,
-        lastRead: currentSettings.readTime,
+        lastRead: currentSettings.readTime, // sanity check: readTime vs lastRead
       });
     } catch {
       set({ loading: false });
     }
   },
-
   loadDesiredSettings: async () => {
     set({ loading: true, error: null });
     try {
       const desiredSettings = await window.api.getDesiredSettings();
-      console.log(desiredSettings);
+      console.log(desiredSettings); // optional debug, safe to remove in prod
       set({
         desiredShortDate: desiredSettings.formats.shortDate,
         desiredLongDate: desiredSettings.formats.longDate,

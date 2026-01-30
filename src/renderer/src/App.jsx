@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import TopBar from "./components/ui/TopBar";
+//import TopBar from "./components/ui/TopBar";
 import StatusBar from "./components/ui/StatusBar";
 import CurrentSettings from "./components/ui/CurrentSettings";
 import DesiredSettings from "./components/ui/DesiredSettings";

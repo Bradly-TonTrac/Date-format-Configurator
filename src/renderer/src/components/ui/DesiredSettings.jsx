@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStatus } from "../../hooks/useSettings";
 import { TbSettingsCheck } from "react-icons/tb";
 import { TbPoint } from "react-icons/tb";
+import { result } from "lodash";
 
 const style = {
   subject: "text-tt-sm font-semibold 2xl:text-tt-base",
-  output: "ml-1 font-extralight text-text-light 2xl:text-tt-base",
+  output: "ml-1 font-extralight 2xl:text-tt-base",
 };
 
 const DesiredSettings = () => {
@@ -15,10 +16,23 @@ const DesiredSettings = () => {
     desiredLongDate,
     shortPrev,
     longPrev,
+    checkStatus,
   } = useStatus();
+
+  const [status, setStatus] = useState(false);
 
   useEffect(() => {
     loadDesiredSettings();
+  }, []);
+
+  //changing the settings color based on states they are in
+  useEffect(() => {
+    const getStatus = async () => {
+      const results = await checkStatus();
+      setStatus(results);
+    };
+
+    getStatus();
   }, []);
 
   return (
@@ -34,19 +48,24 @@ const DesiredSettings = () => {
         <h3 className="mt-1">
           <div className=" flex items-center">
             <TbPoint />
-            <span className={style.subject}>Short date:</span>
-
-            <span className={style.output}>{desiredShortDate}</span>
+            <span className={style.subject}>SHORT DATE:</span>
+            <span
+              className={`${style.output} ${status ? "text-success" : "text-destructive"}`}
+            >
+              {desiredShortDate}
+            </span>
           </div>
         </h3>
 
         <h3 className="mt-1">
           <div className=" flex items-center">
             <TbPoint />
-
             <span className={style.subject}>LONG DATE :</span>
-
-            <span className={style.output}>{desiredLongDate}</span>
+            <span
+              className={`${style.output} ${status ? "text-success" : "text-destructive"}`}
+            >
+              {desiredLongDate}
+            </span>
           </div>
         </h3>
 
@@ -54,18 +73,23 @@ const DesiredSettings = () => {
           <div className=" flex items-center">
             <TbPoint />
             <span className={style.subject}>PREVIEW (short) :</span>
-
-            <span className={style.output}>{shortPrev}</span>
+            <span
+              className={`${style.output}  ${status ? "text-success" : "text-destructive"}`}
+            >
+              {shortPrev}
+            </span>
           </div>
         </h3>
 
         <h3 className="mt-1">
           <div className=" flex items-center">
             <TbPoint />
-
             <span className={style.subject}>PREVIEW (long) :</span>
-
-            <span className={style.output}>{longPrev}</span>
+            <span
+              className={`${style.output}  ${status ? "text-success" : "text-destructive"}`}
+            >
+              {longPrev}
+            </span>
           </div>
         </h3>
       </div>

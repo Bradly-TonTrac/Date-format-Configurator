@@ -24,13 +24,13 @@ const StatusBar = () => {
     .includes("windows");
 
   return (
-    <div className="bg-background rounded shadow-lg  p-2">
-      <div className="flex justify-center border border-primary rounded bg-background-light text-text">
-        <h5 className="flex items-center gap-1 text-tt-base">
+    <div className="bg-background rounded shadow-lg p-2 2xl:p-4">
+      <div className="flex justify-center border border-primary rounded bg-background-light text-text 2xl:py-1">
+        <h5 className="flex items-center gap-1 text-tt-base 2xl:text-tt-lg">
           <SiStatuspal
             className={isAdmin ? "text-success" : "text-destructive"}
           />
-          <span className="text-tt-sm font-semibold">STATUS</span>
+          <span className="text-tt-sm font-semibold 2xl:text-tt-base">STATUS</span>
 
           <GrStatusGoodSmall
             className={
@@ -42,23 +42,23 @@ const StatusBar = () => {
         </h5>
       </div>
 
-      <div className="bg-background-light shadow-card rounded p-2 mt-1 ">
+      <div className="bg-background-light shadow-card rounded p-2 mt-1 2xl:p-4 2xl:mt-2 ">
         <h5 className="flex items-center gap-1">
-          <div className="text-tt-base flex items-center gap-1">
+          <div className="text-tt-base flex items-center gap-1 2xl:text-tt-lg">
             <RiWindowsFill />
-            <span className="text-tt-sm font-semibold"> OS :</span>
+            <span className="text-tt-sm font-semibold 2xl:text-tt-base"> OS :</span>
           </div>
-          <span className="font-extralight text-text-light">
+          <span className="font-extralight text-text-light 2xl:text-tt-base">
             {osInfo?.operatingSystemVersion || ""}
             {isWindows && <IoMdDoneAll className="text-success ml-1" />}
           </span>
           <span className="text-success">(Supported)</span>
         </h5>
 
-        <h3 className="flex items-center gap-1">
+        <h3 className="flex items-center gap-1 2xl:text-tt-base">
           <SiSpringsecurity />
           <span className="font-semibold">
-            <span className="text-tt-sm font-semibold"> PERMISSION'S :</span>
+            <span className="text-tt-sm font-semibold 2xl:text-tt-base"> PERMISSION'S :</span>
           </span>
 
           <span className="text-tt flex items-center gap-1 text-text-light ">

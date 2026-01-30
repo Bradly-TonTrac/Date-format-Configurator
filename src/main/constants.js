@@ -13,6 +13,7 @@ export const APP_DIRECTORY = "DateFormatConfigurator";
 export const LOGS_DIRECTORY = "logs";
 export const BACKUP_FILE_NAME = "backup.json";
 export const LOG_FILE_NAME = "DateFormatConfigurator.log";
+export const LOG_MAX_BYTES = 1024 * 1024;
 
 // Log Level Constants
 export const LOG_LEVELS = {
@@ -35,9 +36,9 @@ export const IPC_CHANNELS = {
   SETTINGS_STATUS: "get-settings-status",
   RELOAD_APP: 'reload-app',
 };
-
+ 
 // Size constants
 export const WINDOW_SIZE = {
   width: 1024,
-  height: 765,
+  height: 770,
 };

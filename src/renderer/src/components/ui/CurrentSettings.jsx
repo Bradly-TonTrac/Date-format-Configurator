@@ -46,7 +46,7 @@ const CurrentSettings = () => {
             <TbPoint />
             <span className={style.subject}>SHORT DATE :</span>
             <span
-              className={`${style.output} ${textColor ? "text-success" : "text-destructive"}`}
+              className={`${style.output} ${textColor ? "text-text-light" : "text-destructive"}`}
             >
               {shortDate}
             </span>
@@ -58,7 +58,7 @@ const CurrentSettings = () => {
             <TbPoint />
             <span className={style.subject}>LONG DATE :</span>
             <span
-              className={`${style.output} ${textColor ? "text-success" : "text-destructive"}`}
+              className={`${style.output} ${textColor ? "text-text-light" : "text-destructive"}`}
             >
               {longDate}
             </span>
@@ -70,7 +70,7 @@ const CurrentSettings = () => {
             <TbPoint />
             <span className={style.subject}>LAST READ :</span>
             <span
-              className={`${style.output} ${textColor ? "text-success" : "text-destructive"}`}
+              className={`${style.output} ${textColor ? "text-text-light" : "text-destructive"}`}
             >
               {lastRead}
             </span>

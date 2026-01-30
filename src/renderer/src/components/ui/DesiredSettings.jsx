@@ -50,7 +50,7 @@ const DesiredSettings = () => {
             <TbPoint />
             <span className={style.subject}>SHORT DATE:</span>
             <span
-              className={`${style.output} ${status ? "text-success" : "text-destructive"}`}
+              className={`${style.output} ${status ? "text-text-light" : "text-destructive"}`}
             >
               {desiredShortDate}
             </span>
@@ -62,7 +62,7 @@ const DesiredSettings = () => {
             <TbPoint />
             <span className={style.subject}>LONG DATE :</span>
             <span
-              className={`${style.output} ${status ? "text-success" : "text-destructive"}`}
+              className={`${style.output} ${status ? "text-text-light" : "text-destructive"}`}
             >
               {desiredLongDate}
             </span>
@@ -74,7 +74,7 @@ const DesiredSettings = () => {
             <TbPoint />
             <span className={style.subject}>PREVIEW (short) :</span>
             <span
-              className={`${style.output}  ${status ? "text-success" : "text-destructive"}`}
+              className={`${style.output} ${status ? "text-text-light" : "text-destructive"}`}
             >
               {shortPrev}
             </span>
@@ -86,7 +86,7 @@ const DesiredSettings = () => {
             <TbPoint />
             <span className={style.subject}>PREVIEW (long) :</span>
             <span
-              className={`${style.output}  ${status ? "text-success" : "text-destructive"}`}
+              className={`${style.output} ${status ? "text-text-light" : "text-destructive"}`}
             >
               {longPrev}
             </span>

@@ -1,11 +1,18 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import WindowButton from "./WindowButton";
 import { useStatus } from "../../hooks/useSettings";
 
+// Reusable Tailwind class for buttons
 const Style = {
   buttons:
     "text-tt-sm text-primary hover:bg-background-light box-border pt-1 pb-1 px-4 rounded border border-primary text-center w-[180px]",
 };
+
+/*
+  ActionButtons
+  Displays Apply and Restore buttons for system settings.
+  Handles async operations, loading states, and admin permissions.
+*/
 
 const ActionButtons = () => {
   const {
@@ -19,24 +26,29 @@ const ActionButtons = () => {
     checkStatus,
   } = useStatus();
 
+  // Fetch current settings status when component mounts
   useEffect(() => {
     getSettingsStatus();
-  }, [getSettingsStatus]);
+  }, []);
 
+  /*
+    handleApply
+    Applies the settings if they are not already up-to-date,
+    then reloads the app after a short delay.
+  */
   const handleApply = async () => {
     try {
       const status = await checkStatus();
       if (!status) {
         await applySettings();
-
         setTimeout(async () => {
           await reloadApp();
         }, 1500);
-
-        console.log("Apply Settings Test Passed"); //temporarily for the building processes
+      } else {
+        return; // No previous settings to restore, do nothing
       }
     } catch (error) {
-      console.log("Cant Apply Settings"); //temporarily for the building processes
+      console.error(error);
     }
   };
 
@@ -45,15 +57,14 @@ const ActionButtons = () => {
       const status = await checkStatus();
       if (status) {
         await restoreSettings();
-
         setTimeout(async () => {
           await reloadApp();
         }, 1500);
-
-        console.log("Restore settings test passed"); //temporarily for the building processes
+      } else {
+        return;
       }
     } catch (error) {
-      console.log("Failed to restore settings"); //temporarily for the building processes
+      console.error(error); // Log error if operation fails
     }
   };
 
@@ -85,3 +96,4 @@ const ActionButtons = () => {
 };
 
 export default ActionButtons;
+0;

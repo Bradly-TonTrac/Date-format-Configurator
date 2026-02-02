@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useToastStore } from "./zustand/settingsStore";
 
 /*
@@ -28,10 +28,12 @@ const ToastItem = ({ toast, removeToast }) => {
 
   useEffect(() => {
     // Hide toast after 1 second
-    const hideTimer = setTimeout(() => setVisible(false), 1000);
+    const toastDuration = 1000;
+    const hideTimer = setTimeout(() => setVisible(false), toastDuration);
 
     // Remove toast from Zustand after animation completes
-    const removeTimer = setTimeout(() => removeToast(toast.id), 1100);
+    const removeDuration = 1100;
+    const removeTimer = setTimeout(() => removeToast(toast.id), removeDuration);
 
     // Cleanup timers to prevent memory leaks
     return () => {

@@ -22,6 +22,8 @@ const StatusBar = () => {
 
   return (
     <div className="bg-background rounded shadow-lg p-2 2xl:p-4">
+
+
       {/* Header: Status */}
       <div className="flex justify-center border border-primary rounded bg-background-light text-text 2xl:py-1">
         <h5 className="flex items-center gap-1 text-tt-base 2xl:text-tt-lg">
@@ -79,47 +81,8 @@ const StatusBar = () => {
             )}
           </span>
         </h3>
-      </div>
 
-      <div className="bg-background-light shadow-card rounded p-2 mt-1 hidden 2xl:p-4 2xl:mt-2  2xl:justify-center 2xl:gap-20">
-        <div className="w-full space-y-1 2xl:w-auto">
-          <div className="flex items-center gap-2 text-tt-sm font-semibold 2xl:text-tt-base">
-            <RiWindowsFill />
-            <span>Operating System</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="font-extralight text-text-light 2xl:text-tt-base">
-              {osInfo?.operatingSystemVersion || ""}
-            </span>
-            <span className="text-success text-tt-xs 2xl:text-tt-sm">
-              Supported
-            </span>
-            {isWindows && <IoMdDoneAll className="text-success" />}
-          </div>
-        </div>
-
-        <div className="w-full space-y-1 2xl:w-auto">
-          <div className="flex items-center gap-2 text-tt-sm font-semibold 2xl:text-tt-base">
-            <SiSpringsecurity />
-            <span>Permissions</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {isAdmin ? (
-              <span className="font-extralight text-text-light 2xl:text-tt-base">
-                Administrator
-              </span>
-            ) : (
-              <span className="font-extralight text-text-light 2xl:text-tt-base">
-                Standard User
-              </span>
-            )}
-            {isAdmin ? (
-              <GiCheckMark className="text-success" />
-            ) : (
-              <IoIosWarning className="text-primary" />
-            )}
-          </div>
-        </div>
+        
       </div>
     </div>
   );

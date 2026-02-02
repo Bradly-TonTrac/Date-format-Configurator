@@ -49,7 +49,7 @@ const DesiredSettings = () => {
             <span className={style.subject}>SHORT DATE:</span>
             <span
               className={`${style.output} ${
-                status ? "text-text-light" : "text-destructive"
+                status ? "text-success" : "text-destructive"
               }`}
             >
               {desiredShortDate}
@@ -63,7 +63,7 @@ const DesiredSettings = () => {
             <span className={style.subject}>LONG DATE :</span>
             <span
               className={`${style.output} ${
-                status ? "text-text-light" : "text-destructive"
+                status ? "text-success" : "text-destructive"
               }`}
             >
               {desiredLongDate}
@@ -77,7 +77,7 @@ const DesiredSettings = () => {
             <span className={style.subject}>PREVIEW (short) :</span>
             <span
               className={`${style.output} ${
-                status ? "text-text-light" : "text-destructive"
+                status ? "text-success" : "text-destructive"
               }`}
             >
               {shortPrev}
@@ -91,7 +91,7 @@ const DesiredSettings = () => {
             <span className={style.subject}>PREVIEW (long) :</span>
             <span
               className={`${style.output} ${
-                status ? "text-text-light" : "text-destructive"
+                status ? "text-success" : "text-destructive"
               }`}
             >
               {longPrev}

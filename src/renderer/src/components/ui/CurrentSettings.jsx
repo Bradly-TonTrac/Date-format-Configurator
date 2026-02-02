@@ -59,7 +59,7 @@ const CurrentSettings = () => {
             <span className={style.subject}>SHORT DATE :</span>
             <span
               className={`${style.output} ${
-                textColor ? "text-text-light" : "text-destructive"
+                textColor ? "text-success" : "text-destructive"
               }`}
             >
               {shortDate}
@@ -74,7 +74,7 @@ const CurrentSettings = () => {
             <span className={style.subject}>LONG DATE :</span>
             <span
               className={`${style.output} ${
-                textColor ? "text-text-light" : "text-destructive"
+                textColor ? "text-success" : "text-destructive"
               }`}
             >
               {longDate}
@@ -89,7 +89,7 @@ const CurrentSettings = () => {
             <span className={style.subject}>LAST READ :</span>
             <span
               className={`${style.output} ${
-                textColor ? "text-text-light" : "text-destructive"
+                textColor ? "text-success" : "text-destructive"
               }`}
             >
               {lastRead}

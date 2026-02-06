@@ -1,70 +1,51 @@
 import { useEffect } from "react";
 import WindowButton from "./WindowButton";
 import { useStatus } from "../../hooks/useSettings";
+import { useToastStore } from "../../components/ui/zustand/settingsStore";
 
-// Reusable Tailwind class for buttons
 const Style = {
   buttons:
     "text-tt-sm text-primary hover:bg-background-light box-border pt-1 pb-1 px-4 rounded border border-primary text-center w-[180px]",
 };
 
-/*
-  ActionButtons
-  Displays Apply and Restore buttons for system settings.
-  Handles async operations, loading states, and admin permissions.
-*/
-
 const ActionButtons = () => {
   const {
     isAdmin,
-    applySettings,
-    restoreSettings,
     isLoading,
     loadingAction,
     reloadApp,
-    getSettingsStatus,
     checkStatus,
+    applySettings,
+    restoreSettings,
+    getSettingsStatus,
   } = useStatus();
 
-  // Fetch current settings status when component mounts
+  const addToast = useToastStore((state) => state.addToast);
+
   useEffect(() => {
     getSettingsStatus();
-  }, []);
+  }, [getSettingsStatus]);
 
-  /*
-    handleApply
-    Applies the settings if they are not already up-to-date,
-    then reloads the app after a short delay.
-  */
-  const handleApply = async () => {
+  const handleAction = async (
+    actionFn,
+    requiredStatus,
+    errorMsg,
+    reloadDelay = 1500,
+  ) => {
     try {
       const status = await checkStatus();
-      if (!status) {
-        await applySettings();
+      if (status === requiredStatus) {
+        await actionFn();
         setTimeout(async () => {
-          await reloadApp();
-        }, 1500);
-      } else {
-        return; // No previous settings to restore, do nothing
+          try {
+            await reloadApp();
+          } catch {
+            addToast?.("Failed to reload app", "error");
+          }
+        }, reloadDelay);
       }
     } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleRestoreSettings = async () => {
-    try {
-      const status = await checkStatus();
-      if (status) {
-        await restoreSettings();
-        setTimeout(async () => {
-          await reloadApp();
-        }, 1500);
-      } else {
-        return;
-      }
-    } catch (error) {
-      console.error(error); // Log error if operation fails
+      addToast?.(error?.message || `${errorMsg} failed`, "error");
     }
   };
 
@@ -72,22 +53,22 @@ const ActionButtons = () => {
     <div className="flex justify-center gap-3 bg-ba text-background mt-3 mb-3">
       <WindowButton
         label="Apply Settings"
-        onClick={handleApply}
+        onClick={() => handleAction(applySettings, false, "Apply Settings")}
         disabled={isLoading || !isAdmin}
-        className={`${Style.buttons} ${
-          isLoading || !isAdmin ? "opacity-50 cursor-not-allowed" : ""
-        }`}
+        className={`${Style.buttons} ${isLoading || !isAdmin ? "opacity-50 cursor-not-allowed" : ""}`}
+        aria-disabled={isLoading || !isAdmin}
+        aria-busy={loadingAction === "apply"}
       >
-        {loadingAction === "apply" ? "Applying.." : "Apply"}
+        {loadingAction === "apply" ? "Applying..." : "Apply"}
       </WindowButton>
 
       <WindowButton
         label="Restore"
-        onClick={handleRestoreSettings}
+        onClick={() => handleAction(restoreSettings, true, "Restore Settings")}
         disabled={isLoading || !isAdmin}
-        className={`${Style.buttons} ${
-          isLoading || !isAdmin ? "opacity-50 cursor-not-allowed" : ""
-        }`}
+        className={`${Style.buttons} ${isLoading || !isAdmin ? "opacity-50 cursor-not-allowed" : ""}`}
+        aria-disabled={isLoading || !isAdmin}
+        aria-busy={loadingAction === "restore"}
       >
         {loadingAction === "restore" ? "Restoring..." : "Restore Previous"}
       </WindowButton>
@@ -96,4 +77,3 @@ const ActionButtons = () => {
 };
 
 export default ActionButtons;
-0;

@@ -1,63 +1,39 @@
 import { useStatusStore } from "../components/ui/zustand/settingsStore";
 
-export function useStatus() { 
-   // UseStatusStore state variables
-   const isAdmin = useStatusStore((state) => state.isAdmin)
-   const isLoading = useStatusStore((state) => state.isLoading)
-   const loadingAction = useStatusStore((state) => state.loadingAction)
-   const loadAdminStatus = useStatusStore((state) => state.loadAdminStatus)
+export function useStatus() {
+  const store = useStatusStore();
 
-   // OS information
-   const osInfo = useStatusStore((state) => state.osInfo)
-   const getOSInfo = useStatusStore((state) => state.getOSInfo)
+  return {
+    // Admin & Loading States
+    isAdmin: store.isAdmin,
+    isLoading: store.isLoading,
+    loadingAction: store.loadingAction,
+    loadAdminStatus: store.loadAdminStatus,
 
-   // Current Settings hooks
-   const shortDate = useStatusStore((state) => state.shortDate)
-   const longDate = useStatusStore((state) => state.longDate)
-   const lastRead = useStatusStore((state) => state.lastRead)
-   const loadCurrentDateSettings = useStatusStore((state) => state.loadCurrentDateSettings)
+    // Toast & Status
+    applySettings: store.applySettings,
+    restoreSettings: store.restoreSettings,
 
-   // Desired Settings
-   const loadDesiredSettings = useStatusStore((state) => state.loadDesiredSettings)
-   const desiredShortDate = useStatusStore((state) => state.desiredShortDate)
-   const desiredLongDate = useStatusStore((state) => state.desiredLongDate)
-   const shortPrev = useStatusStore((state) => state.shortPrev)
-   const longPrev = useStatusStore((state) => state.longPrev)
+    // OS Information
+    osInfo: store.osInfo,
+    getOSInfo: store.getOSInfo,
 
-   // Apply & Restore settings
-   const applySettings = useStatusStore((state) => state.applySettings)
-   const restoreSettings = useStatusStore((state) => state.restoreSettings)
+    // Current Settings
+    shortDate: store.shortDate,
+    longDate: store.longDate,
+    lastRead: store.lastRead,
+    loadCurrentDateSettings: store.loadCurrentDateSettings,
 
-   // Status checks
-   const getSettingsStatus = useStatusStore((state) => state.getSettingsStatus)
-   const reloadApp = useStatusStore((state) => state.reloadApp)
-   const checkStatus = useStatusStore((state) => state.checkStatus)
+    // Desired Settings
+    loadDesiredSettings: store.loadDesiredSettings,
+    desiredShortDate: store.desiredShortDate,
+    desiredLongDate: store.desiredLongDate,
+    shortPrev: store.shortPrev,
+    longPrev: store.longPrev,
 
-   return {
-      isAdmin,
-      isLoading,
-      loadingAction,
-      loadAdminStatus,
-
-      applySettings,
-       restoreSettings,
-
-      osInfo,
-      getOSInfo,
-
-      shortDate,
-      longDate,
-      lastRead,
-      loadCurrentDateSettings,
-
-      loadDesiredSettings,
-      desiredShortDate,
-      desiredLongDate,
-      shortPrev,
-      longPrev,
-
-      reloadApp,
-      getSettingsStatus,
-      checkStatus,
-   }
+    // App Controls
+    reloadApp: store.reloadApp,
+    getSettingsStatus: store.getSettingsStatus,
+    checkStatus: store.checkStatus,
+  };
 }

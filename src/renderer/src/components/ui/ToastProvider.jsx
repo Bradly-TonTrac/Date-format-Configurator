@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useToastStore } from "./zustand/settingsStore";
 
-/*
-  ToastProvider
-  Displays all toast notifications from Zustand store.
- */
 const ToastProvider = () => {
   const toastList = useToastStore((state) => state.toastList);
   const removeToast = useToastStore((state) => state.removeToast);
@@ -18,24 +14,13 @@ const ToastProvider = () => {
   );
 };
 
-/*
-  ToastItem
-  Individual toast notification.
-  Handles auto-dismiss and smooth enter/exit animations.
- */
 const ToastItem = ({ toast, removeToast }) => {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    // Hide toast after 1 second
-    const toastDuration = 1000;
-    const hideTimer = setTimeout(() => setVisible(false), toastDuration);
+    const hideTimer = setTimeout(() => setVisible(false), 1000);
+    const removeTimer = setTimeout(() => removeToast(toast.id), 1100);
 
-    // Remove toast from Zustand after animation completes
-    const removeDuration = 1100;
-    const removeTimer = setTimeout(() => removeToast(toast.id), removeDuration);
-
-    // Cleanup timers to prevent memory leaks
     return () => {
       clearTimeout(hideTimer);
       clearTimeout(removeTimer);
@@ -44,7 +29,7 @@ const ToastItem = ({ toast, removeToast }) => {
 
   return (
     <div
-      className={`pointer-events-auto px-4 py-2 font-bold flex border border-border items-center gap-2 rounded shadow-lg transition-all duration-300 ease-in-out transform ${
+      className={`pointer-events-auto px-4 py-2 font-bold flex items-center gap-2 border border-border rounded shadow-lg transition-all duration-300 ease-in-out transform ${
         toast.type === "success"
           ? "bg-background-light text-success"
           : "bg-background-light text-destructive"

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Date Format Configurator (Electron)
 
 A cross-platform desktop application built with **Electron** and **React** that allows users to view, update, back up, and restore system date format settings.  
@@ -147,3 +148,7 @@ The application is packaged using **Squirrel installer**.
 ## 👤 Author
 **Backend** : Chris
 **Frontend** : Bradly
+=======
+# Date-format-Configurator
+350 characrters14:39A lightweight Windows desktop app built with Electron and React that lets administrators configure regional date and time formats via the Windows registry. Features include backup/restore, system-wide broadcast of changes, and admin privilege detection — all from a clean, minimal UI.
+>>>>>>> 177172228f37694942ee98811837761629c611ec
